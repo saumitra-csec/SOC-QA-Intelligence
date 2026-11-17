@@ -2,7 +2,8 @@ import json
 from typing import Any, Dict, List, Optional
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import PlainTextResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse
+from pathlib import Path
 from pydantic import BaseModel
 
 from backend.app.core.config import settings
@@ -350,3 +351,11 @@ def get_ai_status_endpoint():
 @app.post("/api/v1/ai/sanitize-preview")
 def sanitize_preview_endpoint(req: SanitizeRequest):
     return ai_service.prepare_sanitized_case_context(req.case_id, req.excerpts)
+
+
+@app.get("/", response_class=HTMLResponse)
+def serve_standalone_ui():
+    ui_path = Path(__file__).resolve().parents[2] / "SOC-QA_Intelligence_Standalone.html"
+    if ui_path.exists():
+        return HTMLResponse(content=ui_path.read_text(encoding="utf-8"))
+    return HTMLResponse(content="<h1>SOC-QA Intelligence API Running</h1>")

@@ -152,7 +152,7 @@ RELATIONAL_TABLES_DDL = [
     """
     CREATE TABLE IF NOT EXISTS playbooks (
         playbook_id TEXT PRIMARY KEY,
-        incident_type TEXT NOT NULL CHECK (incident_type IN ('phishing', 'password_spraying', 'suspicious_powershell')),
+        incident_type TEXT NOT NULL CHECK (incident_type IN ('phishing', 'password_spraying', 'suspicious_powershell', 'persistence_antiforensics')),
         title TEXT NOT NULL,
         description TEXT NOT NULL,
         mitre_technique_id TEXT,
@@ -198,7 +198,7 @@ RELATIONAL_TABLES_DDL = [
     """
     CREATE TABLE IF NOT EXISTS cases (
         case_id TEXT PRIMARY KEY,
-        incident_category TEXT NOT NULL CHECK (incident_category IN ('phishing', 'password_spraying', 'suspicious_powershell')),
+        incident_category TEXT NOT NULL CHECK (incident_category IN ('phishing', 'password_spraying', 'suspicious_powershell', 'persistence_antiforensics')),
         case_status TEXT NOT NULL CHECK (case_status IN ('open', 'in_triage', 'escalated', 'contained', 'closed_true_positive', 'closed_false_positive', 'closed_benign')),
         playbook_id TEXT,
         playbook_version TEXT,
@@ -306,7 +306,7 @@ RELATIONAL_TABLES_DDL = [
     CREATE TABLE IF NOT EXISTS ground_truth_labels (
         label_id TEXT PRIMARY KEY,
         case_id TEXT NOT NULL UNIQUE,
-        benchmark_stratum TEXT NOT NULL CHECK (benchmark_stratum IN ('phishing', 'password_spraying', 'suspicious_powershell')),
+        benchmark_stratum TEXT NOT NULL CHECK (benchmark_stratum IN ('phishing', 'password_spraying', 'suspicious_powershell', 'persistence_antiforensics')),
         conformance_class TEXT NOT NULL CHECK (conformance_class IN ('conformant', 'deviating')),
         deviation_type TEXT NOT NULL CHECK (deviation_type IN (
             'none',

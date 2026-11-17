@@ -1,0 +1,85 @@
+{
+  "playbook_id": "PB-PERSIST-001",
+  "version": "1.0",
+  "incident_type": "persistence_antiforensics",
+  "title": "MITRE T1543.003 / T1136.001 / T1070.001 Persistence & Anti-Forensics Playbook",
+  "mitre_technique_id": "T1543.003 / T1136.001 / T1098 / T1562.002 / T1070.001",
+  "description": "Reference workflow for investigating Windows service creation (4697), local account creation (4720), privileged group modification (4732), audit policy tampering (4719), and security event log clearing (1102).",
+  "approval_requirements": "Tier 2 Lead & Incident Commander approval required for host isolation and privileged account revocation.",
+  "closure_requirements": "Requires service binary hash verification, unauthorized account disablement receipt, and off-host SIEM log backup preservation.",
+  "steps": [
+    {
+      "step_id": "PERSIST-S1",
+      "step_order": 1,
+      "step_name": "Inspect New Windows Service Creation (Event ID 4697)",
+      "step_description": "Verify ServiceName, ServiceFileName path, and binary signature for newly registered services.",
+      "mandatory_status": "mandatory",
+      "expected_predecessor": null,
+      "expected_successor": "PERSIST-S2",
+      "permitted_alternative_actions": [
+        "EDR Service Registry Check"
+      ],
+      "applicable_evidence_requirements": [
+        "event4697_service_record"
+      ]
+    },
+    {
+      "step_id": "PERSIST-S2",
+      "step_order": 2,
+      "step_name": "Audit Account Creation & Privileged Group Escalation (4720 / 4732)",
+      "step_description": "Correlate newly created local/domain accounts and additions to Administrators group.",
+      "mandatory_status": "mandatory",
+      "expected_predecessor": "PERSIST-S1",
+      "expected_successor": "PERSIST-S3",
+      "permitted_alternative_actions": [
+        "Active Directory Privileged Group Diff"
+      ],
+      "applicable_evidence_requirements": [
+        "event4720_4732_account_audit"
+      ]
+    },
+    {
+      "step_id": "PERSIST-S3",
+      "step_order": 3,
+      "step_name": "Assess Audit Policy Tampering & Log Clear (4719 / 1102)",
+      "step_description": "Verify whether system audit policy was weakened prior to Event ID 1102 Security log clear and recover off-host SIEM telemetry.",
+      "mandatory_status": "mandatory",
+      "expected_predecessor": "PERSIST-S2",
+      "expected_successor": "PERSIST-S4",
+      "permitted_alternative_actions": [
+        "SIEM Forwarder Gap Analysis"
+      ],
+      "applicable_evidence_requirements": [
+        "event4719_1102_tamper_evidence"
+      ]
+    },
+    {
+      "step_id": "PERSIST-S4",
+      "step_order": 4,
+      "step_name": "Isolate Host, Disable Rogue Account & Remove Malicious Service",
+      "step_description": "Contain affected host, disable unauthorized account (support_temp), and remove persistence service.",
+      "mandatory_status": "mandatory",
+      "expected_predecessor": "PERSIST-S3",
+      "expected_successor": "PERSIST-S5",
+      "permitted_alternative_actions": [
+        "EDR Host Containment & Account Lockout"
+      ],
+      "applicable_evidence_requirements": [
+        "containment_and_remediation_receipt"
+      ]
+    },
+    {
+      "step_id": "PERSIST-S5",
+      "step_order": 5,
+      "step_name": "Document Timeline Reconstruction & Close Incident",
+      "step_description": "Record complete attack chain and link preserved off-host evidence references.",
+      "mandatory_status": "mandatory",
+      "expected_predecessor": "PERSIST-S4",
+      "expected_successor": null,
+      "permitted_alternative_actions": [],
+      "applicable_evidence_requirements": [
+        "final_forensic_closure_report"
+      ]
+    }
+  ]
+}

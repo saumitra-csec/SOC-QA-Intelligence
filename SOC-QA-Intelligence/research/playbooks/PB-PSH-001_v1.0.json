@@ -1,0 +1,67 @@
+{
+  "playbook_id": "PB-PSH-001",
+  "version": "1.0",
+  "incident_type": "suspicious_powershell",
+  "title": "MITRE T1059.001 Suspicious PowerShell Execution Triage Playbook",
+  "mitre_technique_id": "T1059.001",
+  "description": "Researcher-constructed workflow for investigating encoded/obfuscated PowerShell commands (Sysmon Event ID 1 & PowerShell Operational Event ID 4104).",
+  "approval_requirements": "Tier 2 approval required before host network isolation.",
+  "closure_requirements": "Requires deobfuscated script block analysis, parent-child process tree verification, and network/file IOC check.",
+  "steps": [
+    {
+      "step_id": "PSH-S1",
+      "step_order": 1,
+      "step_name": "Inspect Process Tree & Parent Image",
+      "step_description": "Examine Sysmon Event ID 1 ProcessImage, ParentImage, and CommandLine arguments.",
+      "mandatory_status": "mandatory",
+      "expected_predecessor": null,
+      "expected_successor": "PSH-S2",
+      "permitted_alternative_actions": ["EDR Process Lineage Inspection"],
+      "applicable_evidence_requirements": ["sysmon_event1_record"]
+    },
+    {
+      "step_id": "PSH-S2",
+      "step_order": 2,
+      "step_name": "Retrieve & Decode Script Block Text (Event ID 4104)",
+      "step_description": "Extract PowerShell Event ID 4104 ScriptBlockText and decode Base64/compressed payloads safely without execution.",
+      "mandatory_status": "mandatory",
+      "expected_predecessor": "PSH-S1",
+      "expected_successor": "PSH-S3",
+      "permitted_alternative_actions": ["Static AMSI Buffer Inspection"],
+      "applicable_evidence_requirements": ["event4104_decoded_artifact"]
+    },
+    {
+      "step_id": "PSH-S3",
+      "step_order": 3,
+      "step_name": "Correlate Outbound Network & File Creation Indicators",
+      "step_description": "Check destination_ip, destination_domain, destination_port, and dropped file_hash values.",
+      "mandatory_status": "mandatory",
+      "expected_predecessor": "PSH-S2",
+      "expected_successor": "PSH-S4",
+      "permitted_alternative_actions": ["Firewall & DNS Log Correlation"],
+      "applicable_evidence_requirements": ["network_file_ioc_log"]
+    },
+    {
+      "step_id": "PSH-S4",
+      "step_order": 4,
+      "step_name": "Isolate Endpoint & Escalate Malicious Execution",
+      "step_description": "Conditional containment when script block performs credential dumping, C2 download, or lateral movement.",
+      "mandatory_status": "conditional",
+      "expected_predecessor": "PSH-S3",
+      "expected_successor": "PSH-S5",
+      "permitted_alternative_actions": ["EDR Host Containment"],
+      "applicable_evidence_requirements": ["host_isolation_receipt"]
+    },
+    {
+      "step_id": "PSH-S5",
+      "step_order": 5,
+      "step_name": "Validate Administrative Legitimacy or Close Case",
+      "step_description": "Verify signed IT automation change ticket or finalize true-positive incident escalation.",
+      "mandatory_status": "mandatory",
+      "expected_predecessor": "PSH-S3",
+      "expected_successor": null,
+      "permitted_alternative_actions": [],
+      "applicable_evidence_requirements": ["closure_verification_record"]
+    }
+  ]
+}

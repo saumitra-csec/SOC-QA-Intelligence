@@ -86,6 +86,15 @@ DEFAULT_FIELD_SYNONYMS = {
     "scriptblockid": "script_block_id",
     "parentimage": "parent_image",
     "image": "process_image",
+    "newprocessname": "process_image",
+    "parentprocessname": "parent_image",
+    "processcommandline": "command_line",
+    "computer": "host",
+    "ipaddress": "source_ip",
+    "subjectusername": "username",
+    "logontype": "logon_type",
+    "status": "authentication_result",
+    "substatus": "failure_reason",
     "receiver": "recipient",
     "org:resource": "analyst_id",
     "org:role": "analyst_role",
@@ -149,7 +158,15 @@ def parse_json_bytes(text: str) -> Tuple[List[Dict[str, Any]], List[int]]:
     malformed: List[int] = []
     for idx, item in enumerate(items, start=1):
         if isinstance(item, dict):
-            records.append(item)
+            # Flatten nested Windows Event Log 'event_data' objects while preserving original keys
+            if isinstance(item.get("event_data"), dict):
+                flat = {k: v for k, v in item.items() if k != "event_data"}
+                for ed_k, ed_v in item["event_data"].items():
+                    if ed_k not in flat:
+                        flat[ed_k] = ed_v
+                records.append(flat)
+            else:
+                records.append(item)
         else:
             malformed.append(idx)
             records.append({"_raw_value": str(item), "_malformed_reason": "Record is not a JSON object"})

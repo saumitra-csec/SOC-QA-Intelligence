@@ -1,0 +1,27 @@
+# Python & Backend
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.pytest_cache/
+*.db
+*.sqlite3
+
+# Node & Frontend
+node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Environment & Secrets
+.env
+.env.local
+
+# Runtime uploaded artefacts (keep directory structure via .gitkeep)
+data/raw/*
+!data/raw/sample_*
+data/normalized/*
+!data/normalized/sample_*
+data/exports/*
+!data/exports/sample_*

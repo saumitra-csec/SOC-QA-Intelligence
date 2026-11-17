@@ -6,7 +6,7 @@ from typing import Any, Dict, List
 
 from backend.app.core.database import db_manager, utc_now_iso
 
-VALID_INCIDENT_TYPES = {"phishing", "password_spraying", "suspicious_powershell"}
+VALID_INCIDENT_TYPES = {"phishing", "password_spraying", "suspicious_powershell", "persistence_antiforensics"}
 
 
 def create_or_version_playbook(

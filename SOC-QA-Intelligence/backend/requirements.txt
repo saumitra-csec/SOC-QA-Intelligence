@@ -1,0 +1,17 @@
+fastapi>=0.92.0
+uvicorn>=0.17.6
+pydantic>=1.10.4
+pandas>=2.2.0
+numpy>=2.0.0
+lxml>=5.0.0
+python-multipart>=0.0.5
+python-dotenv>=1.0.0
+chardet>=5.0.0
+httpx>=0.23.0
+# Optional production PostgreSQL & process mining packages when installing in local venv:
+# sqlalchemy>=2.0.0
+# alembic>=1.13.0
+# psycopg2-binary>=2.9.9
+# pm4py>=2.7.11
+# scikit-learn>=1.5.0
+# pytest>=8.0.0

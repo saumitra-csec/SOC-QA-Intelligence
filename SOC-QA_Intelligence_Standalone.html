@@ -56,8 +56,18 @@
       </button>
     </div>
 
+    <div class="px-3 pt-3 pb-1">
+      <div class="p-1 rounded-lg bg-slate-900 border border-slate-800 grid grid-cols-2 gap-1">
+        <button id="uiSimpleModeBtn" class="px-2.5 py-1.5 rounded text-xs font-semibold bg-blue-600 text-white transition">
+          Simple View
+        </button>
+        <button id="uiFullModeBtn" class="px-2.5 py-1.5 rounded text-xs font-medium text-slate-400 hover:text-slate-200 transition">
+          All 13 Modules
+        </button>
+      </div>
+    </div>
     <nav id="sidebarNav" class="hidden lg:flex flex-col flex-1 p-2.5 space-y-1 overflow-y-auto">
-      <div class="px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider text-slate-400">Core Research Platform</div>
+      <div class="px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider text-blue-400">Essential Workflow</div>
       <button data-nav="overview" class="nav-btn w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition bg-blue-600/20 text-blue-300 border border-blue-500/40">
         <span>1. Overview Dashboard</span>
         <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-blue-950/80 text-blue-300">LIVE</span>
@@ -66,11 +76,11 @@
         <span>2. Data Ingestion Center</span>
         <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">MOD 1</span>
       </button>
-      <button data-nav="repository" class="nav-btn w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
+      <button data-nav="repository" class="nav-btn adv-nav-item w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
         <span>3. Dataset Repository</span>
         <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">MOD 3</span>
       </button>
-      <button data-nav="normalization" class="nav-btn w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
+      <button data-nav="normalization" class="nav-btn adv-nav-item w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
         <span>4. Data Normalization</span>
         <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">MOD 2</span>
       </button>
@@ -92,23 +102,23 @@
       </button>
 
       <div class="pt-3 px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider text-slate-400">Future Extension Contracts</div>
-      <button data-nav="process_mining" class="nav-btn w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
+      <button data-nav="process_mining" class="nav-btn adv-nav-item w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
         <span>9. Process Mining (PM4Py)</span>
         <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-indigo-950/80 text-indigo-300 border border-indigo-700/40">PHASE 6</span>
       </button>
-      <button data-nav="ai_assessment" class="nav-btn w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
+      <button data-nav="ai_assessment" class="nav-btn adv-nav-item w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
         <span>10. AI Assessment (XAI)</span>
         <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-indigo-950/80 text-indigo-300 border border-indigo-700/40">PHASE 6</span>
       </button>
-      <button data-nav="research_analytics" class="nav-btn w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
+      <button data-nav="research_analytics" class="nav-btn adv-nav-item w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
         <span>11. Research Analytics</span>
         <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-indigo-950/80 text-indigo-300 border border-indigo-700/40">75-CASE</span>
       </button>
-      <button data-nav="audit_reports" class="nav-btn w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
+      <button data-nav="audit_reports" class="nav-btn adv-nav-item w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
         <span>12. Audit Reports</span>
         <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-indigo-950/80 text-indigo-300 border border-indigo-700/40">TRACE</span>
       </button>
-      <button data-nav="settings" class="nav-btn w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
+      <button data-nav="settings" class="nav-btn adv-nav-item w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition text-slate-400 hover:bg-slate-800/60 hover:text-slate-200">
         <span>13. Platform Settings</span>
         <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">ENV</span>
       </button>
@@ -169,6 +179,33 @@
         <span>(1) Process Conformance, (2) Investigation Quality, and (3) Documentation Quality are evaluated independently—never merged into an unexplained analyst score.</span>
       </div>
       <span class="font-mono text-[11px] text-slate-400">SHA-256 Provenance Active</span>
+    </div>
+
+    <!-- Simple 4-Step Guided Workflow Strip -->
+    <div class="bg-[#0b1220] border-b border-slate-800/80 px-6 py-3">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div class="text-xs text-slate-300">
+          <span class="font-semibold text-white">Quick Workflow Guide:</span> Click any step below to move through a SOC investigation from raw log upload to playbook audit:
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <button data-guided-step="ingestion" class="guided-step-btn px-3 py-2 rounded-lg bg-slate-900 hover:bg-blue-950/60 border border-slate-700/80 hover:border-blue-500/50 text-left transition">
+            <div class="text-[10px] font-mono text-blue-400">STEP 1</div>
+            <div class="text-xs font-semibold text-white">Upload Logs</div>
+          </button>
+          <button data-guided-step="cases" class="guided-step-btn px-3 py-2 rounded-lg bg-slate-900 hover:bg-blue-950/60 border border-slate-700/80 hover:border-blue-500/50 text-left transition">
+            <div class="text-[10px] font-mono text-cyan-400">STEP 2</div>
+            <div class="text-xs font-semibold text-white">Manage Cases</div>
+          </button>
+          <button data-guided-step="timeline" class="guided-step-btn px-3 py-2 rounded-lg bg-slate-900 hover:bg-blue-950/60 border border-slate-700/80 hover:border-blue-500/50 text-left transition">
+            <div class="text-[10px] font-mono text-emerald-400">STEP 3</div>
+            <div class="text-xs font-semibold text-white">View Timeline</div>
+          </button>
+          <button data-guided-step="quality" class="guided-step-btn px-3 py-2 rounded-lg bg-slate-900 hover:bg-blue-950/60 border border-slate-700/80 hover:border-blue-500/50 text-left transition">
+            <div class="text-[10px] font-mono text-indigo-400">STEP 4</div>
+            <div class="text-xs font-semibold text-white">Check Quality</div>
+          </button>
+        </div>
+      </div>
     </div>
 
     <div class="p-6 space-y-6 max-w-7xl w-full mx-auto">
@@ -386,6 +423,10 @@
                   <span>Test Malformed &amp; Duplicate Guardrail (.csv)</span>
                   <span class="font-mono text-[10px] text-rose-400">TEST</span>
                 </button>
+                <button data-sample="dfir_windows_json" class="sample-ingest-btn text-left px-3 py-1.5 rounded bg-indigo-950/50 hover:bg-indigo-900/60 text-xs text-indigo-200 border border-indigo-700/50 flex items-center justify-between">
+                  <span>Ingest DFIR Synthetic Windows Events (.json)</span>
+                  <span class="font-mono text-[10px] text-indigo-300">WIN-LOG</span>
+                </button>
               </div>
             </div>
           </div>
@@ -553,6 +594,7 @@
                 <option value="phishing">Phishing</option>
                 <option value="password_spraying">Password Spraying (T1110.003)</option>
                 <option value="suspicious_powershell">Suspicious PowerShell (T1059.001)</option>
+                <option value="persistence_antiforensics">Persistence &amp; Anti-Forensics (T1543.003 / T1070.001)</option>
               </select>
             </div>
             <div class="grid grid-cols-2 gap-2">
@@ -691,6 +733,7 @@
                 <option value="phishing">1. Phishing (T1566)</option>
                 <option value="password_spraying">2. Password Spraying (T1110.003)</option>
                 <option value="suspicious_powershell">3. Suspicious PowerShell (T1059.001)</option>
+                <option value="persistence_antiforensics">4. Persistence &amp; Anti-Forensics (T1543.003 / T1070.001)</option>
               </select>
             </div>
 
@@ -882,62 +925,40 @@
       </section>
 
       <!-- ================================================================= -->
-      <!-- VIEW 11: FUTURE MODULE — RESEARCH ANALYTICS (75-CASE BENCHMARK)   -->
+      <!-- VIEW 11: FUTURE MODULE — RESEARCH ANALYTICS (100-CASE / 75-CASE)  -->
       <!-- ================================================================= -->
       <section id="view-research_analytics" class="view-panel hidden space-y-6">
         <div class="bg-[#0d1424] border border-slate-800 rounded-lg p-5 space-y-4">
-          <div>
-            <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-blue-500/20 text-blue-300">Section 13 Benchmark Design</span>
-            <h2 class="text-sm font-semibold text-white mt-1">75-Case Controlled Experimental Benchmark Matrix &amp; Ground-Truth Isolation</h2>
-            <p class="text-xs text-slate-400">
-              Controlled experimental dataset structure (45 Conformant, 30 Deviating = 75 Total). Ground-truth labels are stored in a dedicated table (<code class="text-slate-200">ground_truth_labels</code>) and never leaked into observed traces.
-            </p>
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-blue-500/20 text-blue-300">Section 13 Benchmark Design</span>
+              <h2 id="benchmarkMatrixHeading" class="text-sm font-semibold text-white mt-1">100-Case Extended Experimental Benchmark (75 Core + 25 Auxiliary DFIR Track)</h2>
+              <p class="text-xs text-slate-400">
+                Supports both the <strong>100-Case Extended Benchmark</strong> (60 Conformant, 40 Deviating) and the <strong>75-Case Core Baseline</strong> with <code class="text-blue-300">PB-PERSIST-001</code> reported as an auxiliary DFIR evaluation track.
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              <select id="benchmarkModeSelect" class="bg-slate-900 border border-slate-700 rounded px-3 py-1.5 text-xs font-mono text-slate-100">
+                <option value="extended_100">100-Case Extended Benchmark (4 Strata Unified)</option>
+                <option value="core_75_aux">75-Case Core Baseline + 25-Case Auxiliary DFIR Track</option>
+              </select>
+            </div>
           </div>
 
           <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse text-xs">
               <thead>
                 <tr class="border-b border-slate-800 text-slate-400 font-mono text-[11px]">
-                  <th class="py-2.5 px-3">Incident Category</th>
+                  <th class="py-2.5 px-3">Incident Category &amp; Playbook</th>
+                  <th class="py-2.5 px-3">Evaluation Track</th>
                   <th class="py-2.5 px-3">MITRE ATT&amp;CK Mapping</th>
                   <th class="py-2.5 px-3">Primary Reference Corpus</th>
-                  <th class="py-2.5 px-3 text-right">Conformant Cases</th>
-                  <th class="py-2.5 px-3 text-right">Deviating Cases</th>
-                  <th class="py-2.5 px-3 text-right">Total Benchmark Stratum</th>
+                  <th class="py-2.5 px-3 text-right">Conformant</th>
+                  <th class="py-2.5 px-3 text-right">Deviating</th>
+                  <th class="py-2.5 px-3 text-right">Total</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-slate-800/70">
-                <tr>
-                  <td class="py-2.5 px-3 font-semibold text-white">Phishing</td>
-                  <td class="py-2.5 px-3 font-mono text-blue-300">T1566.001 / T1566.002</td>
-                  <td class="py-2.5 px-3"><a href="https://zenodo.org/records/8339691" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline">Zenodo Phishing Email Curated Datasets (8339691)</a></td>
-                  <td class="py-2.5 px-3 text-right font-mono text-emerald-400">15</td>
-                  <td class="py-2.5 px-3 text-right font-mono text-amber-400">10</td>
-                  <td class="py-2.5 px-3 text-right font-mono font-bold text-white">25</td>
-                </tr>
-                <tr>
-                  <td class="py-2.5 px-3 font-semibold text-white">Password Spraying</td>
-                  <td class="py-2.5 px-3 font-mono text-blue-300">T1110.003</td>
-                  <td class="py-2.5 px-3"><a href="https://github.com/splunk/attack_data" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline">Splunk Attack Data (Multi-Account Spray Logs)</a></td>
-                  <td class="py-2.5 px-3 text-right font-mono text-emerald-400">15</td>
-                  <td class="py-2.5 px-3 text-right font-mono text-amber-400">10</td>
-                  <td class="py-2.5 px-3 text-right font-mono font-bold text-white">25</td>
-                </tr>
-                <tr>
-                  <td class="py-2.5 px-3 font-semibold text-white">Suspicious PowerShell</td>
-                  <td class="py-2.5 px-3 font-mono text-blue-300">T1059.001</td>
-                  <td class="py-2.5 px-3"><a href="https://github.com/OTRF/Security-Datasets" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline">OTRF Security Datasets</a> &amp; <a href="https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline">Sysmon / Event 4104</a></td>
-                  <td class="py-2.5 px-3 text-right font-mono text-emerald-400">15</td>
-                  <td class="py-2.5 px-3 text-right font-mono text-amber-400">10</td>
-                  <td class="py-2.5 px-3 text-right font-mono font-bold text-white">25</td>
-                </tr>
-                <tr class="bg-slate-900/90 font-semibold">
-                  <td class="py-2.5 px-3 text-white" colspan="3">Total Controlled Benchmark Design</td>
-                  <td class="py-2.5 px-3 text-right font-mono text-emerald-400">45</td>
-                  <td class="py-2.5 px-3 text-right font-mono text-amber-400">30</td>
-                  <td class="py-2.5 px-3 text-right font-mono text-blue-400">75</td>
-                </tr>
-              </tbody>
+              <tbody id="benchmarkMatrixTableBody" class="divide-y divide-slate-800/70"></tbody>
             </table>
           </div>
         </div>
@@ -1192,7 +1213,16 @@
       scriptblocktext: 'script_block_text',
       scriptblockid: 'script_block_id',
       parentimage: 'parent_image',
-      image: 'process_image'
+      image: 'process_image',
+      newprocessname: 'process_image',
+      parentprocessname: 'parent_image',
+      processcommandline: 'command_line',
+      computer: 'host',
+      ipaddress: 'source_ip',
+      subjectusername: 'username',
+      logontype: 'logon_type',
+      status: 'authentication_result',
+      substatus: 'failure_reason'
     };
 
     // =========================================================================
@@ -1301,7 +1331,14 @@
         const arr = Array.isArray(parsed) ? parsed : (parsed.records || parsed.events || [parsed]);
         arr.forEach((item, idx) => {
           if (item && typeof item === 'object' && !Array.isArray(item)) {
-            records.push(item);
+            if (item.event_data && typeof item.event_data === 'object') {
+              const flat = {};
+              Object.keys(item).forEach((k) => { if (k !== 'event_data') flat[k] = item[k]; });
+              Object.keys(item.event_data).forEach((ek) => { if (!(ek in flat)) flat[ek] = item.event_data[ek]; });
+              records.push(flat);
+            } else {
+              records.push(item);
+            }
           } else {
             malformedRows.push(idx + 1);
             records.push({ _raw: String(item), _malformed_reason: 'Item is not a JSON object' });
@@ -1650,6 +1687,7 @@
       let inconsistentClassifications = 0;
       let invalidCaseIds = 0;
       const unsupportedMappings = 0;
+      const sprayAccountsByIp = {};
 
       acts.forEach((a) => {
         if (!a.case_id || a.case_id === 'UNASSOCIATED') {
@@ -1668,12 +1706,19 @@
         if (!a.evidence_reference) {
           missingEvidenceRefs++;
         }
-        if (a.incident_type && !['phishing', 'password_spraying', 'suspicious_powershell'].includes(a.incident_type)) {
+        if (a.incident_type && !['phishing', 'password_spraying', 'suspicious_powershell', 'persistence_antiforensics'].includes(a.incident_type)) {
           inconsistentClassifications++;
         }
       });
 
       evs.forEach((e) => {
+        if (e.schema_type === 'password_spray' || ds.category === 'password_spray_telemetry' || (e.case_id && e.case_id.includes('AUTH'))) {
+          const sip = e.source_ip || 'unknown_ip';
+          if (e.username) {
+            if (!sprayAccountsByIp[sip]) sprayAccountsByIp[sip] = new Set();
+            sprayAccountsByIp[sip].add(e.username);
+          }
+        }
         if (!e.case_id) {
           unassociatedRecords++;
         } else if (!/^CASE-[A-Z0-9-]+$/.test(e.case_id)) {
@@ -1702,7 +1747,14 @@
         { id: 'DQ-06', name: 'Missing evidence references', count: missingEvidenceRefs, status: missingEvidenceRefs === 0 ? 'PASS' : 'WARN', note: 'Identifies analyst steps without an attached evidence_reference ID (observability gap check).' },
         { id: 'DQ-07', name: 'Inconsistent incident classifications', count: inconsistentClassifications, status: inconsistentClassifications === 0 ? 'PASS' : 'FAIL', note: 'Validates incident_type against the 3 benchmark strata.' },
         { id: 'DQ-08', name: 'Invalid case identifiers', count: invalidCaseIds, status: invalidCaseIds === 0 ? 'PASS' : 'FAIL', note: 'Enforces CASE-XXX identifier syntax.' },
-        { id: 'DQ-09', name: 'Unsupported schema mappings', count: unsupportedMappings, status: 'PASS', note: 'Verifies all mapped fields belong to the selected canonical schema.' }
+        { id: 'DQ-09', name: 'Unsupported schema mappings', count: unsupportedMappings, status: 'PASS', note: 'Verifies all mapped fields belong to the selected canonical schema.' },
+        {
+          id: 'DQ-10',
+          name: 'Password-spray multi-account threshold (<5 accounts/IP)',
+          count: Object.values(sprayAccountsByIp).filter((s) => s.size < 5).length,
+          status: Object.values(sprayAccountsByIp).some((s) => s.size < 5) ? 'WARN' : 'PASS',
+          note: 'Flags candidate password-spray logs where a source_ip targets <5 distinct accounts (distinguishes T1110 single-account brute force from T1110.003 password spraying).'
+        }
       ];
 
       ds.processing_status = 'validated';
@@ -1888,6 +1940,114 @@
       <string key="evidence_reference" value="EVD-EDR-ISO"/>
     </event>
   </trace>
+  <trace>
+    <string key="concept:name" value="CASE-DFIR-AUTH-001"/>
+    <event>
+      <string key="concept:name" value="Aggregate Failed Logons by Source IP"/>
+      <date key="time:timestamp" value="2026-10-29T10:09:00Z"/>
+      <string key="org:resource" value="ANL-112"/>
+      <string key="org:role" value="Tier 1 SOC Analyst"/>
+      <string key="playbook_id" value="PB-SPRAY-001"/>
+      <string key="playbook_version" value="1.0"/>
+      <string key="playbook_step_id" value="SPRAY-S1"/>
+      <string key="incident_type" value="password_spraying"/>
+      <string key="evidence_reference" value="EVD-DFIR-4625"/>
+    </event>
+    <event>
+      <string key="concept:name" value="Check Subsequent Successful Logons (Event 4624 / Azure AD)"/>
+      <date key="time:timestamp" value="2026-10-29T10:12:00Z"/>
+      <string key="org:resource" value="ANL-112"/>
+      <string key="org:role" value="Tier 1 SOC Analyst"/>
+      <string key="playbook_id" value="PB-SPRAY-001"/>
+      <string key="playbook_version" value="1.0"/>
+      <string key="playbook_step_id" value="SPRAY-S2"/>
+      <string key="incident_type" value="password_spraying"/>
+      <string key="evidence_reference" value="EVD-DFIR-4624"/>
+    </event>
+    <event>
+      <string key="concept:name" value="Reset Breached Account &amp; Escalate to Incident Response"/>
+      <date key="time:timestamp" value="2026-10-29T10:18:00Z"/>
+      <string key="org:resource" value="ANL-112"/>
+      <string key="org:role" value="Tier 1 SOC Analyst"/>
+      <string key="playbook_id" value="PB-SPRAY-001"/>
+      <string key="playbook_version" value="1.0"/>
+      <string key="playbook_step_id" value="SPRAY-S4"/>
+      <string key="incident_type" value="password_spraying"/>
+      <string key="evidence_reference" value=""/>
+    </event>
+  </trace>
+  <trace>
+    <string key="concept:name" value="CASE-DFIR-PSH-002"/>
+    <event>
+      <string key="concept:name" value="Inspect Process Tree &amp; Parent Image"/>
+      <date key="time:timestamp" value="2026-10-30T09:10:00Z"/>
+      <string key="org:resource" value="ANL-205"/>
+      <string key="org:role" value="Tier 1 SOC Analyst"/>
+      <string key="playbook_id" value="PB-PSH-001"/>
+      <string key="playbook_version" value="1.0"/>
+      <string key="playbook_step_id" value="PSH-S1"/>
+      <string key="incident_type" value="suspicious_powershell"/>
+      <string key="evidence_reference" value="EVD-DFIR-4688"/>
+    </event>
+    <event>
+      <string key="concept:name" value="Isolate Endpoint &amp; Escalate Malicious Execution"/>
+      <date key="time:timestamp" value="2026-10-30T09:19:00Z"/>
+      <string key="org:resource" value="ANL-205"/>
+      <string key="org:role" value="Tier 1 SOC Analyst"/>
+      <string key="playbook_id" value="PB-PSH-001"/>
+      <string key="playbook_version" value="1.0"/>
+      <string key="playbook_step_id" value="PSH-S4"/>
+      <string key="incident_type" value="suspicious_powershell"/>
+      <string key="evidence_reference" value="EVD-DFIR-ISO"/>
+    </event>
+  </trace>
+  <trace>
+    <string key="concept:name" value="CASE-DFIR-PERSIST-003"/>
+    <event>
+      <string key="concept:name" value="Inspect New Windows Service Creation (Event ID 4697)"/>
+      <date key="time:timestamp" value="2026-10-31T11:10:00Z"/>
+      <string key="org:resource" value="ANL-308"/>
+      <string key="org:role" value="Tier 2 Incident Responder"/>
+      <string key="playbook_id" value="PB-PERSIST-001"/>
+      <string key="playbook_version" value="1.0"/>
+      <string key="playbook_step_id" value="PERSIST-S1"/>
+      <string key="incident_type" value="persistence_antiforensics"/>
+      <string key="evidence_reference" value="EVD-DFIR-4697"/>
+    </event>
+    <event>
+      <string key="concept:name" value="Audit Account Creation &amp; Privileged Group Escalation (4720 / 4732)"/>
+      <date key="time:timestamp" value="2026-10-31T11:14:00Z"/>
+      <string key="org:resource" value="ANL-308"/>
+      <string key="org:role" value="Tier 2 Incident Responder"/>
+      <string key="playbook_id" value="PB-PERSIST-001"/>
+      <string key="playbook_version" value="1.0"/>
+      <string key="playbook_step_id" value="PERSIST-S2"/>
+      <string key="incident_type" value="persistence_antiforensics"/>
+      <string key="evidence_reference" value="EVD-DFIR-4720"/>
+    </event>
+    <event>
+      <string key="concept:name" value="Assess Audit Policy Tampering &amp; Log Clear (4719 / 1102)"/>
+      <date key="time:timestamp" value="2026-10-31T11:18:00Z"/>
+      <string key="org:resource" value="ANL-308"/>
+      <string key="org:role" value="Tier 2 Incident Responder"/>
+      <string key="playbook_id" value="PB-PERSIST-001"/>
+      <string key="playbook_version" value="1.0"/>
+      <string key="playbook_step_id" value="PERSIST-S3"/>
+      <string key="incident_type" value="persistence_antiforensics"/>
+      <string key="evidence_reference" value="EVD-DFIR-1102"/>
+    </event>
+    <event>
+      <string key="concept:name" value="Isolate Host, Disable Rogue Account &amp; Remove Malicious Service"/>
+      <date key="time:timestamp" value="2026-10-31T11:25:00Z"/>
+      <string key="org:resource" value="ANL-308"/>
+      <string key="org:role" value="Tier 2 Incident Responder"/>
+      <string key="playbook_id" value="PB-PERSIST-001"/>
+      <string key="playbook_version" value="1.0"/>
+      <string key="playbook_step_id" value="PERSIST-S4"/>
+      <string key="incident_type" value="persistence_antiforensics"/>
+      <string key="evidence_reference" value="EVD-DFIR-CONTAIN"/>
+    </event>
+  </trace>
 </log>`
       },
       malformed_test: {
@@ -1906,6 +2066,29 @@
           'INVALID_CASE_ID,Unmapped Step,NOT-A-VALID-TIMESTAMP,ANL-999,',
           'BROKEN_ROW_WITH_TOO_FEW_COLUMNS,OnlyTwoCols'
         ].join('\n')
+      },
+      dfir_windows_json: {
+        filename: 'synthetic_windows_events.json',
+        category: 'suspicious_powershell_telemetry',
+        sourceOrg: 'DFIR Timeline Synthetic Windows Events',
+        sourceUrl: 'https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon',
+        version: '1.0',
+        license: 'Synthetic Research Fixture',
+        schemaType: 'security_telemetry',
+        mapping: {
+          case_id: 'case_id',
+          timestamp: 'timestamp',
+          computer: 'host',
+          event_id: 'event_id',
+          IpAddress: 'source_ip',
+          TargetUserName: 'username',
+          SubjectUserName: 'username',
+          NewProcessName: 'process_image',
+          ParentProcessName: 'parent_image',
+          ProcessCommandLine: 'command_line',
+          scenario: 'event_type'
+        },
+        content: "{\"dataset_name\": \"DFIR Timeline Synthetic Windows Events\", \"dataset_version\": \"1.0\", \"description\": \"Entirely synthetic records for parser and detection testing. Not acquired from a real Windows host.\", \"events\": [{\"timestamp\": \"2026-10-28T09:16:00Z\", \"event_id\": 4624, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1233, \"severity\": \"Information\", \"event_data\": {\"TargetUserName\": \"svc_backup\", \"TargetDomainName\": \"DFIRLAB\", \"LogonType\": \"10\", \"IpAddress\": \"192.0.2.25\", \"Status\": \"0x0\"}, \"synthetic\": true, \"scenario\": \"benign_baseline\", \"mitre_attack\": []}, {\"timestamp\": \"2026-10-28T09:55:00Z\", \"event_id\": 4624, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1169, \"severity\": \"Information\", \"event_data\": {\"TargetUserName\": \"j.smith\", \"TargetDomainName\": \"DFIRLAB\", \"LogonType\": \"2\", \"IpAddress\": \"-\", \"Status\": \"0x0\"}, \"synthetic\": true, \"scenario\": \"benign_baseline\", \"mitre_attack\": []}, {\"timestamp\": \"2026-10-28T10:29:00Z\", \"event_id\": 4624, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1342, \"severity\": \"Information\", \"event_data\": {\"TargetUserName\": \"m.chen\", \"TargetDomainName\": \"DFIRLAB\", \"LogonType\": \"2\", \"IpAddress\": \"-\", \"Status\": \"0x0\"}, \"synthetic\": true, \"scenario\": \"benign_baseline\", \"mitre_attack\": []}, {\"timestamp\": \"2026-10-28T10:50:00Z\", \"event_id\": 4688, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1313, \"severity\": \"Information\", \"event_data\": {\"SubjectUserName\": \"m.chen\", \"NewProcessName\": \"C:\\\\Program Files\\\\Browser\\\\browser.exe\", \"ProcessCommandLine\": \"C:\\\\Program Files\\\\Browser\\\\browser.exe\", \"ParentProcessName\": \"C:\\\\Windows\\\\explorer.exe\"}, \"synthetic\": true, \"scenario\": \"benign_baseline\", \"mitre_attack\": []}, {\"timestamp\": \"2026-10-29T10:00:00Z\", \"event_id\": 4625, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1350, \"severity\": \"Warning\", \"event_data\": {\"TargetUserName\": \"administrator\", \"TargetDomainName\": \"DFIRLAB\", \"LogonType\": \"3\", \"IpAddress\": \"198.51.100.77\", \"Status\": \"0xC000006D\", \"SubStatus\": \"0xC000006A\"}, \"synthetic\": true, \"scenario\": \"synthetic_bruteforce\", \"mitre_attack\": [\"T1110\"], \"case_id\": \"CASE-DFIR-AUTH-001\"}, {\"timestamp\": \"2026-10-29T10:00:30Z\", \"event_id\": 4625, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1351, \"severity\": \"Warning\", \"event_data\": {\"TargetUserName\": \"administrator\", \"TargetDomainName\": \"DFIRLAB\", \"LogonType\": \"3\", \"IpAddress\": \"198.51.100.77\", \"Status\": \"0xC000006D\", \"SubStatus\": \"0xC000006A\"}, \"synthetic\": true, \"scenario\": \"synthetic_bruteforce\", \"mitre_attack\": [\"T1110\"], \"case_id\": \"CASE-DFIR-AUTH-001\"}, {\"timestamp\": \"2026-10-29T10:01:00Z\", \"event_id\": 4625, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1352, \"severity\": \"Warning\", \"event_data\": {\"TargetUserName\": \"administrator\", \"TargetDomainName\": \"DFIRLAB\", \"LogonType\": \"3\", \"IpAddress\": \"198.51.100.77\", \"Status\": \"0xC000006D\", \"SubStatus\": \"0xC000006A\"}, \"synthetic\": true, \"scenario\": \"synthetic_bruteforce\", \"mitre_attack\": [\"T1110\"], \"case_id\": \"CASE-DFIR-AUTH-001\"}, {\"timestamp\": \"2026-10-29T10:01:30Z\", \"event_id\": 4625, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1353, \"severity\": \"Warning\", \"event_data\": {\"TargetUserName\": \"administrator\", \"TargetDomainName\": \"DFIRLAB\", \"LogonType\": \"3\", \"IpAddress\": \"198.51.100.77\", \"Status\": \"0xC000006D\", \"SubStatus\": \"0xC000006A\"}, \"synthetic\": true, \"scenario\": \"synthetic_bruteforce\", \"mitre_attack\": [\"T1110\"], \"case_id\": \"CASE-DFIR-AUTH-001\"}, {\"timestamp\": \"2026-10-29T10:02:00Z\", \"event_id\": 4625, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1354, \"severity\": \"Warning\", \"event_data\": {\"TargetUserName\": \"administrator\", \"TargetDomainName\": \"DFIRLAB\", \"LogonType\": \"3\", \"IpAddress\": \"198.51.100.77\", \"Status\": \"0xC000006D\", \"SubStatus\": \"0xC000006A\"}, \"synthetic\": true, \"scenario\": \"synthetic_bruteforce\", \"mitre_attack\": [\"T1110\"], \"case_id\": \"CASE-DFIR-AUTH-001\"}, {\"timestamp\": \"2026-10-29T10:02:30Z\", \"event_id\": 4625, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1355, \"severity\": \"Warning\", \"event_data\": {\"TargetUserName\": \"administrator\", \"TargetDomainName\": \"DFIRLAB\", \"LogonType\": \"3\", \"IpAddress\": \"198.51.100.77\", \"Status\": \"0xC000006D\", \"SubStatus\": \"0xC000006A\"}, \"synthetic\": true, \"scenario\": \"synthetic_bruteforce\", \"mitre_attack\": [\"T1110\"], \"case_id\": \"CASE-DFIR-AUTH-001\"}, {\"timestamp\": \"2026-10-29T10:03:00Z\", \"event_id\": 4625, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1356, \"severity\": \"Warning\", \"event_data\": {\"TargetUserName\": \"administrator\", \"TargetDomainName\": \"DFIRLAB\", \"LogonType\": \"3\", \"IpAddress\": \"198.51.100.77\", \"Status\": \"0xC000006D\", \"SubStatus\": \"0xC000006A\"}, \"synthetic\": true, \"scenario\": \"synthetic_bruteforce\", \"mitre_attack\": [\"T1110\"], \"case_id\": \"CASE-DFIR-AUTH-001\"}, {\"timestamp\": \"2026-10-29T10:03:30Z\", \"event_id\": 4625, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1357, \"severity\": \"Warning\", \"event_data\": {\"TargetUserName\": \"administrator\", \"TargetDomainName\": \"DFIRLAB\", \"LogonType\": \"3\", \"IpAddress\": \"198.51.100.77\", \"Status\": \"0xC000006D\", \"SubStatus\": \"0xC000006A\"}, \"synthetic\": true, \"scenario\": \"synthetic_bruteforce\", \"mitre_attack\": [\"T1110\"], \"case_id\": \"CASE-DFIR-AUTH-001\"}, {\"timestamp\": \"2026-10-29T10:04:00Z\", \"event_id\": 4625, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1358, \"severity\": \"Warning\", \"event_data\": {\"TargetUserName\": \"administrator\", \"TargetDomainName\": \"DFIRLAB\", \"LogonType\": \"3\", \"IpAddress\": \"198.51.100.77\", \"Status\": \"0xC000006D\", \"SubStatus\": \"0xC000006A\"}, \"synthetic\": true, \"scenario\": \"synthetic_bruteforce\", \"mitre_attack\": [\"T1110\"], \"case_id\": \"CASE-DFIR-AUTH-001\"}, {\"timestamp\": \"2026-10-29T10:04:30Z\", \"event_id\": 4625, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1359, \"severity\": \"Warning\", \"event_data\": {\"TargetUserName\": \"administrator\", \"TargetDomainName\": \"DFIRLAB\", \"LogonType\": \"3\", \"IpAddress\": \"198.51.100.77\", \"Status\": \"0xC000006D\", \"SubStatus\": \"0xC000006A\"}, \"synthetic\": true, \"scenario\": \"synthetic_bruteforce\", \"mitre_attack\": [\"T1110\"], \"case_id\": \"CASE-DFIR-AUTH-001\"}, {\"timestamp\": \"2026-10-29T10:05:00Z\", \"event_id\": 4625, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1360, \"severity\": \"Warning\", \"event_data\": {\"TargetUserName\": \"administrator\", \"TargetDomainName\": \"DFIRLAB\", \"LogonType\": \"3\", \"IpAddress\": \"198.51.100.77\", \"Status\": \"0xC000006D\", \"SubStatus\": \"0xC000006A\"}, \"synthetic\": true, \"scenario\": \"synthetic_bruteforce\", \"mitre_attack\": [\"T1110\"], \"case_id\": \"CASE-DFIR-AUTH-001\"}, {\"timestamp\": \"2026-10-29T10:05:30Z\", \"event_id\": 4625, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1361, \"severity\": \"Warning\", \"event_data\": {\"TargetUserName\": \"administrator\", \"TargetDomainName\": \"DFIRLAB\", \"LogonType\": \"3\", \"IpAddress\": \"198.51.100.77\", \"Status\": \"0xC000006D\", \"SubStatus\": \"0xC000006A\"}, \"synthetic\": true, \"scenario\": \"synthetic_bruteforce\", \"mitre_attack\": [\"T1110\"], \"case_id\": \"CASE-DFIR-AUTH-001\"}, {\"timestamp\": \"2026-10-29T10:08:00Z\", \"event_id\": 4624, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1362, \"severity\": \"Information\", \"event_data\": {\"TargetUserName\": \"administrator\", \"TargetDomainName\": \"DFIRLAB\", \"LogonType\": \"3\", \"IpAddress\": \"198.51.100.77\", \"Status\": \"0x0\"}, \"synthetic\": true, \"scenario\": \"synthetic_bruteforce_success\", \"mitre_attack\": [\"T1110\"], \"case_id\": \"CASE-DFIR-AUTH-001\"}, {\"timestamp\": \"2026-10-30T09:00:00Z\", \"event_id\": 4688, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1363, \"severity\": \"Warning\", \"event_data\": {\"SubjectUserName\": \"analyst\", \"NewProcessName\": \"C:\\\\Windows\\\\System32\\\\WindowsPowerShell\\\\v1.0\\\\powershell.exe\", \"ProcessCommandLine\": \"powershell.exe -NoProfile -EncodedCommand <REDACTED_SYNTHETIC_PAYLOAD>\", \"ParentProcessName\": \"C:\\\\Windows\\\\System32\\\\cmd.exe\"}, \"synthetic\": true, \"scenario\": \"synthetic_suspicious_process\", \"mitre_attack\": [\"T1059\"], \"case_id\": \"CASE-DFIR-PSH-002\"}, {\"timestamp\": \"2026-10-30T09:03:00Z\", \"event_id\": 4688, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1364, \"severity\": \"Warning\", \"event_data\": {\"SubjectUserName\": \"analyst\", \"NewProcessName\": \"C:\\\\Windows\\\\System32\\\\wscript.exe\", \"ProcessCommandLine\": \"wscript.exe C:\\\\Users\\\\analyst\\\\AppData\\\\Local\\\\Temp\\\\invoice.vbs\", \"ParentProcessName\": \"C:\\\\Windows\\\\explorer.exe\"}, \"synthetic\": true, \"scenario\": \"synthetic_suspicious_process\", \"mitre_attack\": [\"T1059\"], \"case_id\": \"CASE-DFIR-PSH-002\"}, {\"timestamp\": \"2026-10-30T09:06:00Z\", \"event_id\": 4688, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1365, \"severity\": \"Warning\", \"event_data\": {\"SubjectUserName\": \"analyst\", \"NewProcessName\": \"C:\\\\Windows\\\\System32\\\\rundll32.exe\", \"ProcessCommandLine\": \"rundll32.exe C:\\\\Users\\\\analyst\\\\AppData\\\\Local\\\\Temp\\\\sample.dll,EntryPoint\", \"ParentProcessName\": \"C:\\\\Windows\\\\explorer.exe\"}, \"synthetic\": true, \"scenario\": \"synthetic_suspicious_process\", \"mitre_attack\": [\"T1059\"], \"case_id\": \"CASE-DFIR-PSH-002\"}, {\"timestamp\": \"2026-10-31T11:00:00Z\", \"event_id\": 4697, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1366, \"severity\": \"Warning\", \"event_data\": {\"SubjectUserName\": \"administrator\", \"ServiceName\": \"UpdaterSvc\", \"ServiceFileName\": \"C:\\\\ProgramData\\\\Updater\\\\updater.exe\", \"ServiceType\": \"user mode service\"}, \"synthetic\": true, \"scenario\": \"synthetic_service_install\", \"mitre_attack\": [\"T1543.003\"], \"case_id\": \"CASE-DFIR-PERSIST-003\"}, {\"timestamp\": \"2026-10-31T11:02:00Z\", \"event_id\": 4720, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1367, \"severity\": \"Warning\", \"event_data\": {\"SubjectUserName\": \"administrator\", \"TargetUserName\": \"support_temp\"}, \"synthetic\": true, \"scenario\": \"synthetic_account_creation\", \"mitre_attack\": [\"T1136.001\"], \"case_id\": \"CASE-DFIR-PERSIST-003\"}, {\"timestamp\": \"2026-10-31T11:04:00Z\", \"event_id\": 4732, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1368, \"severity\": \"Warning\", \"event_data\": {\"SubjectUserName\": \"administrator\", \"MemberName\": \"support_temp\", \"TargetUserName\": \"Administrators\"}, \"synthetic\": true, \"scenario\": \"synthetic_group_membership_change\", \"mitre_attack\": [\"T1098\"], \"case_id\": \"CASE-DFIR-PERSIST-003\"}, {\"timestamp\": \"2026-10-31T11:06:00Z\", \"event_id\": 4719, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Security-Auditing\", \"record_id\": 1369, \"severity\": \"Warning\", \"event_data\": {\"SubjectUserName\": \"administrator\", \"Category\": \"System\", \"Subcategory\": \"Audit Policy Change\"}, \"synthetic\": true, \"scenario\": \"synthetic_audit_policy_change\", \"mitre_attack\": [\"T1562.002\"], \"case_id\": \"CASE-DFIR-PERSIST-003\"}, {\"timestamp\": \"2026-10-31T11:08:00Z\", \"event_id\": 1102, \"computer\": \"DFIR-LAB-WIN11\", \"channel\": \"Security\", \"provider\": \"Microsoft-Windows-Eventlog\", \"record_id\": 1370, \"severity\": \"Critical\", \"event_data\": {\"SubjectUserName\": \"administrator\", \"SubjectDomainName\": \"DFIRLAB\"}, \"synthetic\": true, \"scenario\": \"synthetic_security_log_clear\", \"mitre_attack\": [\"T1070.001\"], \"case_id\": \"CASE-DFIR-PERSIST-003\"}]}"
       }
     };
 
@@ -1960,7 +2143,92 @@
           { step_id: 'PSH-S4', step_name: 'Isolate Endpoint & Escalate Malicious Execution', step_description: 'Conditional host containment when credential dumping or C2 download is confirmed.', mandatory_status: 'conditional', expected_predecessor: 'PSH-S3', expected_successor: 'PSH-S5', permitted_alternative_actions: ['EDR Host Containment'], applicable_evidence_requirements: ['host_isolation_receipt'] },
           { step_id: 'PSH-S5', step_name: 'Validate Administrative Legitimacy or Close Case', step_description: 'Verify authorized admin change ticket or finalize incident escalation.', mandatory_status: 'mandatory', expected_predecessor: 'PSH-S3', expected_successor: 'End', permitted_alternative_actions: [], applicable_evidence_requirements: ['closure_verification_record'] }
         ]
-      }
+      },
+      {
+  "playbook_id": "PB-PERSIST-001",
+  "version": "1.0",
+  "incident_type": "persistence_antiforensics",
+  "title": "MITRE T1543.003 / T1136.001 / T1070.001 Persistence & Anti-Forensics Playbook",
+  "mitre_technique_id": "T1543.003 / T1136.001 / T1098 / T1562.002 / T1070.001",
+  "description": "Reference workflow for investigating Windows service creation (4697), local account creation (4720), privileged group modification (4732), audit policy tampering (4719), and security event log clearing (1102).",
+  "approval_requirements": "Tier 2 Lead & Incident Commander approval required for host isolation and privileged account revocation.",
+  "closure_requirements": "Requires service binary hash verification, unauthorized account disablement receipt, and off-host SIEM log backup preservation.",
+  "steps": [
+    {
+      "step_id": "PERSIST-S1",
+      "step_order": 1,
+      "step_name": "Inspect New Windows Service Creation (Event ID 4697)",
+      "step_description": "Verify ServiceName, ServiceFileName path, and binary signature for newly registered services.",
+      "mandatory_status": "mandatory",
+      "expected_predecessor": null,
+      "expected_successor": "PERSIST-S2",
+      "permitted_alternative_actions": [
+        "EDR Service Registry Check"
+      ],
+      "applicable_evidence_requirements": [
+        "event4697_service_record"
+      ]
+    },
+    {
+      "step_id": "PERSIST-S2",
+      "step_order": 2,
+      "step_name": "Audit Account Creation & Privileged Group Escalation (4720 / 4732)",
+      "step_description": "Correlate newly created local/domain accounts and additions to Administrators group.",
+      "mandatory_status": "mandatory",
+      "expected_predecessor": "PERSIST-S1",
+      "expected_successor": "PERSIST-S3",
+      "permitted_alternative_actions": [
+        "Active Directory Privileged Group Diff"
+      ],
+      "applicable_evidence_requirements": [
+        "event4720_4732_account_audit"
+      ]
+    },
+    {
+      "step_id": "PERSIST-S3",
+      "step_order": 3,
+      "step_name": "Assess Audit Policy Tampering & Log Clear (4719 / 1102)",
+      "step_description": "Verify whether system audit policy was weakened prior to Event ID 1102 Security log clear and recover off-host SIEM telemetry.",
+      "mandatory_status": "mandatory",
+      "expected_predecessor": "PERSIST-S2",
+      "expected_successor": "PERSIST-S4",
+      "permitted_alternative_actions": [
+        "SIEM Forwarder Gap Analysis"
+      ],
+      "applicable_evidence_requirements": [
+        "event4719_1102_tamper_evidence"
+      ]
+    },
+    {
+      "step_id": "PERSIST-S4",
+      "step_order": 4,
+      "step_name": "Isolate Host, Disable Rogue Account & Remove Malicious Service",
+      "step_description": "Contain affected host, disable unauthorized account (support_temp), and remove persistence service.",
+      "mandatory_status": "mandatory",
+      "expected_predecessor": "PERSIST-S3",
+      "expected_successor": "PERSIST-S5",
+      "permitted_alternative_actions": [
+        "EDR Host Containment & Account Lockout"
+      ],
+      "applicable_evidence_requirements": [
+        "containment_and_remediation_receipt"
+      ]
+    },
+    {
+      "step_id": "PERSIST-S5",
+      "step_order": 5,
+      "step_name": "Document Timeline Reconstruction & Close Incident",
+      "step_description": "Record complete attack chain and link preserved off-host evidence references.",
+      "mandatory_status": "mandatory",
+      "expected_predecessor": "PERSIST-S4",
+      "expected_successor": null,
+      "permitted_alternative_actions": [],
+      "applicable_evidence_requirements": [
+        "final_forensic_closure_report"
+      ]
+    }
+  ]
+}
     ];
 
     async function seedInitialWorkspace(silent = true) {
@@ -1972,7 +2240,7 @@
       state.auditLogs = [];
       state.playbooks = JSON.parse(JSON.stringify(INITIAL_PLAYBOOKS));
 
-      for (const key of ['phishing_csv', 'spray_json', 'powershell_jsonl', 'analyst_xes']) {
+      for (const key of ['phishing_csv', 'spray_json', 'powershell_jsonl', 'analyst_xes', 'dfir_windows_json']) {
         const item = SAMPLE_PAYLOADS[key];
         const ds = await ingestDatasetPayload({
           filename: item.filename,
@@ -2017,6 +2285,36 @@
           dataset_source_id: state.datasets[1]?.dataset_id || 'DS-PSH',
           data_quality_status: 'Valid',
           summary: 'WINWORD.EXE spawned hidden encoded PowerShell (T1059.001) with Event 4104 WebClient stage download and credential dump.'
+        },
+        {
+          case_id: 'CASE-DFIR-AUTH-001',
+          incident_category: 'password_spraying',
+          case_status: 'escalated',
+          playbook_id: 'PB-SPRAY-001',
+          playbook_version: '1.0',
+          dataset_source_id: state.datasets[0]?.dataset_id || 'DS-DFIR',
+          data_quality_status: 'Valid with warnings',
+          summary: '12x Event 4625 + 1x Event 4624 from 198.51.100.77 targeting single account (administrator) — classified as single-account brute force (T1110), not T1110.003 spray.'
+        },
+        {
+          case_id: 'CASE-DFIR-PSH-002',
+          incident_category: 'suspicious_powershell',
+          case_status: 'in_triage',
+          playbook_id: 'PB-PSH-001',
+          playbook_version: '1.0',
+          dataset_source_id: state.datasets[0]?.dataset_id || 'DS-DFIR',
+          data_quality_status: 'Valid',
+          summary: 'Event 4688 execution chain on DFIR-LAB-WIN11: powershell.exe -EncodedCommand (cmd.exe), wscript.exe invoice.vbs, and rundll32.exe sample.dll.'
+        },
+        {
+          case_id: 'CASE-DFIR-PERSIST-003',
+          incident_category: 'persistence_antiforensics',
+          case_status: 'escalated',
+          playbook_id: 'PB-PERSIST-001',
+          playbook_version: '1.0',
+          dataset_source_id: state.datasets[0]?.dataset_id || 'DS-DFIR',
+          data_quality_status: 'Valid',
+          summary: 'Post-exploitation chain: 4697 UpdaterSvc (T1543.003) -> 4720 support_temp (T1136.001) -> 4732 Administrators (T1098) -> 4719 Audit Policy (T1562.002) -> 1102 Log Clear (T1070.001).'
         }
       ];
 
@@ -2581,7 +2879,7 @@
         </div>
         <div class="p-3 rounded bg-slate-900 border border-slate-800">
           <div class="text-[10px] font-mono uppercase text-slate-400">Checks Passed</div>
-          <div class="text-base font-bold font-mono text-white mt-1">${rep.checklist.filter((c) => c.status === 'PASS').length} / 9</div>
+          <div class="text-base font-bold font-mono text-white mt-1">${rep.checklist.filter((c) => c.status === 'PASS').length} / ${rep.checklist.length}</div>
         </div>
         <div class="p-3 rounded bg-slate-900 border border-slate-800">
           <div class="text-[10px] font-mono uppercase text-slate-400">Warnings</div>
@@ -2642,7 +2940,84 @@
       return lines.join('\n');
     }
 
+    function renderBenchmarkMatrix() {
+      const modeSel = document.getElementById('benchmarkModeSelect');
+      const mode = modeSel ? modeSel.value : 'extended_100';
+      const tbody = document.getElementById('benchmarkMatrixTableBody');
+      if (!tbody) return;
+
+      const coreRows = `
+        <tr>
+          <td class="py-2.5 px-3 font-semibold text-white">Phishing <span class="font-mono text-[11px] text-blue-400">(PB-PHISH-001)</span></td>
+          <td class="py-2.5 px-3 font-mono text-[11px] text-emerald-300">Core Stratum 1</td>
+          <td class="py-2.5 px-3 font-mono text-blue-300">T1566.001 / T1566.002</td>
+          <td class="py-2.5 px-3"><a href="https://zenodo.org/records/8339691" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline">Zenodo Phishing Email Curated Datasets (8339691)</a></td>
+          <td class="py-2.5 px-3 text-right font-mono text-emerald-400">15</td>
+          <td class="py-2.5 px-3 text-right font-mono text-amber-400">10</td>
+          <td class="py-2.5 px-3 text-right font-mono font-bold text-white">25</td>
+        </tr>
+        <tr>
+          <td class="py-2.5 px-3 font-semibold text-white">Password Spraying <span class="font-mono text-[11px] text-blue-400">(PB-SPRAY-001)</span></td>
+          <td class="py-2.5 px-3 font-mono text-[11px] text-emerald-300">Core Stratum 2</td>
+          <td class="py-2.5 px-3 font-mono text-blue-300">T1110.003</td>
+          <td class="py-2.5 px-3"><a href="https://github.com/splunk/attack_data" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline">Splunk Attack Data (Multi-Account Spray Logs)</a></td>
+          <td class="py-2.5 px-3 text-right font-mono text-emerald-400">15</td>
+          <td class="py-2.5 px-3 text-right font-mono text-amber-400">10</td>
+          <td class="py-2.5 px-3 text-right font-mono font-bold text-white">25</td>
+        </tr>
+        <tr>
+          <td class="py-2.5 px-3 font-semibold text-white">Suspicious PowerShell <span class="font-mono text-[11px] text-blue-400">(PB-PSH-001)</span></td>
+          <td class="py-2.5 px-3 font-mono text-[11px] text-emerald-300">Core Stratum 3</td>
+          <td class="py-2.5 px-3 font-mono text-blue-300">T1059.001</td>
+          <td class="py-2.5 px-3"><a href="https://github.com/OTRF/Security-Datasets" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline">OTRF Security Datasets</a> &amp; <a href="https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline">Sysmon / Event 4104</a></td>
+          <td class="py-2.5 px-3 text-right font-mono text-emerald-400">15</td>
+          <td class="py-2.5 px-3 text-right font-mono text-amber-400">10</td>
+          <td class="py-2.5 px-3 text-right font-mono font-bold text-white">25</td>
+        </tr>
+      `;
+
+      const persistRow = `
+        <tr class="${mode === 'core_75_aux' ? 'bg-indigo-950/20' : ''}">
+          <td class="py-2.5 px-3 font-semibold text-white">Persistence &amp; Anti-Forensics <span class="font-mono text-[11px] text-indigo-300">(PB-PERSIST-001)</span></td>
+          <td class="py-2.5 px-3 font-mono text-[11px] text-indigo-300">${mode === 'extended_100' ? 'Core Stratum 4 (100-Case)' : 'Auxiliary DFIR Track'}</td>
+          <td class="py-2.5 px-3 font-mono text-indigo-300">T1543.003 / T1136.001 / T1098 / T1562.002 / T1070.001</td>
+          <td class="py-2.5 px-3">DFIR Synthetic Windows Events (4697, 4720, 4732, 4719, 1102) &amp; <a href="https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline">Sysmon</a></td>
+          <td class="py-2.5 px-3 text-right font-mono text-emerald-400">15</td>
+          <td class="py-2.5 px-3 text-right font-mono text-amber-400">10</td>
+          <td class="py-2.5 px-3 text-right font-mono font-bold text-white">25</td>
+        </tr>
+      `;
+
+      if (mode === 'extended_100') {
+        tbody.innerHTML = coreRows + persistRow + `
+          <tr class="bg-slate-900/90 font-semibold">
+            <td class="py-2.5 px-3 text-white" colspan="4">Total Unified 100-Case Extended Benchmark (4 Strata)</td>
+            <td class="py-2.5 px-3 text-right font-mono text-emerald-400">60</td>
+            <td class="py-2.5 px-3 text-right font-mono text-amber-400">40</td>
+            <td class="py-2.5 px-3 text-right font-mono text-blue-400">100</td>
+          </tr>
+        `;
+      } else {
+        tbody.innerHTML = coreRows + `
+          <tr class="bg-slate-900/90 font-semibold">
+            <td class="py-2.5 px-3 text-white" colspan="4">Subtotal: Primary 75-Case Thesis Baseline (3 Core Strata)</td>
+            <td class="py-2.5 px-3 text-right font-mono text-emerald-400">45</td>
+            <td class="py-2.5 px-3 text-right font-mono text-amber-400">30</td>
+            <td class="py-2.5 px-3 text-right font-mono text-blue-400">75</td>
+          </tr>
+        ` + persistRow + `
+          <tr class="bg-indigo-950/40 font-semibold">
+            <td class="py-2.5 px-3 text-indigo-200" colspan="4">Combined Total (75 Core Baseline + 25 Auxiliary DFIR Evaluation Track)</td>
+            <td class="py-2.5 px-3 text-right font-mono text-emerald-400">60</td>
+            <td class="py-2.5 px-3 text-right font-mono text-amber-400">40</td>
+            <td class="py-2.5 px-3 text-right font-mono text-indigo-300">100</td>
+          </tr>
+        `;
+      }
+    }
+
     function renderFutureAndAuditViews() {
+      renderBenchmarkMatrix();
       document.getElementById('liveXesPreviewBox').textContent = generateXesFromAnalystActivities();
 
       const auditBody = document.getElementById('auditLogTableBody');
@@ -2658,7 +3033,7 @@
       `).join('');
     }
 
-    const STORAGE_KEY = 'socqa_intelligence_local_workspace_v1';
+    const STORAGE_KEY = 'socqa_intelligence_local_workspace_v2';
 
     function saveStateToLocalBrowser() {
       try {
@@ -3148,6 +3523,11 @@
       }, null, 2);
     }
 
+    document.getElementById('benchmarkModeSelect').addEventListener('change', () => {
+      renderBenchmarkMatrix();
+      showToast('Updated Research Benchmark Matrix view mode.', 'info');
+    });
+
     document.getElementById('runSanitizerBtn').addEventListener('click', () => {
       runPromptSanitizer();
       showToast('Sanitized untrusted input against prompt-injection & XSS directives.', 'info');
@@ -3233,8 +3613,42 @@
       seedInitialWorkspace(false);
     });
 
+    // Simple View vs Full Research View Toggle & 4-Step Guided Bar
+    function setUiComplexityMode(mode) {
+      const simpleBtn = document.getElementById('uiSimpleModeBtn');
+      const fullBtn = document.getElementById('uiFullModeBtn');
+      const isSimple = mode === 'simple';
+      document.querySelectorAll('.adv-nav-item').forEach((el) => {
+        el.classList.toggle('hidden', isSimple);
+      });
+      if (isSimple) {
+        simpleBtn.className = 'px-2.5 py-1.5 rounded text-xs font-semibold bg-blue-600 text-white transition';
+        fullBtn.className = 'px-2.5 py-1.5 rounded text-xs font-medium text-slate-400 hover:text-slate-200 transition';
+      } else {
+        fullBtn.className = 'px-2.5 py-1.5 rounded text-xs font-semibold bg-blue-600 text-white transition';
+        simpleBtn.className = 'px-2.5 py-1.5 rounded text-xs font-medium text-slate-400 hover:text-slate-200 transition';
+      }
+    }
+
+    document.getElementById('uiSimpleModeBtn').addEventListener('click', () => {
+      setUiComplexityMode('simple');
+      showToast('Switched to Simple View (5 core workflow tabs visible). Click "All 13 Modules" anytime for advanced views.', 'info');
+    });
+    document.getElementById('uiFullModeBtn').addEventListener('click', () => {
+      setUiComplexityMode('full');
+      showToast('Showing all 13 research & architecture modules.', 'info');
+    });
+
+    document.querySelectorAll('.guided-step-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-guided-step');
+        switchNavView(target);
+      });
+    });
+
     // Initialize workspace on load (restore from browser storage if present, otherwise seed defaults)
     window.addEventListener('DOMContentLoaded', () => {
+      setUiComplexityMode('simple');
       const restored = loadStateFromLocalBrowser();
       if (restored) {
         renderAllViews();

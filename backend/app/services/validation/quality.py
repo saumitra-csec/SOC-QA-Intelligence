@@ -82,11 +82,19 @@ def evaluate_dataset_quality(dataset_id: str) -> Dict[str, Any]:
                 "phishing",
                 "password_spraying",
                 "suspicious_powershell",
+                "persistence_antiforensics",
             ):
                 inconsistent_classifications_count += 1
 
+        # DQ-10: Multi-Account Spray Threshold Check (<5 distinct accounts per source_ip on password_spray telemetry)
+        spray_accounts_by_ip = {}
         # Evaluate security telemetry records
         for nev in norm_events:
+            if nev["schema_type"] == "password_spray" or ds["category"] == "password_spray_telemetry":
+                sip = nev["source_ip"] or "unknown_ip"
+                usr = nev["username"]
+                if usr:
+                    spray_accounts_by_ip.setdefault(sip, set()).add(usr)
             if not nev["case_id"]:
                 unassociated_records_count += 1
             elif not CASE_ID_FORMAT_RE.match(nev["case_id"]):
@@ -182,6 +190,13 @@ def evaluate_dataset_quality(dataset_id: str) -> Dict[str, Any]:
                 "count": unsupported_mappings_count,
                 "status": "PASS" if unsupported_mappings_count == 0 else "WARN",
                 "note": "Checks for user mapping fields outside the canonical target schema.",
+            },
+            {
+                "check_id": "DQ-10",
+                "dimension": "Password-spray multi-account threshold (<5 accounts/IP)",
+                "count": sum(1 for accs in spray_accounts_by_ip.values() if len(accs) < 5),
+                "status": "WARN" if any(len(accs) < 5 for accs in spray_accounts_by_ip.values()) else "PASS",
+                "note": "Flags password-spray datasets where a source_ip targets <5 distinct accounts (indicates T1110 single-account brute force rather than T1110.003 password spraying).",
             },
         ]
 

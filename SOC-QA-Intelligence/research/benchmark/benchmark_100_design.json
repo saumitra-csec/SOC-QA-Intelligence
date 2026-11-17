@@ -1,0 +1,64 @@
+{
+  "benchmark_name": "SOC-QA Intelligence 100-Case Extended Experimental Benchmark (75 Core + 25 DFIR Persistence/Anti-Forensics)",
+  "version": "2.0",
+  "purpose": "Controlled experimental dataset across 4 incident strata (Phishing, Password Spraying T1110.003, Suspicious PowerShell T1059.001, and Persistence & Anti-Forensics T1543.003/T1070.001) with strict ground-truth isolation.",
+  "modes": {
+    "extended_100_case": {
+      "conformant": 60,
+      "deviating": 40,
+      "total": 100
+    },
+    "core_75_plus_auxiliary_25": {
+      "core_total": 75,
+      "auxiliary_dfir_total": 25,
+      "combined_total": 100
+    }
+  },
+  "strata": [
+    {
+      "incident_type": "phishing",
+      "track": "Core Stratum 1",
+      "playbook_id": "PB-PHISH-001",
+      "mitre_mapping": "T1566.001 / T1566.002",
+      "primary_source_corpus": "Zenodo Phishing Email Curated Datasets (https://zenodo.org/records/8339691)",
+      "conformant_cases": 15,
+      "deviating_cases": 10,
+      "total_cases": 25
+    },
+    {
+      "incident_type": "password_spraying",
+      "track": "Core Stratum 2",
+      "playbook_id": "PB-SPRAY-001",
+      "mitre_mapping": "T1110.003",
+      "primary_source_corpus": "Splunk Attack Data (https://github.com/splunk/attack_data)",
+      "conformant_cases": 15,
+      "deviating_cases": 10,
+      "total_cases": 25
+    },
+    {
+      "incident_type": "suspicious_powershell",
+      "track": "Core Stratum 3",
+      "playbook_id": "PB-PSH-001",
+      "mitre_mapping": "T1059.001",
+      "primary_source_corpus": "Splunk Attack Data & OTRF Security Datasets (https://github.com/OTRF/Security-Datasets)",
+      "conformant_cases": 15,
+      "deviating_cases": 10,
+      "total_cases": 25
+    },
+    {
+      "incident_type": "persistence_antiforensics",
+      "track": "Extended DFIR Stratum 4 (Auxiliary / 100-Case Track)",
+      "playbook_id": "PB-PERSIST-001",
+      "mitre_mapping": "T1543.003 / T1136.001 / T1098 / T1562.002 / T1070.001",
+      "primary_source_corpus": "DFIR Timeline Synthetic Windows Events & Microsoft Sysmon (https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon)",
+      "conformant_cases": 15,
+      "deviating_cases": 10,
+      "total_cases": 25
+    }
+  ],
+  "totals": {
+    "conformant": 60,
+    "deviating": 40,
+    "total": 100
+  }
+}

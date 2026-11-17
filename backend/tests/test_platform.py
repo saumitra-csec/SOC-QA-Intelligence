@@ -349,5 +349,42 @@ class TestSOCQAIntelligencePlatform(unittest.TestCase):
         self.assertIn("[REDACTED_UNTRUSTED_DIRECTIVE]", san["sanitized_excerpts"][0]["sanitized_text"])
 
 
+    def test_08_nested_windows_event_json_flattening(self):
+        win_json = (Path(__file__).resolve().parents[2] / "research" / "benchmark" / "synthetic_windows_events.json").read_bytes()
+        r_win = self.client.post(
+            "/api/v1/ingestion/upload",
+            files={"file": ("synthetic_windows_events.json", io.BytesIO(win_json), "application/json")},
+            data={
+                "category": "suspicious_powershell_telemetry",
+                "dataset_name": "DFIR Timeline Synthetic Windows Events",
+                "source_organization": "DFIR Research Lab",
+            },
+        )
+        self.assertEqual(r_win.status_code, 200, r_win.text)
+        body = r_win.json()
+        self.assertEqual(body["summary"]["total_records"], 371)
+        self.assertIn("TargetUserName", body["inspection"]["detected_fields"])
+        self.assertIn("ProcessCommandLine", body["inspection"]["detected_fields"])
+
+        r_norm = self.client.post(
+            "/api/v1/normalization/run",
+            json={
+                "dataset_id": body["dataset_id"],
+                "target_schema_type": "powershell",
+                "field_mapping": {
+                    "timestamp": "timestamp",
+                    "computer": "host",
+                    "SubjectUserName": "user",
+                    "event_id": "event_id",
+                    "NewProcessName": "process_image",
+                    "ParentProcessName": "parent_image",
+                    "ProcessCommandLine": "command_line",
+                },
+            },
+        )
+        self.assertEqual(r_norm.status_code, 200, r_norm.text)
+        self.assertEqual(r_norm.json()["normalized_count"], 371)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
