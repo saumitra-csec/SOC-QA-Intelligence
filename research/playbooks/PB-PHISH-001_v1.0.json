@@ -1,0 +1,67 @@
+{
+  "playbook_id": "PB-PHISH-001",
+  "version": "1.0",
+  "incident_type": "phishing",
+  "title": "Standard Phishing Triage & Credential Harvesting Response",
+  "mitre_technique_id": "T1566.001 / T1566.002",
+  "description": "Researcher-constructed reference workflow for evaluating SOC analyst triage conformance on reported phishing emails.",
+  "approval_requirements": "Tier 2 SOC Lead approval required before tenant-wide mailbox purge or domain block.",
+  "closure_requirements": "Requires documented header authentication check, URL/attachment reputation artifact, and recipient click search.",
+  "steps": [
+    {
+      "step_id": "PHISH-S1",
+      "step_order": 1,
+      "step_name": "Ingest & Parse Email Headers",
+      "step_description": "Verify SPF, DKIM, DMARC, and Reply-To mismatch on reported message_id.",
+      "mandatory_status": "mandatory",
+      "expected_predecessor": null,
+      "expected_successor": "PHISH-S2",
+      "permitted_alternative_actions": ["Automated Header Parser Enrichment"],
+      "applicable_evidence_requirements": ["email_header_artifact"]
+    },
+    {
+      "step_id": "PHISH-S2",
+      "step_order": 2,
+      "step_name": "Inspect Embedded URLs & Attachments",
+      "step_description": "Detonate or hash attachments (SHA-256) and inspect URLs against threat intelligence without rendering raw HTML.",
+      "mandatory_status": "mandatory",
+      "expected_predecessor": "PHISH-S1",
+      "expected_successor": "PHISH-S3",
+      "permitted_alternative_actions": ["Static File Hash Reputation Lookup"],
+      "applicable_evidence_requirements": ["url_or_attachment_hash_evidence"]
+    },
+    {
+      "step_id": "PHISH-S3",
+      "step_order": 3,
+      "step_name": "Query SIEM for Recipient Click & Post-Delivery Activity",
+      "step_description": "Search proxy, DNS, and authentication telemetry for recipient interaction with extracted indicators.",
+      "mandatory_status": "mandatory",
+      "expected_predecessor": "PHISH-S2",
+      "expected_successor": "PHISH-S4",
+      "permitted_alternative_actions": ["EDR Network Connection Search"],
+      "applicable_evidence_requirements": ["siem_click_query_log"]
+    },
+    {
+      "step_id": "PHISH-S4",
+      "step_order": 4,
+      "step_name": "Isolate Compromised Account & Escalate to Tier 2",
+      "step_description": "Conditional step executed when proxy/auth logs confirm credential submission or payload execution.",
+      "mandatory_status": "conditional",
+      "expected_predecessor": "PHISH-S3",
+      "expected_successor": "PHISH-S5",
+      "permitted_alternative_actions": ["Revoke Active OAuth Tokens & Force Password Reset"],
+      "applicable_evidence_requirements": ["compromise_confirmation_evidence"]
+    },
+    {
+      "step_id": "PHISH-S5",
+      "step_order": 5,
+      "step_name": "Record Final Disposition & Close Case",
+      "step_description": "Document classification, link all evidence references, and record closure rationale.",
+      "mandatory_status": "mandatory",
+      "expected_predecessor": "PHISH-S3",
+      "expected_successor": null,
+      "permitted_alternative_actions": [],
+      "applicable_evidence_requirements": ["final_triage_summary"]
+    }
+  ]
+}
