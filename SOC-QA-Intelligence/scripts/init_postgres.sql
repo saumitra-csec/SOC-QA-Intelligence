@@ -1,3 +1,0 @@
--- PostgreSQL Initialization & Migration Script for SOC-QA Intelligence
--- Automatically mounted into docker-compose postgres service
--- Table definitions shared with backend/app/models/entities.py
