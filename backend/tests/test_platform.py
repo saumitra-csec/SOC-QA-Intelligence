@@ -642,5 +642,83 @@ class TestSOCQAIntelligencePlatform(unittest.TestCase):
         self.assertEqual(r_prem.json()["stqs_band_code"], "STQS-1")
 
 
+
+    def test_15_native_pm4py_alignment_and_fallback_cross_validation(self):
+        from unittest.mock import MagicMock, patch
+        import backend.app.services.process_mining.contracts as pm_mod
+
+        # 1. Verify runtime endpoint reports fallback cleanly when pm4py is not installed
+        r_rt = self.client.get("/api/v1/process-mining/runtime")
+        self.assertEqual(r_rt.status_code, 200)
+        rt = r_rt.json()
+        self.assertIn(rt["active_engine"], ("native_pm4py_alignments", "builtin_petri_net_replay_fallback"))
+
+        # 2. Verify automatic fallback works on CASE-BM-PHISH-001
+        r_fb = self.client.post("/api/v1/process-mining/conformance/CASE-BM-PHISH-001")
+        self.assertEqual(r_fb.status_code, 200)
+        fb = r_fb.json()
+        self.assertEqual(fb["conformance_engine"], "builtin_petri_net_replay_fallback")
+        self.assertEqual(fb["fitness"], 1.0)
+
+        # 3. Cross-validate native pm4py alignment execution path using a simulated pm4py module
+        class FakePlace:
+            def __init__(self, name): self.name = name
+        class FakeTransition:
+            def __init__(self, name, label): self.name = name; self.label = label
+        class FakePetriNet:
+            Place = FakePlace
+            Transition = FakeTransition
+            def __init__(self, name): self.name = name; self.places = set(); self.transitions = set()
+        class FakeMarking(dict): pass
+        class FakeTrace(list):
+            def __init__(self): super().__init__(); self.attributes = {}
+        class FakeEventLog(list): pass
+        class FakeEvent(dict): pass
+        fake_utils = MagicMock()
+        fake_pm4py = MagicMock()
+        fake_pm4py.conformance_diagnostics_alignments.return_value = [
+            {"fitness": 1.0, "cost": 0, "alignment": [("PHISH-S1", "PHISH-S1"), ("PHISH-S2", "PHISH-S2"), ("PHISH-S3", "PHISH-S3"), ("PHISH-S5", "PHISH-S5")]}
+        ]
+        fake_pm4py.fitness_alignments.return_value = {"log_fitness": 1.0}
+        fake_pm4py.precision_alignments.return_value = 1.0
+
+        with patch.object(pm_mod, "PM4PY_AVAILABLE", True),              patch.object(pm_mod, "PM4PY_VERSION", "2.7.11-test"),              patch.object(pm_mod, "_pm4py_lib", fake_pm4py),              patch.object(pm_mod, "_Pm4PyPetriNet", FakePetriNet),              patch.object(pm_mod, "_Pm4PyMarking", FakeMarking),              patch.object(pm_mod, "_pm4py_petri_utils", fake_utils),              patch.object(pm_mod, "_Pm4PyEventLog", FakeEventLog),              patch.object(pm_mod, "_Pm4PyTrace", FakeTrace),              patch.object(pm_mod, "_Pm4PyEvent", FakeEvent):
+            r_native = self.client.post("/api/v1/process-mining/conformance/CASE-BM-PHISH-001")
+            self.assertEqual(r_native.status_code, 200, r_native.text)
+            nat = r_native.json()
+            self.assertEqual(nat["conformance_engine"], "native_pm4py_alignments")
+            self.assertEqual(nat["fitness"], 1.0)
+            self.assertEqual(nat["precision"], 1.0)
+            self.assertEqual(nat["native_pm4py_diagnostics"]["alignment_cost"], 0)
+            self.assertTrue(fake_pm4py.conformance_diagnostics_alignments.called)
+
+
+
+    def test_16_100_case_benchmark_and_noisy_log_stress_test(self):
+        # 1. Populate and evaluate all 100 cases (75 core + 25 PB-PERSIST-001)
+        r_pop100 = self.client.post("/api/v1/benchmark/populate-100")
+        self.assertEqual(r_pop100.status_code, 200, r_pop100.text)
+        self.assertEqual(r_pop100.json()["total_benchmark_cases"], 100)
+
+        r_ev100 = self.client.post("/api/v1/benchmark/evaluate-100")
+        self.assertEqual(r_ev100.status_code, 200, r_ev100.text)
+        ev100 = r_ev100.json()
+        self.assertEqual(ev100["total_cases_evaluated"], 100)
+        self.assertEqual(ev100["confusion_matrix"]["tp"], 40)
+        self.assertEqual(ev100["confusion_matrix"]["tn"], 60)
+        self.assertIn("persistence_antiforensics", ev100["per_stratum_confusion_matrix"])
+
+        # 2. Execute Noisy SOC Log Stress-Test and verify sensitivity curve shows realistic FPR/Precision shift under noise
+        r_stress = self.client.post("/api/v1/benchmark/stress-test")
+        self.assertEqual(r_stress.status_code, 200, r_stress.text)
+        stress = r_stress.json()
+        curve = stress["sensitivity_curve"]
+        self.assertEqual(len(curve), 5)
+        self.assertEqual(curve[0]["noise_rate"], 0.0)
+        self.assertEqual(curve[0]["precision"], 1.0)
+        self.assertGreater(curve[-1]["false_positive_rate"], curve[0]["false_positive_rate"])
+        self.assertLess(curve[-1]["precision"], curve[0]["precision"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -17,3 +17,11 @@
 1. **Empirical 75-Case Benchmark Population**: Populate all 75 controlled cases (25 Phishing from [Zenodo Record 8339691](https://zenodo.org/records/8339691), 25 Password Spraying `T1110.003` from [Splunk Attack Data](https://github.com/splunk/attack_data), 25 Suspicious PowerShell `T1059.001` from [Splunk Attack Data](https://github.com/splunk/attack_data) & [OTRF Security Datasets](https://github.com/OTRF/Security-Datasets)) and lock reference Petri nets before enabling conformance scoring.
 2. **Live PM4Py Alignment Replay**: Connect `PreparedProcessMiningEngine.check_conformance_alignments` to `pm4py.conformance_diagnostics_alignments` once reference models are locked.
 3. **Human-Validated LLM Experiment Runs**: Enable `AI_MODULE_ENABLED=true` with local Ollama or hosted API keys to evaluate XAI explanation fidelity against isolated `ground_truth_labels`.
+
+## 2026-11-19 — Institutional Playbooks, STQS v1.0 & Black/Orange Gemini-Style UI
+- Integrated `SOC_QA_Institutional_Playbook_Integration_Pack.zip` byte-for-byte under `research/institutional_playbooks/originals/` (`SHA-256: 4e374b3437c04c0627fbcc58ee561ddba4e6661742f892d604d0d5945f5f5ea0`) and registered all 20 institutional sources in `institutional_playbook_sources`.
+- Normalized all benchmark and institutional playbooks into the dual-compatible Action Schema (`normalize_playbook_to_action_schema`) with human-review conformance gating (`human_reviewed`/`validated`) and 7-state step evaluation semantics (`performed`, `not_performed`, `not_documented`, `not_applicable`, `out_of_order`, `evidence_insufficient`, `condition_not_met`).
+- Added non-merging Multi-Institution Phase Comparison (`GET /api/v1/playbooks/compare`) and Module 7 comparison matrix.
+- Implemented Standardized Triage Quality Scale (`STQS v1.0`) evaluating every case against all playbooks of its relevant attack type (`GET /api/v1/cases/{case_id}/standardized-triage-scale`, `GET /api/v1/cases/standardized-triage-scale/all`).
+- Redesigned `SOC-QA_Intelligence_Standalone.html` and `frontend/soc_qa_intelligence_workbench.html` with a Black & Orange high-contrast theme, Plus Jakarta Sans + IBM Plex Mono typography, and a Gemini-style collapsible sidebar.
+- Verified 14/14 automated backend test suites (`python -m unittest backend/tests/test_platform.py`).

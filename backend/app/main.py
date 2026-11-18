@@ -43,7 +43,10 @@ from backend.app.services.validation.quality import evaluate_dataset_quality
 from backend.app.services.process_mining.contracts import pm4py_service
 from backend.app.services.process_mining.benchmark_evaluator import (
     populate_75_case_benchmark,
+    populate_100_case_benchmark,
+    run_100_case_empirical_evaluation,
     run_empirical_benchmark_evaluation,
+    run_noisy_log_stress_test,
 )
 from backend.app.services.ai.contracts import ai_service
 
@@ -465,3 +468,23 @@ def get_case_stqs_endpoint(case_id: str):
         return pm4py_service.evaluate_case_standardized_triage_scale(case_id)
     except ValueError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@app.get("/api/v1/process-mining/runtime")
+def get_pm4py_runtime_endpoint():
+    return pm4py_service.get_runtime_info()
+
+
+@app.post("/api/v1/benchmark/populate-100")
+def populate_100_benchmark_endpoint():
+    return populate_100_case_benchmark()
+
+
+@app.post("/api/v1/benchmark/evaluate-100")
+def evaluate_100_benchmark_endpoint():
+    return run_100_case_empirical_evaluation()
+
+
+@app.post("/api/v1/benchmark/stress-test")
+def run_noisy_stress_test_endpoint():
+    return run_noisy_log_stress_test()

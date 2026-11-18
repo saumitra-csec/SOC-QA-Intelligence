@@ -11,6 +11,24 @@ from collections import Counter
 from typing import Any, Dict, List, Optional
 from backend.app.core.database import db_manager, utc_now_iso
 
+try:
+    import pm4py as _pm4py_lib
+    from pm4py.objects.petri_net.obj import PetriNet as _Pm4PyPetriNet, Marking as _Pm4PyMarking
+    from pm4py.objects.petri_net.utils import petri_utils as _pm4py_petri_utils
+    from pm4py.objects.log.obj import EventLog as _Pm4PyEventLog, Trace as _Pm4PyTrace, Event as _Pm4PyEvent
+    PM4PY_AVAILABLE = True
+    PM4PY_VERSION = getattr(_pm4py_lib, "__version__", "installed")
+except ImportError:
+    _pm4py_lib = None
+    _Pm4PyPetriNet = None
+    _Pm4PyMarking = None
+    _pm4py_petri_utils = None
+    _Pm4PyEventLog = None
+    _Pm4PyTrace = None
+    _Pm4PyEvent = None
+    PM4PY_AVAILABLE = False
+    PM4PY_VERSION = None
+
 
 class PM4PyServiceContract(ABC):
     @abstractmethod
@@ -36,6 +54,88 @@ class PM4PyServiceContract(ABC):
 
 
 class OperationalProcessMiningEngine(PM4PyServiceContract):
+    def get_runtime_info(self) -> Dict[str, Any]:
+        """Reports whether native PM4Py is installed or built-in Petri-net replay fallback is active."""
+        return {
+            "pm4py_available": PM4PY_AVAILABLE,
+            "pm4py_version": PM4PY_VERSION,
+            "active_engine": "native_pm4py_alignments" if PM4PY_AVAILABLE else "builtin_petri_net_replay_fallback",
+            "input_isolation": "analyst_activities_only (security_telemetry and ground_truth_labels excluded)",
+        }
+
+    def _build_native_pm4py_petri_net(self, ref_net: Dict[str, Any]):
+        """Constructs a native pm4py.objects.petri_net.obj.PetriNet from the version-locked reference Petri net."""
+        net = _Pm4PyPetriNet(ref_net["playbook_version_id"])
+        place_map = {}
+        for p_name in ref_net["places"]:
+            pl = _Pm4PyPetriNet.Place(p_name)
+            net.places.add(pl)
+            place_map[p_name] = pl
+
+        trans_map = {}
+        for tr in ref_net["transitions"]:
+            tid = tr["transition_id"]
+            label = tr["label"]
+            # Use step_id as transition label for alignment matching against concept:name
+            t_label = None if tr["mandatory_status"] == "silent_tau" else tid
+            t_obj = _Pm4PyPetriNet.Transition(tid, t_label)
+            net.transitions.add(t_obj)
+            trans_map[tid] = t_obj
+
+        for arc in ref_net["arcs"]:
+            src = place_map.get(arc["source"]) or trans_map.get(arc["source"])
+            tgt = place_map.get(arc["target"]) or trans_map.get(arc["target"])
+            if src is not None and tgt is not None:
+                _pm4py_petri_utils.add_arc_from_to(src, tgt, net)
+
+        im = _Pm4PyMarking({place_map[p]: 1 for p in ref_net["initial_marking"] if p in place_map})
+        fm = _Pm4PyMarking({place_map[p]: 1 for p in ref_net["final_marking"] if p in place_map})
+        return net, im, fm
+
+    def _run_native_pm4py_alignment(
+        self,
+        case_id: str,
+        playbook_version_id: str,
+        observed_step_seq: List[str],
+        observed_timestamps: Optional[List[str]] = None,
+    ) -> Optional[Dict[str, Any]]:
+        """
+        Executes native PM4Py optimal trace alignment & precision evaluation if pm4py is installed.
+        Returns None on ImportError or runtime incompatibility so caller falls back cleanly.
+        """
+        if not PM4PY_AVAILABLE or _pm4py_lib is None:
+            return None
+        try:
+            ref_net = self.build_reference_petri_net(playbook_version_id)
+            net, im, fm = self._build_native_pm4py_petri_net(ref_net)
+
+            log = _Pm4PyEventLog()
+            trace = _Pm4PyTrace()
+            trace.attributes["concept:name"] = case_id
+            for idx, step_tok in enumerate(observed_step_seq):
+                ev_attrs = {"concept:name": step_tok}
+                if observed_timestamps and idx < len(observed_timestamps) and observed_timestamps[idx]:
+                    ev_attrs["time:timestamp"] = observed_timestamps[idx]
+                trace.append(_Pm4PyEvent(ev_attrs))
+            log.append(trace)
+
+            alignments = _pm4py_lib.conformance_diagnostics_alignments(log, net, im, fm)
+            fit_res = _pm4py_lib.fitness_alignments(log, net, im, fm)
+            prec_val = _pm4py_lib.precision_alignments(log, net, im, fm)
+
+            first_align = alignments[0] if alignments else {}
+            raw_fitness = fit_res.get("log_fitness", first_align.get("fitness", 0.0)) if isinstance(fit_res, dict) else float(fit_res or 0.0)
+            return {
+                "engine": "native_pm4py_alignments",
+                "pm4py_version": PM4PY_VERSION,
+                "fitness": round(float(raw_fitness), 4),
+                "precision": round(float(prec_val or 0.0), 4),
+                "alignment_cost": first_align.get("cost"),
+                "alignment_moves": first_align.get("alignment", []),
+            }
+        except Exception:
+            return None
+
     def export_analyst_traces_to_xes(self, case_ids: Optional[List[str]] = None) -> str:
         with db_manager.connection() as conn:
             if case_ids:
@@ -352,8 +452,16 @@ class OperationalProcessMiningEngine(PM4PyServiceContract):
             final_mandatory and (not observed_step_seq or observed_step_seq[-1] != final_mandatory) and final_mandatory in skipped_activities
         )
 
-        # 6. Token-based replay Fitness & Precision calculation
-        # Produced/Consumed/Missing/Remaining tokens in reference Petri net
+        # 6. Native PM4Py alignment replay (if pm4py is installed) with automatic built-in fallback
+        obs_timestamps = [r.get("normalized_utc_timestamp") for r in observed_rows_expanded]
+        native_pm4py_res = self._run_native_pm4py_alignment(
+            case_id=case_id,
+            playbook_version_id=pb_ver_id,
+            observed_step_seq=observed_step_seq,
+            observed_timestamps=obs_timestamps,
+        )
+
+        # Built-in Petri-net token-based replay Fitness & Precision calculation
         total_mandatory = max(len(mandatory_ids), 1)
         matched_mandatory = total_mandatory - len(skipped_activities)
         penalty_tokens = (
@@ -378,6 +486,18 @@ class OperationalProcessMiningEngine(PM4PyServiceContract):
             if observed_step_seq
             else 0.0
         )
+
+        conformance_engine = "builtin_petri_net_replay_fallback"
+        alignment_diagnostics = None
+        if native_pm4py_res is not None:
+            conformance_engine = native_pm4py_res["engine"]
+            fitness = native_pm4py_res["fitness"]
+            precision_score = native_pm4py_res["precision"]
+            alignment_diagnostics = {
+                "pm4py_version": native_pm4py_res["pm4py_version"],
+                "alignment_cost": native_pm4py_res["alignment_cost"],
+                "alignment_moves": native_pm4py_res["alignment_moves"],
+            }
 
         is_conformant = (
             len(skipped_activities) == 0
@@ -460,12 +580,13 @@ class OperationalProcessMiningEngine(PM4PyServiceContract):
                 INSERT INTO conformance_results (
                     conformance_id, case_id, playbook_version_id, algorithm,
                     fitness, precision_score, trace_variant_id, is_premature_termination, computed_at
-                ) VALUES (?, ?, ?, 'petri_net_token_replay_and_alignment', ?, ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     conf_id,
                     case_id,
                     pb_ver_id,
+                    conformance_engine,
                     fitness,
                     precision_score,
                     variant_str,
@@ -572,6 +693,9 @@ class OperationalProcessMiningEngine(PM4PyServiceContract):
             "deviation_count": len(deviations_to_insert),
             "step_evaluations": step_evaluations,
             "step_evaluation_counts": dict(state_summary),
+            "conformance_engine": conformance_engine,
+            "pm4py_available": PM4PY_AVAILABLE,
+            "native_pm4py_diagnostics": alignment_diagnostics,
             "computed_at": now_iso,
         }
 
