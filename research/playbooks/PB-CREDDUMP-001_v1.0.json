@@ -1,0 +1,302 @@
+{
+  "playbook_id": "PB-CREDDUMP-001",
+  "version": "1.0",
+  "title": "MITRE Credential Access & Memory Dumping Triage Playbook",
+  "institution": "SOC-QA Research Benchmark",
+  "playbook_classification": "operational_soc_playbook",
+  "incident_type": "credential_dumping",
+  "incident_types": [
+    "credential_dumping"
+  ],
+  "mitre_technique_id": "TA0006",
+  "scope": "SOC-QA Research Benchmark operational triage workflow covering MITRE ATT&CK Credential Access (TA0006).",
+  "description": "SOC-QA Research Benchmark operational triage workflow covering MITRE ATT&CK Credential Access (TA0006).",
+  "approval_requirements": "Tier 2 Lead approval required for containment/isolation.",
+  "closure_requirements": "All mandatory verification steps linked to evidence references.",
+  "source": {
+    "source_id": "MITRE-TA0006",
+    "url": "https://attack.mitre.org/tactics/TA0006/",
+    "document_title": "MITRE Credential Access & Memory Dumping Triage Playbook",
+    "version": "1.0",
+    "publication_date": "2026-11-19",
+    "retrieval_date": "2026-11-19",
+    "page_or_section": "Credential Access",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Preserve institutional attribution and source link."
+  },
+  "prerequisites": [
+    {
+      "requirement": "Normalized SIEM/EDR telemetry",
+      "required_capability": "SOC Workbench",
+      "evidence": [
+        "ingested_dataset_manifest"
+      ]
+    }
+  ],
+  "roles": [
+    "Tier 1 SOC Analyst",
+    "Tier 2 SOC Lead",
+    "Incident Responder"
+  ],
+  "steps": [
+    {
+      "step_id": "CRED-S1",
+      "step_order": 1,
+      "step_name": "Validate Credential Store / Memory Access Alert",
+      "activity": "Validate Credential Store / Memory Access Alert",
+      "step_description": "Validate Credential Store / Memory Access Alert (Credential Access \u2014 TA0006).",
+      "description": "Validate Credential Store / Memory Access Alert (Credential Access \u2014 TA0006).",
+      "phase": "identification",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": null,
+      "expected_successor": "CRED-S2",
+      "predecessors": [],
+      "successors": [
+        "CRED-S2"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "SOC-QA Research Benchmark Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "cred_access_telemetry"
+      ],
+      "evidence_required": [
+        "cred_access_telemetry"
+      ],
+      "evidence_produced": [
+        "cred-s1_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "cred-s1_output"
+      ],
+      "source_anchor": {
+        "url": "https://attack.mitre.org/tactics/TA0006/",
+        "page": null,
+        "section": "Credential Access \u2014 Step 1",
+        "quoted_excerpt": "Validate Credential Store / Memory Access Alert"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Credential Access (TA0006)."
+      ]
+    },
+    {
+      "step_id": "CRED-S2",
+      "step_order": 2,
+      "step_name": "Inspect Accessing Binary Signature, Parent Lineage & User",
+      "activity": "Inspect Accessing Binary Signature, Parent Lineage & User",
+      "step_description": "Inspect Accessing Binary Signature, Parent Lineage & User (Credential Access \u2014 TA0006).",
+      "description": "Inspect Accessing Binary Signature, Parent Lineage & User (Credential Access \u2014 TA0006).",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "CRED-S1",
+      "expected_successor": "CRED-S3",
+      "predecessors": [
+        "CRED-S1"
+      ],
+      "successors": [
+        "CRED-S3"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "SOC-QA Research Benchmark Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "binary_lineage_record"
+      ],
+      "evidence_required": [
+        "binary_lineage_record"
+      ],
+      "evidence_produced": [
+        "cred-s2_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "cred-s2_output"
+      ],
+      "source_anchor": {
+        "url": "https://attack.mitre.org/tactics/TA0006/",
+        "page": null,
+        "section": "Credential Access \u2014 Step 2",
+        "quoted_excerpt": "Inspect Accessing Binary Signature, Parent Lineage & User"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Credential Access (TA0006)."
+      ]
+    },
+    {
+      "step_id": "CRED-S3",
+      "step_order": 3,
+      "step_name": "Identify Exposed Accounts & Correlate Subsequent Lateral Logons",
+      "activity": "Identify Exposed Accounts & Correlate Subsequent Lateral Logons",
+      "step_description": "Identify Exposed Accounts & Correlate Subsequent Lateral Logons (Credential Access \u2014 TA0006).",
+      "description": "Identify Exposed Accounts & Correlate Subsequent Lateral Logons (Credential Access \u2014 TA0006).",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "CRED-S2",
+      "expected_successor": "CRED-S4",
+      "predecessors": [
+        "CRED-S2"
+      ],
+      "successors": [
+        "CRED-S4"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "SOC-QA Research Benchmark Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "exposed_accounts_table"
+      ],
+      "evidence_required": [
+        "exposed_accounts_table"
+      ],
+      "evidence_produced": [
+        "cred-s3_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "cred-s3_output"
+      ],
+      "source_anchor": {
+        "url": "https://attack.mitre.org/tactics/TA0006/",
+        "page": null,
+        "section": "Credential Access \u2014 Step 3",
+        "quoted_excerpt": "Identify Exposed Accounts & Correlate Subsequent Lateral Logons"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Credential Access (TA0006)."
+      ]
+    },
+    {
+      "step_id": "CRED-S4",
+      "step_order": 4,
+      "step_name": "Isolate Host & Force Credential / Ticket Rotation",
+      "activity": "Isolate Host & Force Credential / Ticket Rotation",
+      "step_description": "Isolate Host & Force Credential / Ticket Rotation (Credential Access \u2014 TA0006).",
+      "description": "Isolate Host & Force Credential / Ticket Rotation (Credential Access \u2014 TA0006).",
+      "phase": "containment",
+      "mandatory_status": "conditional",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when investigation confirms active compromise or operational impact.",
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "CRED-S3",
+      "expected_successor": "CRED-S5",
+      "predecessors": [
+        "CRED-S3"
+      ],
+      "successors": [
+        "CRED-S5"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "SOC-QA Research Benchmark Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "credential_reset_receipt"
+      ],
+      "evidence_required": [
+        "credential_reset_receipt"
+      ],
+      "evidence_produced": [
+        "cred-s4_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "cred-s4_output"
+      ],
+      "source_anchor": {
+        "url": "https://attack.mitre.org/tactics/TA0006/",
+        "page": null,
+        "section": "Credential Access \u2014 Step 4",
+        "quoted_excerpt": "Isolate Host & Force Credential / Ticket Rotation"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Credential Access (TA0006)."
+      ]
+    },
+    {
+      "step_id": "CRED-S5",
+      "step_order": 5,
+      "step_name": "Document Credential Access Disposition & Close Case",
+      "activity": "Document Credential Access Disposition & Close Case",
+      "step_description": "Document Credential Access Disposition & Close Case (Credential Access \u2014 TA0006).",
+      "description": "Document Credential Access Disposition & Close Case (Credential Access \u2014 TA0006).",
+      "phase": "post_incident",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "CRED-S3",
+      "expected_successor": null,
+      "predecessors": [
+        "CRED-S3"
+      ],
+      "successors": [],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "SOC-QA Research Benchmark Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "cred_closure_report"
+      ],
+      "evidence_required": [
+        "cred_closure_report"
+      ],
+      "evidence_produced": [
+        "cred-s5_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "cred-s5_output"
+      ],
+      "source_anchor": {
+        "url": "https://attack.mitre.org/tactics/TA0006/",
+        "page": null,
+        "section": "Credential Access \u2014 Step 5",
+        "quoted_excerpt": "Document Credential Access Disposition & Close Case"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Credential Access (TA0006)."
+      ]
+    }
+  ],
+  "completion_criteria": [
+    "Mandatory verification steps documented with evidence pointers."
+  ],
+  "normalization": {
+    "status": "validated",
+    "method": "Normalized to Unified Action Schema from SOC-QA Research Benchmark reference guidance",
+    "reviewer": "principal_researcher",
+    "review_date": "2026-11-19",
+    "confidence": 0.9,
+    "notes": [
+      "MITRE ATT&CK Enterprise tactic: Credential Access (TA0006)."
+    ]
+  }
+}

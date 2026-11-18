@@ -1,0 +1,3 @@
+# Mark self-contained HTML distribution bundles as generated so GitHub language stats reflect core Python & TypeScript architecture
+SOC-QA_Intelligence_Standalone.html linguist-generated=true
+frontend/soc_qa_intelligence_workbench.html linguist-generated=true

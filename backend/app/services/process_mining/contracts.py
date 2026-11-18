@@ -392,6 +392,18 @@ class OperationalProcessMiningEngine(PM4PyServiceContract):
                 "PERSIST-S4": ["CISA-META-03"],
                 "PERSIST-S5": ["CISA-META-03"],
             },
+            "SCOT-RANSOM-EXAMPLE-001": {"RANSOM-S1": ["SRAN-01"], "RANSOM-S2": ["SRAN-02"], "RANSOM-S3": ["SRAN-03"], "RANSOM-S4": ["SRAN-04"], "RANSOM-S5": ["SRAN-05"]},
+            "SCOT-MALWARE-EXAMPLE-001": {"MAL-S1": ["SMAL-01"], "MAL-S2": ["SMAL-02"], "MAL-S3": ["SMAL-03"], "MAL-S4": ["SMAL-04"], "MAL-S5": ["SMAL-05"]},
+            "MS-TOKEN-EXAMPLE-001": {"TOKEN-S1": ["MTOK-01"], "TOKEN-S2": ["MTOK-02"], "TOKEN-S3": ["MTOK-03"], "TOKEN-S4": ["MTOK-04"], "TOKEN-S5": ["MTOK-05"]},
+            "SCOT-EXFIL-EXAMPLE-001": {"EXFIL-S1": ["SEXF-01"], "EXFIL-S2": ["SEXF-02"], "EXFIL-S3": ["SEXF-03"], "EXFIL-S4": ["SEXF-04"], "EXFIL-S5": ["SEXF-05"]},
+            "SCOT-DOS-EXAMPLE-001": {"DOS-S1": ["SDOS-01"], "DOS-S2": ["SDOS-02"], "DOS-S3": ["SDOS-03"], "DOS-S4": ["SDOS-04"], "DOS-S5": ["SDOS-05"]},
+            "AWS-IAM-EXAMPLE-001": {"IAM-S1": ["AIAM-01"], "IAM-S2": ["AIAM-02"], "IAM-S3": ["AIAM-03"], "IAM-S4": ["AIAM-04"], "IAM-S5": ["AIAM-05"]},
+            "SPLUNK-RECON-EXAMPLE-001": {"RECON-S1": ["SREC-01"], "RECON-S2": ["SREC-02"], "RECON-S3": ["SREC-03"], "RECON-S4": ["SREC-04"], "RECON-S5": ["SREC-05"]},
+            "AWS-EXPLOIT-EXAMPLE-001": {"EXPL-S1": ["AEXP-01"], "EXPL-S2": ["AEXP-02"], "EXPL-S3": ["AEXP-03"], "EXPL-S4": ["AEXP-04"], "EXPL-S5": ["AEXP-05"]},
+            "SPLUNK-PRIVESC-EXAMPLE-001": {"PRIV-S1": ["SPRV-01"], "PRIV-S2": ["SPRV-02"], "PRIV-S3": ["SPRV-03"], "PRIV-S4": ["SPRV-04"], "PRIV-S5": ["SPRV-05"]},
+            "MS-CREDDUMP-EXAMPLE-001": {"CRED-S1": ["MCRD-01"], "CRED-S2": ["MCRD-02"], "CRED-S3": ["MCRD-03"], "CRED-S4": ["MCRD-04"], "CRED-S5": ["MCRD-05"]},
+            "SPLUNK-LATERAL-EXAMPLE-001": {"LAT-S1": ["SLAT-01"], "LAT-S2": ["SLAT-02"], "LAT-S3": ["SLAT-03"], "LAT-S4": ["SLAT-04"], "LAT-S5": ["SLAT-05"]},
+            "NCSC-C2-EXAMPLE-001": {"C2-S1": ["NC2S-01"], "C2-S2": ["NC2S-02"], "C2-S3": ["NC2S-03"], "C2-S4": ["NC2S-04"], "C2-S5": ["NC2S-05"]},
         }
         target_pb_id = ver_row["playbook_id"]
         equiv_map = CROSS_PLAYBOOK_STEP_EQUIVALENCE.get(target_pb_id, {})

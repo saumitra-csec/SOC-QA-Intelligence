@@ -1,0 +1,302 @@
+{
+  "playbook_id": "NCSC-C2-EXAMPLE-001",
+  "version": "1.0",
+  "title": "UK NCSC Command & Control Incident Triage Playbook",
+  "institution": "UK NCSC",
+  "playbook_classification": "operational_soc_playbook",
+  "incident_type": "command_and_control",
+  "incident_types": [
+    "command_and_control"
+  ],
+  "mitre_technique_id": "TA0011",
+  "scope": "UK NCSC operational triage workflow covering MITRE ATT&CK Command and Control (TA0011).",
+  "description": "UK NCSC operational triage workflow covering MITRE ATT&CK Command and Control (TA0011).",
+  "approval_requirements": "Tier 2 Lead approval required for containment/isolation.",
+  "closure_requirements": "All mandatory verification steps linked to evidence references.",
+  "source": {
+    "source_id": "NCSC-IM",
+    "url": "https://www.ncsc.gov.uk/collection/incident-management",
+    "document_title": "UK NCSC Command & Control Incident Triage Playbook",
+    "version": "1.0",
+    "publication_date": "2026-11-19",
+    "retrieval_date": "2026-11-19",
+    "page_or_section": "Command and Control",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Preserve institutional attribution and source link."
+  },
+  "prerequisites": [
+    {
+      "requirement": "Normalized SIEM/EDR telemetry",
+      "required_capability": "SOC Workbench",
+      "evidence": [
+        "ingested_dataset_manifest"
+      ]
+    }
+  ],
+  "roles": [
+    "Tier 1 SOC Analyst",
+    "Tier 2 SOC Lead",
+    "Incident Responder"
+  ],
+  "steps": [
+    {
+      "step_id": "NC2S-01",
+      "step_order": 1,
+      "step_name": "Identify & Validate Command And Control Alert",
+      "activity": "Identify & Validate Command And Control Alert",
+      "step_description": "Identify & Validate Command And Control Alert (Command and Control \u2014 TA0011).",
+      "description": "Identify & Validate Command And Control Alert (Command and Control \u2014 TA0011).",
+      "phase": "identification",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": null,
+      "expected_successor": "NC2S-02",
+      "predecessors": [],
+      "successors": [
+        "NC2S-02"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "UK NCSC Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "nc2s_alert_evidence"
+      ],
+      "evidence_required": [
+        "nc2s_alert_evidence"
+      ],
+      "evidence_produced": [
+        "nc2s-01_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "nc2s-01_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.ncsc.gov.uk/collection/incident-management",
+        "page": null,
+        "section": "Command and Control \u2014 Step 1",
+        "quoted_excerpt": "Identify & Validate Command And Control Alert"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Command and Control (TA0011)."
+      ]
+    },
+    {
+      "step_id": "NC2S-02",
+      "step_order": 2,
+      "step_name": "Analyze Technical Scope, Artifacts & Telemetry Context",
+      "activity": "Analyze Technical Scope, Artifacts & Telemetry Context",
+      "step_description": "Analyze Technical Scope, Artifacts & Telemetry Context (Command and Control \u2014 TA0011).",
+      "description": "Analyze Technical Scope, Artifacts & Telemetry Context (Command and Control \u2014 TA0011).",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "NC2S-01",
+      "expected_successor": "NC2S-03",
+      "predecessors": [
+        "NC2S-01"
+      ],
+      "successors": [
+        "NC2S-03"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "UK NCSC Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "nc2s_scope_evidence"
+      ],
+      "evidence_required": [
+        "nc2s_scope_evidence"
+      ],
+      "evidence_produced": [
+        "nc2s-02_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "nc2s-02_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.ncsc.gov.uk/collection/incident-management",
+        "page": null,
+        "section": "Command and Control \u2014 Step 2",
+        "quoted_excerpt": "Analyze Technical Scope, Artifacts & Telemetry Context"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Command and Control (TA0011)."
+      ]
+    },
+    {
+      "step_id": "NC2S-03",
+      "step_order": 3,
+      "step_name": "Correlate Downstream Impact & Affected Identities/Hosts",
+      "activity": "Correlate Downstream Impact & Affected Identities/Hosts",
+      "step_description": "Correlate Downstream Impact & Affected Identities/Hosts (Command and Control \u2014 TA0011).",
+      "description": "Correlate Downstream Impact & Affected Identities/Hosts (Command and Control \u2014 TA0011).",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "NC2S-02",
+      "expected_successor": "NC2S-04",
+      "predecessors": [
+        "NC2S-02"
+      ],
+      "successors": [
+        "NC2S-04"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "UK NCSC Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "nc2s_correlation_log"
+      ],
+      "evidence_required": [
+        "nc2s_correlation_log"
+      ],
+      "evidence_produced": [
+        "nc2s-03_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "nc2s-03_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.ncsc.gov.uk/collection/incident-management",
+        "page": null,
+        "section": "Command and Control \u2014 Step 3",
+        "quoted_excerpt": "Correlate Downstream Impact & Affected Identities/Hosts"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Command and Control (TA0011)."
+      ]
+    },
+    {
+      "step_id": "NC2S-04",
+      "step_order": 4,
+      "step_name": "Execute Institutional Containment & Remediation Controls",
+      "activity": "Execute Institutional Containment & Remediation Controls",
+      "step_description": "Execute Institutional Containment & Remediation Controls (Command and Control \u2014 TA0011).",
+      "description": "Execute Institutional Containment & Remediation Controls (Command and Control \u2014 TA0011).",
+      "phase": "containment",
+      "mandatory_status": "conditional",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when investigation confirms active compromise or operational impact.",
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "NC2S-03",
+      "expected_successor": "NC2S-05",
+      "predecessors": [
+        "NC2S-03"
+      ],
+      "successors": [
+        "NC2S-05"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "UK NCSC Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "nc2s_containment_receipt"
+      ],
+      "evidence_required": [
+        "nc2s_containment_receipt"
+      ],
+      "evidence_produced": [
+        "nc2s-04_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "nc2s-04_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.ncsc.gov.uk/collection/incident-management",
+        "page": null,
+        "section": "Command and Control \u2014 Step 4",
+        "quoted_excerpt": "Execute Institutional Containment & Remediation Controls"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Command and Control (TA0011)."
+      ]
+    },
+    {
+      "step_id": "NC2S-05",
+      "step_order": 5,
+      "step_name": "Document Institutional Disposition & Close Incident",
+      "activity": "Document Institutional Disposition & Close Incident",
+      "step_description": "Document Institutional Disposition & Close Incident (Command and Control \u2014 TA0011).",
+      "description": "Document Institutional Disposition & Close Incident (Command and Control \u2014 TA0011).",
+      "phase": "post_incident",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "NC2S-03",
+      "expected_successor": null,
+      "predecessors": [
+        "NC2S-03"
+      ],
+      "successors": [],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "UK NCSC Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "nc2s_closure_report"
+      ],
+      "evidence_required": [
+        "nc2s_closure_report"
+      ],
+      "evidence_produced": [
+        "nc2s-05_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "nc2s-05_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.ncsc.gov.uk/collection/incident-management",
+        "page": null,
+        "section": "Command and Control \u2014 Step 5",
+        "quoted_excerpt": "Document Institutional Disposition & Close Incident"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Command and Control (TA0011)."
+      ]
+    }
+  ],
+  "completion_criteria": [
+    "Mandatory verification steps documented with evidence pointers."
+  ],
+  "normalization": {
+    "status": "human_reviewed",
+    "method": "Normalized to Unified Action Schema from UK NCSC reference guidance",
+    "reviewer": "principal_researcher",
+    "review_date": "2026-11-19",
+    "confidence": 0.9,
+    "notes": [
+      "MITRE ATT&CK Enterprise tactic: Command and Control (TA0011)."
+    ]
+  }
+}

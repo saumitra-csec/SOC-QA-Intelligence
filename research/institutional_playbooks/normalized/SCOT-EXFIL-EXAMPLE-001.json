@@ -1,0 +1,302 @@
+{
+  "playbook_id": "SCOT-EXFIL-EXAMPLE-001",
+  "version": "1.0",
+  "title": "Scottish Government Data Loss Playbook (Action Schema)",
+  "institution": "Scottish Government",
+  "playbook_classification": "operational_soc_playbook",
+  "incident_type": "data_exfiltration",
+  "incident_types": [
+    "data_exfiltration"
+  ],
+  "mitre_technique_id": "TA0010",
+  "scope": "Scottish Government operational triage workflow covering MITRE ATT&CK Exfiltration (TA0010).",
+  "description": "Scottish Government operational triage workflow covering MITRE ATT&CK Exfiltration (TA0010).",
+  "approval_requirements": "Tier 2 Lead approval required for containment/isolation.",
+  "closure_requirements": "All mandatory verification steps linked to evidence references.",
+  "source": {
+    "source_id": "SCOT-DATA-LOSS-2.7",
+    "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+    "document_title": "Scottish Government Data Loss Playbook (Action Schema)",
+    "version": "1.0",
+    "publication_date": "2026-11-19",
+    "retrieval_date": "2026-11-19",
+    "page_or_section": "Exfiltration",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Preserve institutional attribution and source link."
+  },
+  "prerequisites": [
+    {
+      "requirement": "Normalized SIEM/EDR telemetry",
+      "required_capability": "SOC Workbench",
+      "evidence": [
+        "ingested_dataset_manifest"
+      ]
+    }
+  ],
+  "roles": [
+    "Tier 1 SOC Analyst",
+    "Tier 2 SOC Lead",
+    "Incident Responder"
+  ],
+  "steps": [
+    {
+      "step_id": "SEXF-01",
+      "step_order": 1,
+      "step_name": "Identify & Validate Data Exfiltration Alert",
+      "activity": "Identify & Validate Data Exfiltration Alert",
+      "step_description": "Identify & Validate Data Exfiltration Alert (Exfiltration \u2014 TA0010).",
+      "description": "Identify & Validate Data Exfiltration Alert (Exfiltration \u2014 TA0010).",
+      "phase": "identification",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": null,
+      "expected_successor": "SEXF-02",
+      "predecessors": [],
+      "successors": [
+        "SEXF-02"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Scottish Government Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "sexf_alert_evidence"
+      ],
+      "evidence_required": [
+        "sexf_alert_evidence"
+      ],
+      "evidence_produced": [
+        "sexf-01_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "sexf-01_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+        "page": null,
+        "section": "Exfiltration \u2014 Step 1",
+        "quoted_excerpt": "Identify & Validate Data Exfiltration Alert"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Exfiltration (TA0010)."
+      ]
+    },
+    {
+      "step_id": "SEXF-02",
+      "step_order": 2,
+      "step_name": "Analyze Technical Scope, Artifacts & Telemetry Context",
+      "activity": "Analyze Technical Scope, Artifacts & Telemetry Context",
+      "step_description": "Analyze Technical Scope, Artifacts & Telemetry Context (Exfiltration \u2014 TA0010).",
+      "description": "Analyze Technical Scope, Artifacts & Telemetry Context (Exfiltration \u2014 TA0010).",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "SEXF-01",
+      "expected_successor": "SEXF-03",
+      "predecessors": [
+        "SEXF-01"
+      ],
+      "successors": [
+        "SEXF-03"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Scottish Government Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "sexf_scope_evidence"
+      ],
+      "evidence_required": [
+        "sexf_scope_evidence"
+      ],
+      "evidence_produced": [
+        "sexf-02_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "sexf-02_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+        "page": null,
+        "section": "Exfiltration \u2014 Step 2",
+        "quoted_excerpt": "Analyze Technical Scope, Artifacts & Telemetry Context"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Exfiltration (TA0010)."
+      ]
+    },
+    {
+      "step_id": "SEXF-03",
+      "step_order": 3,
+      "step_name": "Correlate Downstream Impact & Affected Identities/Hosts",
+      "activity": "Correlate Downstream Impact & Affected Identities/Hosts",
+      "step_description": "Correlate Downstream Impact & Affected Identities/Hosts (Exfiltration \u2014 TA0010).",
+      "description": "Correlate Downstream Impact & Affected Identities/Hosts (Exfiltration \u2014 TA0010).",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "SEXF-02",
+      "expected_successor": "SEXF-04",
+      "predecessors": [
+        "SEXF-02"
+      ],
+      "successors": [
+        "SEXF-04"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Scottish Government Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "sexf_correlation_log"
+      ],
+      "evidence_required": [
+        "sexf_correlation_log"
+      ],
+      "evidence_produced": [
+        "sexf-03_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "sexf-03_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+        "page": null,
+        "section": "Exfiltration \u2014 Step 3",
+        "quoted_excerpt": "Correlate Downstream Impact & Affected Identities/Hosts"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Exfiltration (TA0010)."
+      ]
+    },
+    {
+      "step_id": "SEXF-04",
+      "step_order": 4,
+      "step_name": "Execute Institutional Containment & Remediation Controls",
+      "activity": "Execute Institutional Containment & Remediation Controls",
+      "step_description": "Execute Institutional Containment & Remediation Controls (Exfiltration \u2014 TA0010).",
+      "description": "Execute Institutional Containment & Remediation Controls (Exfiltration \u2014 TA0010).",
+      "phase": "containment",
+      "mandatory_status": "conditional",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when investigation confirms active compromise or operational impact.",
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "SEXF-03",
+      "expected_successor": "SEXF-05",
+      "predecessors": [
+        "SEXF-03"
+      ],
+      "successors": [
+        "SEXF-05"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Scottish Government Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "sexf_containment_receipt"
+      ],
+      "evidence_required": [
+        "sexf_containment_receipt"
+      ],
+      "evidence_produced": [
+        "sexf-04_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "sexf-04_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+        "page": null,
+        "section": "Exfiltration \u2014 Step 4",
+        "quoted_excerpt": "Execute Institutional Containment & Remediation Controls"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Exfiltration (TA0010)."
+      ]
+    },
+    {
+      "step_id": "SEXF-05",
+      "step_order": 5,
+      "step_name": "Document Institutional Disposition & Close Incident",
+      "activity": "Document Institutional Disposition & Close Incident",
+      "step_description": "Document Institutional Disposition & Close Incident (Exfiltration \u2014 TA0010).",
+      "description": "Document Institutional Disposition & Close Incident (Exfiltration \u2014 TA0010).",
+      "phase": "post_incident",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "SEXF-03",
+      "expected_successor": null,
+      "predecessors": [
+        "SEXF-03"
+      ],
+      "successors": [],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Scottish Government Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "sexf_closure_report"
+      ],
+      "evidence_required": [
+        "sexf_closure_report"
+      ],
+      "evidence_produced": [
+        "sexf-05_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "sexf-05_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+        "page": null,
+        "section": "Exfiltration \u2014 Step 5",
+        "quoted_excerpt": "Document Institutional Disposition & Close Incident"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Exfiltration (TA0010)."
+      ]
+    }
+  ],
+  "completion_criteria": [
+    "Mandatory verification steps documented with evidence pointers."
+  ],
+  "normalization": {
+    "status": "human_reviewed",
+    "method": "Normalized to Unified Action Schema from Scottish Government reference guidance",
+    "reviewer": "principal_researcher",
+    "review_date": "2026-11-19",
+    "confidence": 0.9,
+    "notes": [
+      "MITRE ATT&CK Enterprise tactic: Exfiltration (TA0010)."
+    ]
+  }
+}

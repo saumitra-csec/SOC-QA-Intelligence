@@ -20,6 +20,18 @@ VALID_INCIDENT_TYPES = {
     "password_spraying",
     "suspicious_powershell",
     "persistence_antiforensics",
+    "ransomware",
+    "malware",
+    "token_theft",
+    "data_exfiltration",
+    "denial_of_service",
+    "cloud_iam_compromise",
+    "reconnaissance_scanning",
+    "public_app_exploitation",
+    "privilege_escalation",
+    "credential_dumping",
+    "lateral_movement",
+    "command_and_control",
     "confirmed_malicious_cyber_activity",
     "major_incident_response",
     "financial_sector_cyber_incident",
@@ -752,7 +764,13 @@ def seed_institutional_playbook_pack() -> Dict[str, Any]:
     existing_vers = {p["playbook_version_id"] for p in list_playbooks()}
     pb_dir = root_dir / "research" / "playbooks"
     core_imported = []
-    for fname in ["PB-PHISH-001_v1.0.json", "PB-SPRAY-001_v1.0.json", "PB-PSH-001_v1.0.json", "PB-PERSIST-001_v1.0.json"]:
+    for fname in [
+        "PB-PHISH-001_v1.0.json", "PB-SPRAY-001_v1.0.json", "PB-PSH-001_v1.0.json", "PB-PERSIST-001_v1.0.json",
+        "PB-RANSOM-001_v1.0.json", "PB-MALWARE-001_v1.0.json", "PB-TOKEN-001_v1.0.json",
+        "PB-EXFIL-001_v1.0.json", "PB-DOS-001_v1.0.json", "PB-CLOUD-IAM-001_v1.0.json",
+        "PB-RECON-001_v1.0.json", "PB-EXPLOIT-001_v1.0.json", "PB-PRIVESC-001_v1.0.json",
+        "PB-CREDDUMP-001_v1.0.json", "PB-LATERAL-001_v1.0.json", "PB-C2-001_v1.0.json",
+    ]:
         fpath = pb_dir / fname
         if fpath.exists():
             data = json.loads(fpath.read_text(encoding="utf-8"))
@@ -942,6 +960,18 @@ ATTACK_TYPE_EQUIVALENCE = {
         "confirmed_malicious_cyber_activity",
         "major_incident_response",
     },
+    "ransomware": {"ransomware", "major_incident_response", "confirmed_malicious_cyber_activity"},
+    "malware": {"malware", "confirmed_malicious_cyber_activity"},
+    "token_theft": {"token_theft", "confirmed_malicious_cyber_activity"},
+    "data_exfiltration": {"data_exfiltration", "financial_sector_cyber_incident", "major_incident_response"},
+    "denial_of_service": {"denial_of_service", "major_incident_response"},
+    "cloud_iam_compromise": {"cloud_iam_compromise", "confirmed_malicious_cyber_activity"},
+    "reconnaissance_scanning": {"reconnaissance_scanning"},
+    "public_app_exploitation": {"public_app_exploitation"},
+    "privilege_escalation": {"privilege_escalation"},
+    "credential_dumping": {"credential_dumping"},
+    "lateral_movement": {"lateral_movement"},
+    "command_and_control": {"command_and_control"},
 }
 
 

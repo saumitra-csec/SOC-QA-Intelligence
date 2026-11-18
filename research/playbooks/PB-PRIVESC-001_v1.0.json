@@ -1,0 +1,302 @@
+{
+  "playbook_id": "PB-PRIVESC-001",
+  "version": "1.0",
+  "title": "MITRE Local & Domain Privilege Escalation Triage Playbook",
+  "institution": "SOC-QA Research Benchmark",
+  "playbook_classification": "operational_soc_playbook",
+  "incident_type": "privilege_escalation",
+  "incident_types": [
+    "privilege_escalation"
+  ],
+  "mitre_technique_id": "TA0004",
+  "scope": "SOC-QA Research Benchmark operational triage workflow covering MITRE ATT&CK Privilege Escalation (TA0004).",
+  "description": "SOC-QA Research Benchmark operational triage workflow covering MITRE ATT&CK Privilege Escalation (TA0004).",
+  "approval_requirements": "Tier 2 Lead approval required for containment/isolation.",
+  "closure_requirements": "All mandatory verification steps linked to evidence references.",
+  "source": {
+    "source_id": "MITRE-TA0004",
+    "url": "https://attack.mitre.org/tactics/TA0004/",
+    "document_title": "MITRE Local & Domain Privilege Escalation Triage Playbook",
+    "version": "1.0",
+    "publication_date": "2026-11-19",
+    "retrieval_date": "2026-11-19",
+    "page_or_section": "Privilege Escalation",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Preserve institutional attribution and source link."
+  },
+  "prerequisites": [
+    {
+      "requirement": "Normalized SIEM/EDR telemetry",
+      "required_capability": "SOC Workbench",
+      "evidence": [
+        "ingested_dataset_manifest"
+      ]
+    }
+  ],
+  "roles": [
+    "Tier 1 SOC Analyst",
+    "Tier 2 SOC Lead",
+    "Incident Responder"
+  ],
+  "steps": [
+    {
+      "step_id": "PRIV-S1",
+      "step_order": 1,
+      "step_name": "Validate Elevation Alert (Token, UAC, Sudo, or Service Abuse)",
+      "activity": "Validate Elevation Alert (Token, UAC, Sudo, or Service Abuse)",
+      "step_description": "Validate Elevation Alert (Token, UAC, Sudo, or Service Abuse) (Privilege Escalation \u2014 TA0004).",
+      "description": "Validate Elevation Alert (Token, UAC, Sudo, or Service Abuse) (Privilege Escalation \u2014 TA0004).",
+      "phase": "identification",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": null,
+      "expected_successor": "PRIV-S2",
+      "predecessors": [],
+      "successors": [
+        "PRIV-S2"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "SOC-QA Research Benchmark Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "privesc_audit_log"
+      ],
+      "evidence_required": [
+        "privesc_audit_log"
+      ],
+      "evidence_produced": [
+        "priv-s1_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "priv-s1_output"
+      ],
+      "source_anchor": {
+        "url": "https://attack.mitre.org/tactics/TA0004/",
+        "page": null,
+        "section": "Privilege Escalation \u2014 Step 1",
+        "quoted_excerpt": "Validate Elevation Alert (Token, UAC, Sudo, or Service Abuse)"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Privilege Escalation (TA0004)."
+      ]
+    },
+    {
+      "step_id": "PRIV-S2",
+      "step_order": 2,
+      "step_name": "Audit Parent Process, User Context & Group Membership Changes",
+      "activity": "Audit Parent Process, User Context & Group Membership Changes",
+      "step_description": "Audit Parent Process, User Context & Group Membership Changes (Privilege Escalation \u2014 TA0004).",
+      "description": "Audit Parent Process, User Context & Group Membership Changes (Privilege Escalation \u2014 TA0004).",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "PRIV-S1",
+      "expected_successor": "PRIV-S3",
+      "predecessors": [
+        "PRIV-S1"
+      ],
+      "successors": [
+        "PRIV-S3"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "SOC-QA Research Benchmark Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "process_and_group_diff"
+      ],
+      "evidence_required": [
+        "process_and_group_diff"
+      ],
+      "evidence_produced": [
+        "priv-s2_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "priv-s2_output"
+      ],
+      "source_anchor": {
+        "url": "https://attack.mitre.org/tactics/TA0004/",
+        "page": null,
+        "section": "Privilege Escalation \u2014 Step 2",
+        "quoted_excerpt": "Audit Parent Process, User Context & Group Membership Changes"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Privilege Escalation (TA0004)."
+      ]
+    },
+    {
+      "step_id": "PRIV-S3",
+      "step_order": 3,
+      "step_name": "Hunt Downstream Credential Access or Persistence Artifacts",
+      "activity": "Hunt Downstream Credential Access or Persistence Artifacts",
+      "step_description": "Hunt Downstream Credential Access or Persistence Artifacts (Privilege Escalation \u2014 TA0004).",
+      "description": "Hunt Downstream Credential Access or Persistence Artifacts (Privilege Escalation \u2014 TA0004).",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "PRIV-S2",
+      "expected_successor": "PRIV-S4",
+      "predecessors": [
+        "PRIV-S2"
+      ],
+      "successors": [
+        "PRIV-S4"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "SOC-QA Research Benchmark Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "post_privesc_hunt_log"
+      ],
+      "evidence_required": [
+        "post_privesc_hunt_log"
+      ],
+      "evidence_produced": [
+        "priv-s3_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "priv-s3_output"
+      ],
+      "source_anchor": {
+        "url": "https://attack.mitre.org/tactics/TA0004/",
+        "page": null,
+        "section": "Privilege Escalation \u2014 Step 3",
+        "quoted_excerpt": "Hunt Downstream Credential Access or Persistence Artifacts"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Privilege Escalation (TA0004)."
+      ]
+    },
+    {
+      "step_id": "PRIV-S4",
+      "step_order": 4,
+      "step_name": "Revoke Elevated Privileges, Isolate Host & Reset Account",
+      "activity": "Revoke Elevated Privileges, Isolate Host & Reset Account",
+      "step_description": "Revoke Elevated Privileges, Isolate Host & Reset Account (Privilege Escalation \u2014 TA0004).",
+      "description": "Revoke Elevated Privileges, Isolate Host & Reset Account (Privilege Escalation \u2014 TA0004).",
+      "phase": "containment",
+      "mandatory_status": "conditional",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when investigation confirms active compromise or operational impact.",
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "PRIV-S3",
+      "expected_successor": "PRIV-S5",
+      "predecessors": [
+        "PRIV-S3"
+      ],
+      "successors": [
+        "PRIV-S5"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "SOC-QA Research Benchmark Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "privilege_revocation_receipt"
+      ],
+      "evidence_required": [
+        "privilege_revocation_receipt"
+      ],
+      "evidence_produced": [
+        "priv-s4_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "priv-s4_output"
+      ],
+      "source_anchor": {
+        "url": "https://attack.mitre.org/tactics/TA0004/",
+        "page": null,
+        "section": "Privilege Escalation \u2014 Step 4",
+        "quoted_excerpt": "Revoke Elevated Privileges, Isolate Host & Reset Account"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Privilege Escalation (TA0004)."
+      ]
+    },
+    {
+      "step_id": "PRIV-S5",
+      "step_order": 5,
+      "step_name": "Document Privilege Escalation Outcome & Close Incident",
+      "activity": "Document Privilege Escalation Outcome & Close Incident",
+      "step_description": "Document Privilege Escalation Outcome & Close Incident (Privilege Escalation \u2014 TA0004).",
+      "description": "Document Privilege Escalation Outcome & Close Incident (Privilege Escalation \u2014 TA0004).",
+      "phase": "post_incident",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "PRIV-S3",
+      "expected_successor": null,
+      "predecessors": [
+        "PRIV-S3"
+      ],
+      "successors": [],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "SOC-QA Research Benchmark Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "privesc_closure_note"
+      ],
+      "evidence_required": [
+        "privesc_closure_note"
+      ],
+      "evidence_produced": [
+        "priv-s5_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "priv-s5_output"
+      ],
+      "source_anchor": {
+        "url": "https://attack.mitre.org/tactics/TA0004/",
+        "page": null,
+        "section": "Privilege Escalation \u2014 Step 5",
+        "quoted_excerpt": "Document Privilege Escalation Outcome & Close Incident"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Privilege Escalation (TA0004)."
+      ]
+    }
+  ],
+  "completion_criteria": [
+    "Mandatory verification steps documented with evidence pointers."
+  ],
+  "normalization": {
+    "status": "validated",
+    "method": "Normalized to Unified Action Schema from SOC-QA Research Benchmark reference guidance",
+    "reviewer": "principal_researcher",
+    "review_date": "2026-11-19",
+    "confidence": 0.9,
+    "notes": [
+      "MITRE ATT&CK Enterprise tactic: Privilege Escalation (TA0004)."
+    ]
+  }
+}

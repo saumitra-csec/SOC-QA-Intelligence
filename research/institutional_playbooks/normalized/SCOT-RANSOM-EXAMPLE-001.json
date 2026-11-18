@@ -1,0 +1,302 @@
+{
+  "playbook_id": "SCOT-RANSOM-EXAMPLE-001",
+  "version": "1.0",
+  "title": "Scottish Government Ransomware Playbook (Action Schema)",
+  "institution": "Scottish Government",
+  "playbook_classification": "operational_soc_playbook",
+  "incident_type": "ransomware",
+  "incident_types": [
+    "ransomware"
+  ],
+  "mitre_technique_id": "TA0040",
+  "scope": "Scottish Government operational triage workflow covering MITRE ATT&CK Impact (TA0040).",
+  "description": "Scottish Government operational triage workflow covering MITRE ATT&CK Impact (TA0040).",
+  "approval_requirements": "Tier 2 Lead approval required for containment/isolation.",
+  "closure_requirements": "All mandatory verification steps linked to evidence references.",
+  "source": {
+    "source_id": "SCOT-RANSOM-2.7",
+    "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+    "document_title": "Scottish Government Ransomware Playbook (Action Schema)",
+    "version": "1.0",
+    "publication_date": "2026-11-19",
+    "retrieval_date": "2026-11-19",
+    "page_or_section": "Impact",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Preserve institutional attribution and source link."
+  },
+  "prerequisites": [
+    {
+      "requirement": "Normalized SIEM/EDR telemetry",
+      "required_capability": "SOC Workbench",
+      "evidence": [
+        "ingested_dataset_manifest"
+      ]
+    }
+  ],
+  "roles": [
+    "Tier 1 SOC Analyst",
+    "Tier 2 SOC Lead",
+    "Incident Responder"
+  ],
+  "steps": [
+    {
+      "step_id": "SRAN-01",
+      "step_order": 1,
+      "step_name": "Identify & Validate Ransomware Alert",
+      "activity": "Identify & Validate Ransomware Alert",
+      "step_description": "Identify & Validate Ransomware Alert (Impact \u2014 TA0040).",
+      "description": "Identify & Validate Ransomware Alert (Impact \u2014 TA0040).",
+      "phase": "identification",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": null,
+      "expected_successor": "SRAN-02",
+      "predecessors": [],
+      "successors": [
+        "SRAN-02"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Scottish Government Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "sran_alert_evidence"
+      ],
+      "evidence_required": [
+        "sran_alert_evidence"
+      ],
+      "evidence_produced": [
+        "sran-01_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "sran-01_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+        "page": null,
+        "section": "Impact \u2014 Step 1",
+        "quoted_excerpt": "Identify & Validate Ransomware Alert"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Impact (TA0040)."
+      ]
+    },
+    {
+      "step_id": "SRAN-02",
+      "step_order": 2,
+      "step_name": "Analyze Technical Scope, Artifacts & Telemetry Context",
+      "activity": "Analyze Technical Scope, Artifacts & Telemetry Context",
+      "step_description": "Analyze Technical Scope, Artifacts & Telemetry Context (Impact \u2014 TA0040).",
+      "description": "Analyze Technical Scope, Artifacts & Telemetry Context (Impact \u2014 TA0040).",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "SRAN-01",
+      "expected_successor": "SRAN-03",
+      "predecessors": [
+        "SRAN-01"
+      ],
+      "successors": [
+        "SRAN-03"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Scottish Government Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "sran_scope_evidence"
+      ],
+      "evidence_required": [
+        "sran_scope_evidence"
+      ],
+      "evidence_produced": [
+        "sran-02_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "sran-02_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+        "page": null,
+        "section": "Impact \u2014 Step 2",
+        "quoted_excerpt": "Analyze Technical Scope, Artifacts & Telemetry Context"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Impact (TA0040)."
+      ]
+    },
+    {
+      "step_id": "SRAN-03",
+      "step_order": 3,
+      "step_name": "Correlate Downstream Impact & Affected Identities/Hosts",
+      "activity": "Correlate Downstream Impact & Affected Identities/Hosts",
+      "step_description": "Correlate Downstream Impact & Affected Identities/Hosts (Impact \u2014 TA0040).",
+      "description": "Correlate Downstream Impact & Affected Identities/Hosts (Impact \u2014 TA0040).",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "SRAN-02",
+      "expected_successor": "SRAN-04",
+      "predecessors": [
+        "SRAN-02"
+      ],
+      "successors": [
+        "SRAN-04"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Scottish Government Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "sran_correlation_log"
+      ],
+      "evidence_required": [
+        "sran_correlation_log"
+      ],
+      "evidence_produced": [
+        "sran-03_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "sran-03_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+        "page": null,
+        "section": "Impact \u2014 Step 3",
+        "quoted_excerpt": "Correlate Downstream Impact & Affected Identities/Hosts"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Impact (TA0040)."
+      ]
+    },
+    {
+      "step_id": "SRAN-04",
+      "step_order": 4,
+      "step_name": "Execute Institutional Containment & Remediation Controls",
+      "activity": "Execute Institutional Containment & Remediation Controls",
+      "step_description": "Execute Institutional Containment & Remediation Controls (Impact \u2014 TA0040).",
+      "description": "Execute Institutional Containment & Remediation Controls (Impact \u2014 TA0040).",
+      "phase": "containment",
+      "mandatory_status": "conditional",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when investigation confirms active compromise or operational impact.",
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "SRAN-03",
+      "expected_successor": "SRAN-05",
+      "predecessors": [
+        "SRAN-03"
+      ],
+      "successors": [
+        "SRAN-05"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Scottish Government Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "sran_containment_receipt"
+      ],
+      "evidence_required": [
+        "sran_containment_receipt"
+      ],
+      "evidence_produced": [
+        "sran-04_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "sran-04_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+        "page": null,
+        "section": "Impact \u2014 Step 4",
+        "quoted_excerpt": "Execute Institutional Containment & Remediation Controls"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Impact (TA0040)."
+      ]
+    },
+    {
+      "step_id": "SRAN-05",
+      "step_order": 5,
+      "step_name": "Document Institutional Disposition & Close Incident",
+      "activity": "Document Institutional Disposition & Close Incident",
+      "step_description": "Document Institutional Disposition & Close Incident (Impact \u2014 TA0040).",
+      "description": "Document Institutional Disposition & Close Incident (Impact \u2014 TA0040).",
+      "phase": "post_incident",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "SRAN-03",
+      "expected_successor": null,
+      "predecessors": [
+        "SRAN-03"
+      ],
+      "successors": [],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Scottish Government Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "sran_closure_report"
+      ],
+      "evidence_required": [
+        "sran_closure_report"
+      ],
+      "evidence_produced": [
+        "sran-05_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "sran-05_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+        "page": null,
+        "section": "Impact \u2014 Step 5",
+        "quoted_excerpt": "Document Institutional Disposition & Close Incident"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Impact (TA0040)."
+      ]
+    }
+  ],
+  "completion_criteria": [
+    "Mandatory verification steps documented with evidence pointers."
+  ],
+  "normalization": {
+    "status": "human_reviewed",
+    "method": "Normalized to Unified Action Schema from Scottish Government reference guidance",
+    "reviewer": "principal_researcher",
+    "review_date": "2026-11-19",
+    "confidence": 0.9,
+    "notes": [
+      "MITRE ATT&CK Enterprise tactic: Impact (TA0040)."
+    ]
+  }
+}

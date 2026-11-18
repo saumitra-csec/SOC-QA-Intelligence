@@ -1,0 +1,302 @@
+{
+  "playbook_id": "MS-TOKEN-EXAMPLE-001",
+  "version": "1.0",
+  "title": "Microsoft Security Token Theft Playbook (Action Schema)",
+  "institution": "Microsoft Security",
+  "playbook_classification": "operational_soc_playbook",
+  "incident_type": "token_theft",
+  "incident_types": [
+    "token_theft"
+  ],
+  "mitre_technique_id": "TA0006 / TA0008",
+  "scope": "Microsoft Security operational triage workflow covering MITRE ATT&CK Credential Access / Lateral Movement (TA0006 / TA0008).",
+  "description": "Microsoft Security operational triage workflow covering MITRE ATT&CK Credential Access / Lateral Movement (TA0006 / TA0008).",
+  "approval_requirements": "Tier 2 Lead approval required for containment/isolation.",
+  "closure_requirements": "All mandatory verification steps linked to evidence references.",
+  "source": {
+    "source_id": "MS-TOKEN-THEFT",
+    "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-token-theft",
+    "document_title": "Microsoft Security Token Theft Playbook (Action Schema)",
+    "version": "1.0",
+    "publication_date": "2026-11-19",
+    "retrieval_date": "2026-11-19",
+    "page_or_section": "Credential Access / Lateral Movement",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Preserve institutional attribution and source link."
+  },
+  "prerequisites": [
+    {
+      "requirement": "Normalized SIEM/EDR telemetry",
+      "required_capability": "SOC Workbench",
+      "evidence": [
+        "ingested_dataset_manifest"
+      ]
+    }
+  ],
+  "roles": [
+    "Tier 1 SOC Analyst",
+    "Tier 2 SOC Lead",
+    "Incident Responder"
+  ],
+  "steps": [
+    {
+      "step_id": "MTOK-01",
+      "step_order": 1,
+      "step_name": "Identify & Validate Token Theft Alert",
+      "activity": "Identify & Validate Token Theft Alert",
+      "step_description": "Identify & Validate Token Theft Alert (Credential Access / Lateral Movement \u2014 TA0006 / TA0008).",
+      "description": "Identify & Validate Token Theft Alert (Credential Access / Lateral Movement \u2014 TA0006 / TA0008).",
+      "phase": "identification",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": null,
+      "expected_successor": "MTOK-02",
+      "predecessors": [],
+      "successors": [
+        "MTOK-02"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Microsoft Security Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "mtok_alert_evidence"
+      ],
+      "evidence_required": [
+        "mtok_alert_evidence"
+      ],
+      "evidence_produced": [
+        "mtok-01_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "mtok-01_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-token-theft",
+        "page": null,
+        "section": "Credential Access / Lateral Movement \u2014 Step 1",
+        "quoted_excerpt": "Identify & Validate Token Theft Alert"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Credential Access / Lateral Movement (TA0006 / TA0008)."
+      ]
+    },
+    {
+      "step_id": "MTOK-02",
+      "step_order": 2,
+      "step_name": "Analyze Technical Scope, Artifacts & Telemetry Context",
+      "activity": "Analyze Technical Scope, Artifacts & Telemetry Context",
+      "step_description": "Analyze Technical Scope, Artifacts & Telemetry Context (Credential Access / Lateral Movement \u2014 TA0006 / TA0008).",
+      "description": "Analyze Technical Scope, Artifacts & Telemetry Context (Credential Access / Lateral Movement \u2014 TA0006 / TA0008).",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "MTOK-01",
+      "expected_successor": "MTOK-03",
+      "predecessors": [
+        "MTOK-01"
+      ],
+      "successors": [
+        "MTOK-03"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Microsoft Security Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "mtok_scope_evidence"
+      ],
+      "evidence_required": [
+        "mtok_scope_evidence"
+      ],
+      "evidence_produced": [
+        "mtok-02_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "mtok-02_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-token-theft",
+        "page": null,
+        "section": "Credential Access / Lateral Movement \u2014 Step 2",
+        "quoted_excerpt": "Analyze Technical Scope, Artifacts & Telemetry Context"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Credential Access / Lateral Movement (TA0006 / TA0008)."
+      ]
+    },
+    {
+      "step_id": "MTOK-03",
+      "step_order": 3,
+      "step_name": "Correlate Downstream Impact & Affected Identities/Hosts",
+      "activity": "Correlate Downstream Impact & Affected Identities/Hosts",
+      "step_description": "Correlate Downstream Impact & Affected Identities/Hosts (Credential Access / Lateral Movement \u2014 TA0006 / TA0008).",
+      "description": "Correlate Downstream Impact & Affected Identities/Hosts (Credential Access / Lateral Movement \u2014 TA0006 / TA0008).",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "MTOK-02",
+      "expected_successor": "MTOK-04",
+      "predecessors": [
+        "MTOK-02"
+      ],
+      "successors": [
+        "MTOK-04"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Microsoft Security Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "mtok_correlation_log"
+      ],
+      "evidence_required": [
+        "mtok_correlation_log"
+      ],
+      "evidence_produced": [
+        "mtok-03_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "mtok-03_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-token-theft",
+        "page": null,
+        "section": "Credential Access / Lateral Movement \u2014 Step 3",
+        "quoted_excerpt": "Correlate Downstream Impact & Affected Identities/Hosts"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Credential Access / Lateral Movement (TA0006 / TA0008)."
+      ]
+    },
+    {
+      "step_id": "MTOK-04",
+      "step_order": 4,
+      "step_name": "Execute Institutional Containment & Remediation Controls",
+      "activity": "Execute Institutional Containment & Remediation Controls",
+      "step_description": "Execute Institutional Containment & Remediation Controls (Credential Access / Lateral Movement \u2014 TA0006 / TA0008).",
+      "description": "Execute Institutional Containment & Remediation Controls (Credential Access / Lateral Movement \u2014 TA0006 / TA0008).",
+      "phase": "containment",
+      "mandatory_status": "conditional",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when investigation confirms active compromise or operational impact.",
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "MTOK-03",
+      "expected_successor": "MTOK-05",
+      "predecessors": [
+        "MTOK-03"
+      ],
+      "successors": [
+        "MTOK-05"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Microsoft Security Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "mtok_containment_receipt"
+      ],
+      "evidence_required": [
+        "mtok_containment_receipt"
+      ],
+      "evidence_produced": [
+        "mtok-04_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "mtok-04_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-token-theft",
+        "page": null,
+        "section": "Credential Access / Lateral Movement \u2014 Step 4",
+        "quoted_excerpt": "Execute Institutional Containment & Remediation Controls"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Credential Access / Lateral Movement (TA0006 / TA0008)."
+      ]
+    },
+    {
+      "step_id": "MTOK-05",
+      "step_order": 5,
+      "step_name": "Document Institutional Disposition & Close Incident",
+      "activity": "Document Institutional Disposition & Close Incident",
+      "step_description": "Document Institutional Disposition & Close Incident (Credential Access / Lateral Movement \u2014 TA0006 / TA0008).",
+      "description": "Document Institutional Disposition & Close Incident (Credential Access / Lateral Movement \u2014 TA0006 / TA0008).",
+      "phase": "post_incident",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "MTOK-03",
+      "expected_successor": null,
+      "predecessors": [
+        "MTOK-03"
+      ],
+      "successors": [],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Microsoft Security Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "mtok_closure_report"
+      ],
+      "evidence_required": [
+        "mtok_closure_report"
+      ],
+      "evidence_produced": [
+        "mtok-05_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "mtok-05_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-token-theft",
+        "page": null,
+        "section": "Credential Access / Lateral Movement \u2014 Step 5",
+        "quoted_excerpt": "Document Institutional Disposition & Close Incident"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Credential Access / Lateral Movement (TA0006 / TA0008)."
+      ]
+    }
+  ],
+  "completion_criteria": [
+    "Mandatory verification steps documented with evidence pointers."
+  ],
+  "normalization": {
+    "status": "human_reviewed",
+    "method": "Normalized to Unified Action Schema from Microsoft Security reference guidance",
+    "reviewer": "principal_researcher",
+    "review_date": "2026-11-19",
+    "confidence": 0.9,
+    "notes": [
+      "MITRE ATT&CK Enterprise tactic: Credential Access / Lateral Movement (TA0006 / TA0008)."
+    ]
+  }
+}

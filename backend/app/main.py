@@ -46,6 +46,9 @@ from backend.app.services.process_mining.benchmark_evaluator import (
     populate_100_case_benchmark,
     run_100_case_empirical_evaluation,
     run_empirical_benchmark_evaluation,
+    get_risk_and_attack_coverage_matrix,
+    populate_full_trial_suite,
+    run_full_trial_evaluation,
     run_noisy_log_stress_test,
 )
 from backend.app.services.ai.contracts import ai_service
@@ -488,3 +491,28 @@ def evaluate_100_benchmark_endpoint():
 @app.post("/api/v1/benchmark/stress-test")
 def run_noisy_stress_test_endpoint():
     return run_noisy_log_stress_test()
+
+
+@app.post("/api/v1/benchmark/populate-250")
+def populate_250_trial_endpoint():
+    return populate_full_trial_suite()
+
+
+@app.post("/api/v1/benchmark/evaluate-250")
+def evaluate_250_trial_endpoint():
+    return run_full_trial_evaluation()
+
+
+@app.get("/api/v1/benchmark/risk-coverage-matrix")
+def get_risk_coverage_matrix_endpoint():
+    return get_risk_and_attack_coverage_matrix()
+
+
+@app.post("/api/v1/benchmark/populate-400")
+def populate_400_trial_endpoint():
+    return populate_full_trial_suite()
+
+
+@app.post("/api/v1/benchmark/evaluate-400")
+def evaluate_400_trial_endpoint():
+    return run_full_trial_evaluation()

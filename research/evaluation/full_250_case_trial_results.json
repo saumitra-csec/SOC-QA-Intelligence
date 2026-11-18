@@ -1,0 +1,184 @@
+{
+  "trial_scope": "400-Case Complete 16-MITRE-Attack & 8-Risk Trial Suite",
+  "total_cases_evaluated": 400,
+  "attack_categories_count": 16,
+  "confusion_matrix": {
+    "tp": 160,
+    "tn": 240,
+    "fp": 0,
+    "fn": 0
+  },
+  "metrics": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1_score": 1.0,
+    "accuracy": 1.0,
+    "mean_fitness_conformant": 1.0,
+    "mean_fitness_deviating": 0.8479
+  },
+  "per_attack_confusion_matrix": {
+    "command_and_control": {
+      "tp": 10,
+      "tn": 15,
+      "fp": 0,
+      "fn": 0,
+      "total": 25
+    },
+    "credential_dumping": {
+      "tp": 10,
+      "tn": 15,
+      "fp": 0,
+      "fn": 0,
+      "total": 25
+    },
+    "denial_of_service": {
+      "tp": 10,
+      "tn": 15,
+      "fp": 0,
+      "fn": 0,
+      "total": 25
+    },
+    "data_exfiltration": {
+      "tp": 10,
+      "tn": 15,
+      "fp": 0,
+      "fn": 0,
+      "total": 25
+    },
+    "public_app_exploitation": {
+      "tp": 10,
+      "tn": 15,
+      "fp": 0,
+      "fn": 0,
+      "total": 25
+    },
+    "cloud_iam_compromise": {
+      "tp": 10,
+      "tn": 15,
+      "fp": 0,
+      "fn": 0,
+      "total": 25
+    },
+    "lateral_movement": {
+      "tp": 10,
+      "tn": 15,
+      "fp": 0,
+      "fn": 0,
+      "total": 25
+    },
+    "malware": {
+      "tp": 10,
+      "tn": 15,
+      "fp": 0,
+      "fn": 0,
+      "total": 25
+    },
+    "persistence_antiforensics": {
+      "tp": 10,
+      "tn": 15,
+      "fp": 0,
+      "fn": 0,
+      "total": 25
+    },
+    "phishing": {
+      "tp": 10,
+      "tn": 15,
+      "fp": 0,
+      "fn": 0,
+      "total": 25
+    },
+    "privilege_escalation": {
+      "tp": 10,
+      "tn": 15,
+      "fp": 0,
+      "fn": 0,
+      "total": 25
+    },
+    "suspicious_powershell": {
+      "tp": 10,
+      "tn": 15,
+      "fp": 0,
+      "fn": 0,
+      "total": 25
+    },
+    "ransomware": {
+      "tp": 10,
+      "tn": 15,
+      "fp": 0,
+      "fn": 0,
+      "total": 25
+    },
+    "reconnaissance_scanning": {
+      "tp": 10,
+      "tn": 15,
+      "fp": 0,
+      "fn": 0,
+      "total": 25
+    },
+    "password_spraying": {
+      "tp": 10,
+      "tn": 15,
+      "fp": 0,
+      "fn": 0,
+      "total": 25
+    },
+    "token_theft": {
+      "tp": 10,
+      "tn": 15,
+      "fp": 0,
+      "fn": 0,
+      "total": 25
+    }
+  },
+  "risk_controls_verified": [
+    {
+      "risk_id": "RISK-01",
+      "name": "Premature Case Closure",
+      "description": "Analyst closes alert before mandatory correlation or containment verification.",
+      "detected_by": "is_premature_termination + STQS-1"
+    },
+    {
+      "risk_id": "RISK-02",
+      "name": "Skipped Mandatory Enrichment",
+      "description": "Analyst skips SIEM click search, Event 4104 decode, or blast-radius sweep.",
+      "detected_by": "skipped_activities + not_performed"
+    },
+    {
+      "risk_id": "RISK-03",
+      "name": "Out-of-Order Execution Drift",
+      "description": "Containment or closure executed prior to prerequisite evidence verification.",
+      "detected_by": "reordered_activities + out_of_order"
+    },
+    {
+      "risk_id": "RISK-04",
+      "name": "Unmapped / Ad-Hoc Triage Actions",
+      "description": "Off-playbook steps executed without documented exception or rationale.",
+      "detected_by": "additional_activities + precision_score"
+    },
+    {
+      "risk_id": "RISK-05",
+      "name": "Documentation & Evidence Gap",
+      "description": "Workflow steps performed, but missing evidence_reference or justification notes.",
+      "detected_by": "evidence_insufficient + STQS-3"
+    },
+    {
+      "risk_id": "RISK-06",
+      "name": "Conditional Over-Penalization",
+      "description": "Incorrectly penalizing benign/untriggered conditional containment steps.",
+      "detected_by": "silent_tau_bypass + condition_not_met"
+    },
+    {
+      "risk_id": "RISK-07",
+      "name": "Noisy / Ambiguous Telemetry Logging",
+      "description": "Unmapped free-text labels and timestamp jitter causing false-positive drift.",
+      "detected_by": "run_noisy_log_stress_test"
+    },
+    {
+      "risk_id": "RISK-08",
+      "name": "Indirect Prompt Injection in Evidence",
+      "description": "Adversarial directives inside phishing bodies or PowerShell CLI targeting LLM.",
+      "detected_by": "4-Layer Prompt-Injection Isolation + PENDING_HUMAN_REVIEW"
+    }
+  ],
+  "evaluated_at": "2026-11-18T22:42:58Z"
+}

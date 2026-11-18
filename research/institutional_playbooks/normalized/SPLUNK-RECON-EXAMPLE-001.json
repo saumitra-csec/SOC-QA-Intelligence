@@ -1,0 +1,302 @@
+{
+  "playbook_id": "SPLUNK-RECON-EXAMPLE-001",
+  "version": "1.0",
+  "title": "Splunk Reconnaissance & Discovery Response Playbook",
+  "institution": "Splunk",
+  "playbook_classification": "operational_soc_playbook",
+  "incident_type": "reconnaissance_scanning",
+  "incident_types": [
+    "reconnaissance_scanning"
+  ],
+  "mitre_technique_id": "TA0043 / TA0007",
+  "scope": "Splunk operational triage workflow covering MITRE ATT&CK Reconnaissance / Discovery (TA0043 / TA0007).",
+  "description": "Splunk operational triage workflow covering MITRE ATT&CK Reconnaissance / Discovery (TA0043 / TA0007).",
+  "approval_requirements": "Tier 2 Lead approval required for containment/isolation.",
+  "closure_requirements": "All mandatory verification steps linked to evidence references.",
+  "source": {
+    "source_id": "SPLUNK-SEC-CONTENT",
+    "url": "https://github.com/splunk/security_content/tree/develop/playbooks",
+    "document_title": "Splunk Reconnaissance & Discovery Response Playbook",
+    "version": "1.0",
+    "publication_date": "2026-11-19",
+    "retrieval_date": "2026-11-19",
+    "page_or_section": "Reconnaissance / Discovery",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Preserve institutional attribution and source link."
+  },
+  "prerequisites": [
+    {
+      "requirement": "Normalized SIEM/EDR telemetry",
+      "required_capability": "SOC Workbench",
+      "evidence": [
+        "ingested_dataset_manifest"
+      ]
+    }
+  ],
+  "roles": [
+    "Tier 1 SOC Analyst",
+    "Tier 2 SOC Lead",
+    "Incident Responder"
+  ],
+  "steps": [
+    {
+      "step_id": "SREC-01",
+      "step_order": 1,
+      "step_name": "Identify & Validate Reconnaissance Scanning Alert",
+      "activity": "Identify & Validate Reconnaissance Scanning Alert",
+      "step_description": "Identify & Validate Reconnaissance Scanning Alert (Reconnaissance / Discovery \u2014 TA0043 / TA0007).",
+      "description": "Identify & Validate Reconnaissance Scanning Alert (Reconnaissance / Discovery \u2014 TA0043 / TA0007).",
+      "phase": "identification",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": null,
+      "expected_successor": "SREC-02",
+      "predecessors": [],
+      "successors": [
+        "SREC-02"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Splunk Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "srec_alert_evidence"
+      ],
+      "evidence_required": [
+        "srec_alert_evidence"
+      ],
+      "evidence_produced": [
+        "srec-01_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "srec-01_output"
+      ],
+      "source_anchor": {
+        "url": "https://github.com/splunk/security_content/tree/develop/playbooks",
+        "page": null,
+        "section": "Reconnaissance / Discovery \u2014 Step 1",
+        "quoted_excerpt": "Identify & Validate Reconnaissance Scanning Alert"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Reconnaissance / Discovery (TA0043 / TA0007)."
+      ]
+    },
+    {
+      "step_id": "SREC-02",
+      "step_order": 2,
+      "step_name": "Analyze Technical Scope, Artifacts & Telemetry Context",
+      "activity": "Analyze Technical Scope, Artifacts & Telemetry Context",
+      "step_description": "Analyze Technical Scope, Artifacts & Telemetry Context (Reconnaissance / Discovery \u2014 TA0043 / TA0007).",
+      "description": "Analyze Technical Scope, Artifacts & Telemetry Context (Reconnaissance / Discovery \u2014 TA0043 / TA0007).",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "SREC-01",
+      "expected_successor": "SREC-03",
+      "predecessors": [
+        "SREC-01"
+      ],
+      "successors": [
+        "SREC-03"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Splunk Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "srec_scope_evidence"
+      ],
+      "evidence_required": [
+        "srec_scope_evidence"
+      ],
+      "evidence_produced": [
+        "srec-02_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "srec-02_output"
+      ],
+      "source_anchor": {
+        "url": "https://github.com/splunk/security_content/tree/develop/playbooks",
+        "page": null,
+        "section": "Reconnaissance / Discovery \u2014 Step 2",
+        "quoted_excerpt": "Analyze Technical Scope, Artifacts & Telemetry Context"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Reconnaissance / Discovery (TA0043 / TA0007)."
+      ]
+    },
+    {
+      "step_id": "SREC-03",
+      "step_order": 3,
+      "step_name": "Correlate Downstream Impact & Affected Identities/Hosts",
+      "activity": "Correlate Downstream Impact & Affected Identities/Hosts",
+      "step_description": "Correlate Downstream Impact & Affected Identities/Hosts (Reconnaissance / Discovery \u2014 TA0043 / TA0007).",
+      "description": "Correlate Downstream Impact & Affected Identities/Hosts (Reconnaissance / Discovery \u2014 TA0043 / TA0007).",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "SREC-02",
+      "expected_successor": "SREC-04",
+      "predecessors": [
+        "SREC-02"
+      ],
+      "successors": [
+        "SREC-04"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Splunk Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "srec_correlation_log"
+      ],
+      "evidence_required": [
+        "srec_correlation_log"
+      ],
+      "evidence_produced": [
+        "srec-03_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "srec-03_output"
+      ],
+      "source_anchor": {
+        "url": "https://github.com/splunk/security_content/tree/develop/playbooks",
+        "page": null,
+        "section": "Reconnaissance / Discovery \u2014 Step 3",
+        "quoted_excerpt": "Correlate Downstream Impact & Affected Identities/Hosts"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Reconnaissance / Discovery (TA0043 / TA0007)."
+      ]
+    },
+    {
+      "step_id": "SREC-04",
+      "step_order": 4,
+      "step_name": "Execute Institutional Containment & Remediation Controls",
+      "activity": "Execute Institutional Containment & Remediation Controls",
+      "step_description": "Execute Institutional Containment & Remediation Controls (Reconnaissance / Discovery \u2014 TA0043 / TA0007).",
+      "description": "Execute Institutional Containment & Remediation Controls (Reconnaissance / Discovery \u2014 TA0043 / TA0007).",
+      "phase": "containment",
+      "mandatory_status": "conditional",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when investigation confirms active compromise or operational impact.",
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "SREC-03",
+      "expected_successor": "SREC-05",
+      "predecessors": [
+        "SREC-03"
+      ],
+      "successors": [
+        "SREC-05"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Splunk Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "srec_containment_receipt"
+      ],
+      "evidence_required": [
+        "srec_containment_receipt"
+      ],
+      "evidence_produced": [
+        "srec-04_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "srec-04_output"
+      ],
+      "source_anchor": {
+        "url": "https://github.com/splunk/security_content/tree/develop/playbooks",
+        "page": null,
+        "section": "Reconnaissance / Discovery \u2014 Step 4",
+        "quoted_excerpt": "Execute Institutional Containment & Remediation Controls"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Reconnaissance / Discovery (TA0043 / TA0007)."
+      ]
+    },
+    {
+      "step_id": "SREC-05",
+      "step_order": 5,
+      "step_name": "Document Institutional Disposition & Close Incident",
+      "activity": "Document Institutional Disposition & Close Incident",
+      "step_description": "Document Institutional Disposition & Close Incident (Reconnaissance / Discovery \u2014 TA0043 / TA0007).",
+      "description": "Document Institutional Disposition & Close Incident (Reconnaissance / Discovery \u2014 TA0043 / TA0007).",
+      "phase": "post_incident",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "SREC-03",
+      "expected_successor": null,
+      "predecessors": [
+        "SREC-03"
+      ],
+      "successors": [],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Splunk Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "srec_closure_report"
+      ],
+      "evidence_required": [
+        "srec_closure_report"
+      ],
+      "evidence_produced": [
+        "srec-05_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "srec-05_output"
+      ],
+      "source_anchor": {
+        "url": "https://github.com/splunk/security_content/tree/develop/playbooks",
+        "page": null,
+        "section": "Reconnaissance / Discovery \u2014 Step 5",
+        "quoted_excerpt": "Document Institutional Disposition & Close Incident"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Reconnaissance / Discovery (TA0043 / TA0007)."
+      ]
+    }
+  ],
+  "completion_criteria": [
+    "Mandatory verification steps documented with evidence pointers."
+  ],
+  "normalization": {
+    "status": "human_reviewed",
+    "method": "Normalized to Unified Action Schema from Splunk reference guidance",
+    "reviewer": "principal_researcher",
+    "review_date": "2026-11-19",
+    "confidence": 0.9,
+    "notes": [
+      "MITRE ATT&CK Enterprise tactic: Reconnaissance / Discovery (TA0043 / TA0007)."
+    ]
+  }
+}

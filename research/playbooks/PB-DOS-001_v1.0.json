@@ -1,0 +1,300 @@
+{
+  "playbook_id": "PB-DOS-001",
+  "version": "1.0",
+  "title": "MITRE T1498 / T1499 Denial of Service (DoS / DDoS) Triage Playbook",
+  "institution": "SOC-QA Research Benchmark",
+  "playbook_classification": "operational_soc_playbook",
+  "incident_type": "denial_of_service",
+  "incident_types": [
+    "denial_of_service"
+  ],
+  "mitre_technique_id": "T1498 / T1499",
+  "scope": "Operational workflow for volumetric network floods, application-layer HTTP exhaustion, and service availability restoration.",
+  "description": "Operational workflow for volumetric network floods, application-layer HTTP exhaustion, and service availability restoration.",
+  "approval_requirements": "Network Operations & Tier 2 Lead approval for upstream BGP blackholing or WAF geo-blocking.",
+  "closure_requirements": "Requires traffic vector signature, mitigation rule verification, and service availability SLA restoration.",
+  "source": {
+    "source_id": "SCOT-DOS-2.7",
+    "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+    "document_title": "MITRE T1498 / T1499 Denial of Service (DoS / DDoS) Triage Playbook",
+    "version": "1.0",
+    "publication_date": "2026-11-19",
+    "retrieval_date": "2026-11-19",
+    "page_or_section": "Operational Triage Procedure",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Preserve source attribution"
+  },
+  "prerequisites": [
+    {
+      "requirement": "Normalized case telemetry and SIEM/EDR query access",
+      "required_capability": "SOC SIEM & Case Workbench",
+      "evidence": [
+        "ingested_dataset_manifest"
+      ]
+    }
+  ],
+  "roles": [
+    "Tier 1 SOC Analyst",
+    "Tier 2 SOC Lead",
+    "Incident Responder"
+  ],
+  "steps": [
+    {
+      "step_id": "DOS-S1",
+      "step_order": 1,
+      "step_name": "Validate Service Degradation & Traffic Anomaly Signature",
+      "activity": "Validate Service Degradation & Traffic Anomaly Signature",
+      "step_description": "Verify packet-per-second/request-per-second spikes, HTTP 5xx rates, and targeted endpoints.",
+      "description": "Verify packet-per-second/request-per-second spikes, HTTP 5xx rates, and targeted endpoints.",
+      "phase": "identification",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": null,
+      "expected_successor": "DOS-S2",
+      "predecessors": [],
+      "successors": [
+        "DOS-S2"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "NetFlow / WAF Telemetry Check"
+      ],
+      "applicable_evidence_requirements": [
+        "dos_traffic_signature_log"
+      ],
+      "evidence_required": [
+        "dos_traffic_signature_log"
+      ],
+      "evidence_produced": [
+        "dos-s1_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "dos-s1_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+        "page": null,
+        "section": "Step 1: Validate Service Degradation & Traffic Anomaly Signature",
+        "quoted_excerpt": "Verify packet-per-second/request-per-second spikes, HTTP 5xx rates, and targeted endpoints."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema for full 10-category trial coverage."
+      ]
+    },
+    {
+      "step_id": "DOS-S2",
+      "step_order": 2,
+      "step_name": "Distinguish Malicious Flood from Legitimate Traffic Surge",
+      "activity": "Distinguish Malicious Flood from Legitimate Traffic Surge",
+      "step_description": "Analyze source ASN distribution, TLS/JA3 fingerprints, and application error patterns.",
+      "description": "Analyze source ASN distribution, TLS/JA3 fingerprints, and application error patterns.",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "DOS-S1",
+      "expected_successor": "DOS-S3",
+      "predecessors": [
+        "DOS-S1"
+      ],
+      "successors": [
+        "DOS-S3"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "CDN / Load Balancer Analytics"
+      ],
+      "applicable_evidence_requirements": [
+        "dos_attribution_analysis"
+      ],
+      "evidence_required": [
+        "dos_attribution_analysis"
+      ],
+      "evidence_produced": [
+        "dos-s2_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "dos-s2_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+        "page": null,
+        "section": "Step 2: Distinguish Malicious Flood from Legitimate Traffic Surge",
+        "quoted_excerpt": "Analyze source ASN distribution, TLS/JA3 fingerprints, and application error patterns."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema for full 10-category trial coverage."
+      ]
+    },
+    {
+      "step_id": "DOS-S3",
+      "step_order": 3,
+      "step_name": "Check for Concurrent Intrusion / Smokescreen Activity",
+      "activity": "Check for Concurrent Intrusion / Smokescreen Activity",
+      "step_description": "Audit SIEM for authentication attacks or exploitation occurring during the DoS window.",
+      "description": "Audit SIEM for authentication attacks or exploitation occurring during the DoS window.",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "DOS-S2",
+      "expected_successor": "DOS-S4",
+      "predecessors": [
+        "DOS-S2"
+      ],
+      "successors": [
+        "DOS-S4"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "SIEM Concurrent Alert Sweep"
+      ],
+      "applicable_evidence_requirements": [
+        "smokescreen_audit_log"
+      ],
+      "evidence_required": [
+        "smokescreen_audit_log"
+      ],
+      "evidence_produced": [
+        "dos-s3_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "dos-s3_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+        "page": null,
+        "section": "Step 3: Check for Concurrent Intrusion / Smokescreen Activity",
+        "quoted_excerpt": "Audit SIEM for authentication attacks or exploitation occurring during the DoS window."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema for full 10-category trial coverage."
+      ]
+    },
+    {
+      "step_id": "DOS-S4",
+      "step_order": 4,
+      "step_name": "Apply Rate Limiting, WAF Challenge, or Upstream Scrubbing",
+      "activity": "Apply Rate Limiting, WAF Challenge, or Upstream Scrubbing",
+      "step_description": "Conditional mitigation when active service-impacting attack traffic is confirmed.",
+      "description": "Conditional mitigation when active service-impacting attack traffic is confirmed.",
+      "phase": "containment",
+      "mandatory_status": "conditional",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when preliminary investigation indicators confirm active compromise or impact.",
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "DOS-S3",
+      "expected_successor": "DOS-S5",
+      "predecessors": [
+        "DOS-S3"
+      ],
+      "successors": [
+        "DOS-S5"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Cloudflare / AWS Shield Mitigation"
+      ],
+      "applicable_evidence_requirements": [
+        "dos_mitigation_receipt"
+      ],
+      "evidence_required": [
+        "dos_mitigation_receipt"
+      ],
+      "evidence_produced": [
+        "dos-s4_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "dos-s4_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+        "page": null,
+        "section": "Step 4: Apply Rate Limiting, WAF Challenge, or Upstream Scrubbing",
+        "quoted_excerpt": "Conditional mitigation when active service-impacting attack traffic is confirmed."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema for full 10-category trial coverage."
+      ]
+    },
+    {
+      "step_id": "DOS-S5",
+      "step_order": 5,
+      "step_name": "Confirm Service Recovery & Close Availability Incident",
+      "activity": "Confirm Service Recovery & Close Availability Incident",
+      "step_description": "Document availability restoration timestamp and post-incident hardening.",
+      "description": "Document availability restoration timestamp and post-incident hardening.",
+      "phase": "post_incident",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "DOS-S3",
+      "expected_successor": null,
+      "predecessors": [
+        "DOS-S3"
+      ],
+      "successors": [],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [],
+      "applicable_evidence_requirements": [
+        "dos_recovery_closure_note"
+      ],
+      "evidence_required": [
+        "dos_recovery_closure_note"
+      ],
+      "evidence_produced": [
+        "dos-s5_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "dos-s5_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+        "page": null,
+        "section": "Step 5: Confirm Service Recovery & Close Availability Incident",
+        "quoted_excerpt": "Document availability restoration timestamp and post-incident hardening."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema for full 10-category trial coverage."
+      ]
+    }
+  ],
+  "completion_criteria": [
+    "Requires traffic vector signature, mitigation rule verification, and service availability SLA restoration."
+  ],
+  "normalization": {
+    "status": "validated",
+    "method": "Researcher-validated operational benchmark playbook normalized to Action Schema",
+    "reviewer": "principal_researcher",
+    "review_date": "2026-11-19",
+    "confidence": 1.0,
+    "notes": [
+      "Locked and human-validated for full 10-category 250-case trial suite."
+    ]
+  }
+}

@@ -1,0 +1,302 @@
+{
+  "playbook_id": "MS-CREDDUMP-EXAMPLE-001",
+  "version": "1.0",
+  "title": "Microsoft Security Credential Access Response Playbook",
+  "institution": "Microsoft Security",
+  "playbook_classification": "operational_soc_playbook",
+  "incident_type": "credential_dumping",
+  "incident_types": [
+    "credential_dumping"
+  ],
+  "mitre_technique_id": "TA0006",
+  "scope": "Microsoft Security operational triage workflow covering MITRE ATT&CK Credential Access (TA0006).",
+  "description": "Microsoft Security operational triage workflow covering MITRE ATT&CK Credential Access (TA0006).",
+  "approval_requirements": "Tier 2 Lead approval required for containment/isolation.",
+  "closure_requirements": "All mandatory verification steps linked to evidence references.",
+  "source": {
+    "source_id": "MS-CRED-ACCESS",
+    "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-phishing",
+    "document_title": "Microsoft Security Credential Access Response Playbook",
+    "version": "1.0",
+    "publication_date": "2026-11-19",
+    "retrieval_date": "2026-11-19",
+    "page_or_section": "Credential Access",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Preserve institutional attribution and source link."
+  },
+  "prerequisites": [
+    {
+      "requirement": "Normalized SIEM/EDR telemetry",
+      "required_capability": "SOC Workbench",
+      "evidence": [
+        "ingested_dataset_manifest"
+      ]
+    }
+  ],
+  "roles": [
+    "Tier 1 SOC Analyst",
+    "Tier 2 SOC Lead",
+    "Incident Responder"
+  ],
+  "steps": [
+    {
+      "step_id": "MCRD-01",
+      "step_order": 1,
+      "step_name": "Identify & Validate Credential Dumping Alert",
+      "activity": "Identify & Validate Credential Dumping Alert",
+      "step_description": "Identify & Validate Credential Dumping Alert (Credential Access \u2014 TA0006).",
+      "description": "Identify & Validate Credential Dumping Alert (Credential Access \u2014 TA0006).",
+      "phase": "identification",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": null,
+      "expected_successor": "MCRD-02",
+      "predecessors": [],
+      "successors": [
+        "MCRD-02"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Microsoft Security Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "mcrd_alert_evidence"
+      ],
+      "evidence_required": [
+        "mcrd_alert_evidence"
+      ],
+      "evidence_produced": [
+        "mcrd-01_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "mcrd-01_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-phishing",
+        "page": null,
+        "section": "Credential Access \u2014 Step 1",
+        "quoted_excerpt": "Identify & Validate Credential Dumping Alert"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Credential Access (TA0006)."
+      ]
+    },
+    {
+      "step_id": "MCRD-02",
+      "step_order": 2,
+      "step_name": "Analyze Technical Scope, Artifacts & Telemetry Context",
+      "activity": "Analyze Technical Scope, Artifacts & Telemetry Context",
+      "step_description": "Analyze Technical Scope, Artifacts & Telemetry Context (Credential Access \u2014 TA0006).",
+      "description": "Analyze Technical Scope, Artifacts & Telemetry Context (Credential Access \u2014 TA0006).",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "MCRD-01",
+      "expected_successor": "MCRD-03",
+      "predecessors": [
+        "MCRD-01"
+      ],
+      "successors": [
+        "MCRD-03"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Microsoft Security Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "mcrd_scope_evidence"
+      ],
+      "evidence_required": [
+        "mcrd_scope_evidence"
+      ],
+      "evidence_produced": [
+        "mcrd-02_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "mcrd-02_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-phishing",
+        "page": null,
+        "section": "Credential Access \u2014 Step 2",
+        "quoted_excerpt": "Analyze Technical Scope, Artifacts & Telemetry Context"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Credential Access (TA0006)."
+      ]
+    },
+    {
+      "step_id": "MCRD-03",
+      "step_order": 3,
+      "step_name": "Correlate Downstream Impact & Affected Identities/Hosts",
+      "activity": "Correlate Downstream Impact & Affected Identities/Hosts",
+      "step_description": "Correlate Downstream Impact & Affected Identities/Hosts (Credential Access \u2014 TA0006).",
+      "description": "Correlate Downstream Impact & Affected Identities/Hosts (Credential Access \u2014 TA0006).",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "MCRD-02",
+      "expected_successor": "MCRD-04",
+      "predecessors": [
+        "MCRD-02"
+      ],
+      "successors": [
+        "MCRD-04"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Microsoft Security Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "mcrd_correlation_log"
+      ],
+      "evidence_required": [
+        "mcrd_correlation_log"
+      ],
+      "evidence_produced": [
+        "mcrd-03_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "mcrd-03_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-phishing",
+        "page": null,
+        "section": "Credential Access \u2014 Step 3",
+        "quoted_excerpt": "Correlate Downstream Impact & Affected Identities/Hosts"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Credential Access (TA0006)."
+      ]
+    },
+    {
+      "step_id": "MCRD-04",
+      "step_order": 4,
+      "step_name": "Execute Institutional Containment & Remediation Controls",
+      "activity": "Execute Institutional Containment & Remediation Controls",
+      "step_description": "Execute Institutional Containment & Remediation Controls (Credential Access \u2014 TA0006).",
+      "description": "Execute Institutional Containment & Remediation Controls (Credential Access \u2014 TA0006).",
+      "phase": "containment",
+      "mandatory_status": "conditional",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when investigation confirms active compromise or operational impact.",
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "MCRD-03",
+      "expected_successor": "MCRD-05",
+      "predecessors": [
+        "MCRD-03"
+      ],
+      "successors": [
+        "MCRD-05"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Microsoft Security Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "mcrd_containment_receipt"
+      ],
+      "evidence_required": [
+        "mcrd_containment_receipt"
+      ],
+      "evidence_produced": [
+        "mcrd-04_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "mcrd-04_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-phishing",
+        "page": null,
+        "section": "Credential Access \u2014 Step 4",
+        "quoted_excerpt": "Execute Institutional Containment & Remediation Controls"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Credential Access (TA0006)."
+      ]
+    },
+    {
+      "step_id": "MCRD-05",
+      "step_order": 5,
+      "step_name": "Document Institutional Disposition & Close Incident",
+      "activity": "Document Institutional Disposition & Close Incident",
+      "step_description": "Document Institutional Disposition & Close Incident (Credential Access \u2014 TA0006).",
+      "description": "Document Institutional Disposition & Close Incident (Credential Access \u2014 TA0006).",
+      "phase": "post_incident",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "MCRD-03",
+      "expected_successor": null,
+      "predecessors": [
+        "MCRD-03"
+      ],
+      "successors": [],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Microsoft Security Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "mcrd_closure_report"
+      ],
+      "evidence_required": [
+        "mcrd_closure_report"
+      ],
+      "evidence_produced": [
+        "mcrd-05_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "mcrd-05_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-phishing",
+        "page": null,
+        "section": "Credential Access \u2014 Step 5",
+        "quoted_excerpt": "Document Institutional Disposition & Close Incident"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Credential Access (TA0006)."
+      ]
+    }
+  ],
+  "completion_criteria": [
+    "Mandatory verification steps documented with evidence pointers."
+  ],
+  "normalization": {
+    "status": "human_reviewed",
+    "method": "Normalized to Unified Action Schema from Microsoft Security reference guidance",
+    "reviewer": "principal_researcher",
+    "review_date": "2026-11-19",
+    "confidence": 0.9,
+    "notes": [
+      "MITRE ATT&CK Enterprise tactic: Credential Access (TA0006)."
+    ]
+  }
+}

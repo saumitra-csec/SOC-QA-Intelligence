@@ -720,5 +720,71 @@ class TestSOCQAIntelligencePlatform(unittest.TestCase):
         self.assertLess(curve[-1]["precision"], curve[0]["precision"])
 
 
+
+    def test_17_full_10_attack_250_case_trial_suite_and_risk_coverage(self):
+        # 1. Verify Risk & Attack Coverage Matrix covers all 10 attack categories and 8 SOC triage risks
+        r_cov = self.client.get("/api/v1/benchmark/risk-coverage-matrix")
+        self.assertEqual(r_cov.status_code, 200)
+        cov = r_cov.json()
+        self.assertEqual(cov["total_attack_categories"], 16)
+        self.assertEqual(cov["total_triage_risk_controls"], 8)
+
+        # 2. Populate & evaluate all 250 trial cases (10 attack strata x 25 cases = 250 cases)
+        r_pop250 = self.client.post("/api/v1/benchmark/populate-250")
+        self.assertEqual(r_pop250.status_code, 200, r_pop250.text)
+        self.assertEqual(r_pop250.json()["total_trial_cases"], 400)
+
+        r_ev250 = self.client.post("/api/v1/benchmark/evaluate-250")
+        self.assertEqual(r_ev250.status_code, 200, r_ev250.text)
+        ev250 = r_ev250.json()
+        self.assertEqual(ev250["total_cases_evaluated"], 400)
+        self.assertEqual(ev250["attack_categories_count"], 16)
+        self.assertEqual(ev250["confusion_matrix"]["tp"], 160)
+        self.assertEqual(ev250["confusion_matrix"]["tn"], 240)
+        self.assertEqual(ev250["metrics"]["f1_score"], 1.0)
+        for cat in ["phishing", "password_spraying", "suspicious_powershell", "persistence_antiforensics", "ransomware", "malware", "token_theft", "data_exfiltration", "denial_of_service", "cloud_iam_compromise"]:
+            self.assertIn(cat, ev250["per_attack_confusion_matrix"])
+
+
+
+    def test_18_mitre_enterprise_16_attack_multi_source_coverage(self):
+        from backend.app.services.playbooks.repository import get_relevant_playbooks_for_attack_type
+        self.client.post("/api/v1/playbooks/institutional/seed")
+
+        all_16_attacks = [
+            "phishing", "password_spraying", "suspicious_powershell", "persistence_antiforensics",
+            "ransomware", "malware", "token_theft", "data_exfiltration",
+            "denial_of_service", "cloud_iam_compromise", "reconnaissance_scanning",
+            "public_app_exploitation", "privilege_escalation", "credential_dumping",
+            "lateral_movement", "command_and_control",
+        ]
+        for attack_cat in all_16_attacks:
+            pbs = get_relevant_playbooks_for_attack_type(attack_cat)
+            institutions = {p["institution"] for p in pbs}
+            self.assertGreaterEqual(
+                len(pbs), 2, f"Attack '{attack_cat}' must have >=2 playbooks for multi-source conformance."
+            )
+            self.assertGreaterEqual(
+                len(institutions), 2, f"Attack '{attack_cat}' must span >=2 distinct institutions."
+            )
+
+
+
+    def test_19_ai_disabled_by_default_and_400_case_mitre_endpoints(self):
+        # Verify AI module remains disabled by default (no AI model attached)
+        r_st = self.client.get("/api/v1/ai/status")
+        self.assertEqual(r_st.status_code, 200)
+        st = r_st.json()
+        self.assertFalse(st["ai_module_enabled"])
+        self.assertEqual(st["configured_provider"], "disabled")
+        self.assertEqual(st["configured_model"], "none")
+
+        # Verify 400-case explicit MITRE endpoints
+        r_ev400 = self.client.post("/api/v1/benchmark/evaluate-400")
+        self.assertEqual(r_ev400.status_code, 200, r_ev400.text)
+        self.assertEqual(r_ev400.json()["total_cases_evaluated"], 400)
+        self.assertEqual(r_ev400.json()["attack_categories_count"], 16)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

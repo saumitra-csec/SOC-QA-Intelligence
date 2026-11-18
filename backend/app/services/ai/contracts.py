@@ -37,6 +37,7 @@ class ExplainableAIProviderContract(ABC):
         """Returns configuration status, active model, and prompt-injection defense layers."""
 
     @abstractmethod
+
     def prepare_sanitized_case_context(
         self, case_id: str, excerpts: List[Dict[str, str]]
     ) -> Dict[str, Any]:
@@ -48,6 +49,7 @@ class ExplainableAIProviderContract(ABC):
 
 
 class OperationalAIService(ExplainableAIProviderContract):
+
     def get_provider_status(self) -> Dict[str, Any]:
         return {
             "ai_module_enabled": settings.ai_module_enabled,

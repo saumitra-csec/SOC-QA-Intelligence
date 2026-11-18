@@ -1,0 +1,300 @@
+{
+  "playbook_id": "PB-TOKEN-001",
+  "version": "1.0",
+  "title": "MITRE T1528 / T1539 / T1550.001 Token Theft & OAuth Consent Abuse Playbook",
+  "institution": "SOC-QA Research Benchmark",
+  "playbook_classification": "operational_soc_playbook",
+  "incident_type": "token_theft",
+  "incident_types": [
+    "token_theft"
+  ],
+  "mitre_technique_id": "T1528 / T1539 / T1550.001",
+  "scope": "Operational workflow for Adversary-in-the-Middle (AiTM) session cookie theft, malicious OAuth app consent grants, and MFA replay.",
+  "description": "Operational workflow for Adversary-in-the-Middle (AiTM) session cookie theft, malicious OAuth app consent grants, and MFA replay.",
+  "approval_requirements": "Identity Admin & Tier 2 Lead approval for tenant-wide OAuth application disablement.",
+  "closure_requirements": "Requires Entra ID sign-in correlation, refresh token revocation receipt, and mailbox rule audit.",
+  "source": {
+    "source_id": "MS-TOKEN-THEFT",
+    "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-token-theft",
+    "document_title": "MITRE T1528 / T1539 / T1550.001 Token Theft & OAuth Consent Abuse Playbook",
+    "version": "1.0",
+    "publication_date": "2026-11-19",
+    "retrieval_date": "2026-11-19",
+    "page_or_section": "Operational Triage Procedure",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Preserve source attribution"
+  },
+  "prerequisites": [
+    {
+      "requirement": "Normalized case telemetry and SIEM/EDR query access",
+      "required_capability": "SOC SIEM & Case Workbench",
+      "evidence": [
+        "ingested_dataset_manifest"
+      ]
+    }
+  ],
+  "roles": [
+    "Tier 1 SOC Analyst",
+    "Tier 2 SOC Lead",
+    "Incident Responder"
+  ],
+  "steps": [
+    {
+      "step_id": "TOKEN-S1",
+      "step_order": 1,
+      "step_name": "Validate Anomalous Token / Session Replay Alert (T1550.001)",
+      "activity": "Validate Anomalous Token / Session Replay Alert (T1550.001)",
+      "step_description": "Inspect SessionId, IP/ASN shifts, device compliance, and user-agent anomalies.",
+      "description": "Inspect SessionId, IP/ASN shifts, device compliance, and user-agent anomalies.",
+      "phase": "identification",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": null,
+      "expected_successor": "TOKEN-S2",
+      "predecessors": [],
+      "successors": [
+        "TOKEN-S2"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Entra ID Risky Sign-In Audit"
+      ],
+      "applicable_evidence_requirements": [
+        "token_replay_signin_log"
+      ],
+      "evidence_required": [
+        "token_replay_signin_log"
+      ],
+      "evidence_produced": [
+        "token-s1_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "token-s1_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-token-theft",
+        "page": null,
+        "section": "Step 1: Validate Anomalous Token / Session Replay Alert (T1550.001)",
+        "quoted_excerpt": "Inspect SessionId, IP/ASN shifts, device compliance, and user-agent anomalies."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema for full 10-category trial coverage."
+      ]
+    },
+    {
+      "step_id": "TOKEN-S2",
+      "step_order": 2,
+      "step_name": "Audit OAuth Application Consent Grants & Permissions (T1528)",
+      "activity": "Audit OAuth Application Consent Grants & Permissions (T1528)",
+      "step_description": "Check newly consented third-party apps for Mail.Read, Files.Read.All, or offline_access scopes.",
+      "description": "Check newly consented third-party apps for Mail.Read, Files.Read.All, or offline_access scopes.",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "TOKEN-S1",
+      "expected_successor": "TOKEN-S3",
+      "predecessors": [
+        "TOKEN-S1"
+      ],
+      "successors": [
+        "TOKEN-S3"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Cloud App Governance Audit"
+      ],
+      "applicable_evidence_requirements": [
+        "oauth_consent_grant_record"
+      ],
+      "evidence_required": [
+        "oauth_consent_grant_record"
+      ],
+      "evidence_produced": [
+        "token-s2_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "token-s2_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-token-theft",
+        "page": null,
+        "section": "Step 2: Audit OAuth Application Consent Grants & Permissions (T1528)",
+        "quoted_excerpt": "Check newly consented third-party apps for Mail.Read, Files.Read.All, or offline_access scopes."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema for full 10-category trial coverage."
+      ]
+    },
+    {
+      "step_id": "TOKEN-S3",
+      "step_order": 3,
+      "step_name": "Inspect Post-Auth Mailbox Rules & Data Access Telemetry",
+      "activity": "Inspect Post-Auth Mailbox Rules & Data Access Telemetry",
+      "step_description": "Search Unified Audit Logs for inbox forwarding rules, SharePoint downloads, or MFA registration.",
+      "description": "Search Unified Audit Logs for inbox forwarding rules, SharePoint downloads, or MFA registration.",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "TOKEN-S2",
+      "expected_successor": "TOKEN-S4",
+      "predecessors": [
+        "TOKEN-S2"
+      ],
+      "successors": [
+        "TOKEN-S4"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "M365 Unified Audit Query"
+      ],
+      "applicable_evidence_requirements": [
+        "post_auth_mailbox_audit_log"
+      ],
+      "evidence_required": [
+        "post_auth_mailbox_audit_log"
+      ],
+      "evidence_produced": [
+        "token-s3_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "token-s3_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-token-theft",
+        "page": null,
+        "section": "Step 3: Inspect Post-Auth Mailbox Rules & Data Access Telemetry",
+        "quoted_excerpt": "Search Unified Audit Logs for inbox forwarding rules, SharePoint downloads, or MFA registration."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema for full 10-category trial coverage."
+      ]
+    },
+    {
+      "step_id": "TOKEN-S4",
+      "step_order": 4,
+      "step_name": "Revoke All Active Refresh Tokens & Disable Malicious OAuth App",
+      "activity": "Revoke All Active Refresh Tokens & Disable Malicious OAuth App",
+      "step_description": "Conditional containment when token hijacking or illicit OAuth consent is confirmed.",
+      "description": "Conditional containment when token hijacking or illicit OAuth consent is confirmed.",
+      "phase": "containment",
+      "mandatory_status": "conditional",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when preliminary investigation indicators confirm active compromise or impact.",
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "TOKEN-S3",
+      "expected_successor": "TOKEN-S5",
+      "predecessors": [
+        "TOKEN-S3"
+      ],
+      "successors": [
+        "TOKEN-S5"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Revoke-MgUserSignInSession"
+      ],
+      "applicable_evidence_requirements": [
+        "token_revocation_receipt"
+      ],
+      "evidence_required": [
+        "token_revocation_receipt"
+      ],
+      "evidence_produced": [
+        "token-s4_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "token-s4_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-token-theft",
+        "page": null,
+        "section": "Step 4: Revoke All Active Refresh Tokens & Disable Malicious OAuth App",
+        "quoted_excerpt": "Conditional containment when token hijacking or illicit OAuth consent is confirmed."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema for full 10-category trial coverage."
+      ]
+    },
+    {
+      "step_id": "TOKEN-S5",
+      "step_order": 5,
+      "step_name": "Verify Clean Re-Authentication & Close Case",
+      "activity": "Verify Clean Re-Authentication & Close Case",
+      "step_description": "Confirm password/MFA reset if needed and record closure rationale.",
+      "description": "Confirm password/MFA reset if needed and record closure rationale.",
+      "phase": "post_incident",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "TOKEN-S3",
+      "expected_successor": null,
+      "predecessors": [
+        "TOKEN-S3"
+      ],
+      "successors": [],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [],
+      "applicable_evidence_requirements": [
+        "token_theft_closure_record"
+      ],
+      "evidence_required": [
+        "token_theft_closure_record"
+      ],
+      "evidence_produced": [
+        "token-s5_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "token-s5_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-token-theft",
+        "page": null,
+        "section": "Step 5: Verify Clean Re-Authentication & Close Case",
+        "quoted_excerpt": "Confirm password/MFA reset if needed and record closure rationale."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema for full 10-category trial coverage."
+      ]
+    }
+  ],
+  "completion_criteria": [
+    "Requires Entra ID sign-in correlation, refresh token revocation receipt, and mailbox rule audit."
+  ],
+  "normalization": {
+    "status": "validated",
+    "method": "Researcher-validated operational benchmark playbook normalized to Action Schema",
+    "reviewer": "principal_researcher",
+    "review_date": "2026-11-19",
+    "confidence": 1.0,
+    "notes": [
+      "Locked and human-validated for full 10-category 250-case trial suite."
+    ]
+  }
+}

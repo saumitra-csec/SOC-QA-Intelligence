@@ -1,0 +1,300 @@
+{
+  "playbook_id": "PB-CLOUD-IAM-001",
+  "version": "1.0",
+  "title": "MITRE T1078.004 / T1098.001 Cloud Identity & IAM Privilege Escalation Playbook",
+  "institution": "SOC-QA Research Benchmark",
+  "playbook_classification": "operational_soc_playbook",
+  "incident_type": "cloud_iam_compromise",
+  "incident_types": [
+    "cloud_iam_compromise"
+  ],
+  "mitre_technique_id": "T1078.004 / T1098.001",
+  "scope": "Operational workflow for leaked cloud IAM access keys, unauthorized policy/role attachment, and cross-account privilege escalation.",
+  "description": "Operational workflow for leaked cloud IAM access keys, unauthorized policy/role attachment, and cross-account privilege escalation.",
+  "approval_requirements": "Cloud Security Lead approval required before revoking production service-role sessions.",
+  "closure_requirements": "Requires CloudTrail/Activity Log correlation, credential rotation receipt, and unauthorized policy rollback.",
+  "source": {
+    "source_id": "AWS-IR-SAMPLES",
+    "url": "https://github.com/aws-samples/aws-incident-response-playbooks",
+    "document_title": "MITRE T1078.004 / T1098.001 Cloud Identity & IAM Privilege Escalation Playbook",
+    "version": "1.0",
+    "publication_date": "2026-11-19",
+    "retrieval_date": "2026-11-19",
+    "page_or_section": "Operational Triage Procedure",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Preserve source attribution"
+  },
+  "prerequisites": [
+    {
+      "requirement": "Normalized case telemetry and SIEM/EDR query access",
+      "required_capability": "SOC SIEM & Case Workbench",
+      "evidence": [
+        "ingested_dataset_manifest"
+      ]
+    }
+  ],
+  "roles": [
+    "Tier 1 SOC Analyst",
+    "Tier 2 SOC Lead",
+    "Incident Responder"
+  ],
+  "steps": [
+    {
+      "step_id": "IAM-S1",
+      "step_order": 1,
+      "step_name": "Inspect Cloud Audit Log for Anomalous IAM Call (T1078.004)",
+      "activity": "Inspect Cloud Audit Log for Anomalous IAM Call (T1078.004)",
+      "step_description": "Verify CreateAccessKey, AttachUserPolicy, AssumeRole, or PutBucketPolicy source IP and ARN.",
+      "description": "Verify CreateAccessKey, AttachUserPolicy, AssumeRole, or PutBucketPolicy source IP and ARN.",
+      "phase": "identification",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": null,
+      "expected_successor": "IAM-S2",
+      "predecessors": [],
+      "successors": [
+        "IAM-S2"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "AWS CloudTrail / Azure Activity Query"
+      ],
+      "applicable_evidence_requirements": [
+        "cloudtrail_iam_event_record"
+      ],
+      "evidence_required": [
+        "cloudtrail_iam_event_record"
+      ],
+      "evidence_produced": [
+        "iam-s1_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "iam-s1_output"
+      ],
+      "source_anchor": {
+        "url": "https://github.com/aws-samples/aws-incident-response-playbooks",
+        "page": null,
+        "section": "Step 1: Inspect Cloud Audit Log for Anomalous IAM Call (T1078.004)",
+        "quoted_excerpt": "Verify CreateAccessKey, AttachUserPolicy, AssumeRole, or PutBucketPolicy source IP and ARN."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema for full 10-category trial coverage."
+      ]
+    },
+    {
+      "step_id": "IAM-S2",
+      "step_order": 2,
+      "step_name": "Assess Effective Blast Radius & Created Resources",
+      "activity": "Assess Effective Blast Radius & Created Resources",
+      "step_description": "Identify newly provisioned EC2/VM instances, security group changes, or S3 policy exposures.",
+      "description": "Identify newly provisioned EC2/VM instances, security group changes, or S3 policy exposures.",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "IAM-S1",
+      "expected_successor": "IAM-S3",
+      "predecessors": [
+        "IAM-S1"
+      ],
+      "successors": [
+        "IAM-S3"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Cloud Asset Inventory Diff"
+      ],
+      "applicable_evidence_requirements": [
+        "iam_blast_radius_assessment"
+      ],
+      "evidence_required": [
+        "iam_blast_radius_assessment"
+      ],
+      "evidence_produced": [
+        "iam-s2_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "iam-s2_output"
+      ],
+      "source_anchor": {
+        "url": "https://github.com/aws-samples/aws-incident-response-playbooks",
+        "page": null,
+        "section": "Step 2: Assess Effective Blast Radius & Created Resources",
+        "quoted_excerpt": "Identify newly provisioned EC2/VM instances, security group changes, or S3 policy exposures."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema for full 10-category trial coverage."
+      ]
+    },
+    {
+      "step_id": "IAM-S3",
+      "step_order": 3,
+      "step_name": "Check Key Leakage & Secret Scanning Telemetry",
+      "activity": "Check Key Leakage & Secret Scanning Telemetry",
+      "step_description": "Correlate public GitHub/secret-scanner alerts or compromised developer endpoints.",
+      "description": "Correlate public GitHub/secret-scanner alerts or compromised developer endpoints.",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "IAM-S2",
+      "expected_successor": "IAM-S4",
+      "predecessors": [
+        "IAM-S2"
+      ],
+      "successors": [
+        "IAM-S4"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Secret Scanner & EDR Check"
+      ],
+      "applicable_evidence_requirements": [
+        "key_exposure_correlation_log"
+      ],
+      "evidence_required": [
+        "key_exposure_correlation_log"
+      ],
+      "evidence_produced": [
+        "iam-s3_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "iam-s3_output"
+      ],
+      "source_anchor": {
+        "url": "https://github.com/aws-samples/aws-incident-response-playbooks",
+        "page": null,
+        "section": "Step 3: Check Key Leakage & Secret Scanning Telemetry",
+        "quoted_excerpt": "Correlate public GitHub/secret-scanner alerts or compromised developer endpoints."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema for full 10-category trial coverage."
+      ]
+    },
+    {
+      "step_id": "IAM-S4",
+      "step_order": 4,
+      "step_name": "Revoke Leaked Keys, Detach Rogue Policies & Rotate Secrets",
+      "activity": "Revoke Leaked Keys, Detach Rogue Policies & Rotate Secrets",
+      "step_description": "Conditional containment when unauthorized IAM modification or key misuse is confirmed.",
+      "description": "Conditional containment when unauthorized IAM modification or key misuse is confirmed.",
+      "phase": "containment",
+      "mandatory_status": "conditional",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when preliminary investigation indicators confirm active compromise or impact.",
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "IAM-S3",
+      "expected_successor": "IAM-S5",
+      "predecessors": [
+        "IAM-S3"
+      ],
+      "successors": [
+        "IAM-S5"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "IAM Quarantine Policy & Key Disable"
+      ],
+      "applicable_evidence_requirements": [
+        "iam_remediation_receipt"
+      ],
+      "evidence_required": [
+        "iam_remediation_receipt"
+      ],
+      "evidence_produced": [
+        "iam-s4_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "iam-s4_output"
+      ],
+      "source_anchor": {
+        "url": "https://github.com/aws-samples/aws-incident-response-playbooks",
+        "page": null,
+        "section": "Step 4: Revoke Leaked Keys, Detach Rogue Policies & Rotate Secrets",
+        "quoted_excerpt": "Conditional containment when unauthorized IAM modification or key misuse is confirmed."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema for full 10-category trial coverage."
+      ]
+    },
+    {
+      "step_id": "IAM-S5",
+      "step_order": 5,
+      "step_name": "Document Cloud Incident Disposition & Close Case",
+      "activity": "Document Cloud Incident Disposition & Close Case",
+      "step_description": "Record verified authorized IaC deployment or finalized compromise remediation.",
+      "description": "Record verified authorized IaC deployment or finalized compromise remediation.",
+      "phase": "post_incident",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "IAM-S3",
+      "expected_successor": null,
+      "predecessors": [
+        "IAM-S3"
+      ],
+      "successors": [],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [],
+      "applicable_evidence_requirements": [
+        "cloud_iam_closure_report"
+      ],
+      "evidence_required": [
+        "cloud_iam_closure_report"
+      ],
+      "evidence_produced": [
+        "iam-s5_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "iam-s5_output"
+      ],
+      "source_anchor": {
+        "url": "https://github.com/aws-samples/aws-incident-response-playbooks",
+        "page": null,
+        "section": "Step 5: Document Cloud Incident Disposition & Close Case",
+        "quoted_excerpt": "Record verified authorized IaC deployment or finalized compromise remediation."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema for full 10-category trial coverage."
+      ]
+    }
+  ],
+  "completion_criteria": [
+    "Requires CloudTrail/Activity Log correlation, credential rotation receipt, and unauthorized policy rollback."
+  ],
+  "normalization": {
+    "status": "validated",
+    "method": "Researcher-validated operational benchmark playbook normalized to Action Schema",
+    "reviewer": "principal_researcher",
+    "review_date": "2026-11-19",
+    "confidence": 1.0,
+    "notes": [
+      "Locked and human-validated for full 10-category 250-case trial suite."
+    ]
+  }
+}

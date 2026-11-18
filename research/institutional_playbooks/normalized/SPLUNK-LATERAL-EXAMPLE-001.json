@@ -1,0 +1,302 @@
+{
+  "playbook_id": "SPLUNK-LATERAL-EXAMPLE-001",
+  "version": "1.0",
+  "title": "Splunk Lateral Movement Investigation Playbook",
+  "institution": "Splunk",
+  "playbook_classification": "operational_soc_playbook",
+  "incident_type": "lateral_movement",
+  "incident_types": [
+    "lateral_movement"
+  ],
+  "mitre_technique_id": "TA0008",
+  "scope": "Splunk operational triage workflow covering MITRE ATT&CK Lateral Movement (TA0008).",
+  "description": "Splunk operational triage workflow covering MITRE ATT&CK Lateral Movement (TA0008).",
+  "approval_requirements": "Tier 2 Lead approval required for containment/isolation.",
+  "closure_requirements": "All mandatory verification steps linked to evidence references.",
+  "source": {
+    "source_id": "SPLUNK-SEC-CONTENT",
+    "url": "https://github.com/splunk/security_content/tree/develop/playbooks",
+    "document_title": "Splunk Lateral Movement Investigation Playbook",
+    "version": "1.0",
+    "publication_date": "2026-11-19",
+    "retrieval_date": "2026-11-19",
+    "page_or_section": "Lateral Movement",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Preserve institutional attribution and source link."
+  },
+  "prerequisites": [
+    {
+      "requirement": "Normalized SIEM/EDR telemetry",
+      "required_capability": "SOC Workbench",
+      "evidence": [
+        "ingested_dataset_manifest"
+      ]
+    }
+  ],
+  "roles": [
+    "Tier 1 SOC Analyst",
+    "Tier 2 SOC Lead",
+    "Incident Responder"
+  ],
+  "steps": [
+    {
+      "step_id": "SLAT-01",
+      "step_order": 1,
+      "step_name": "Identify & Validate Lateral Movement Alert",
+      "activity": "Identify & Validate Lateral Movement Alert",
+      "step_description": "Identify & Validate Lateral Movement Alert (Lateral Movement \u2014 TA0008).",
+      "description": "Identify & Validate Lateral Movement Alert (Lateral Movement \u2014 TA0008).",
+      "phase": "identification",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": null,
+      "expected_successor": "SLAT-02",
+      "predecessors": [],
+      "successors": [
+        "SLAT-02"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Splunk Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "slat_alert_evidence"
+      ],
+      "evidence_required": [
+        "slat_alert_evidence"
+      ],
+      "evidence_produced": [
+        "slat-01_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "slat-01_output"
+      ],
+      "source_anchor": {
+        "url": "https://github.com/splunk/security_content/tree/develop/playbooks",
+        "page": null,
+        "section": "Lateral Movement \u2014 Step 1",
+        "quoted_excerpt": "Identify & Validate Lateral Movement Alert"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Lateral Movement (TA0008)."
+      ]
+    },
+    {
+      "step_id": "SLAT-02",
+      "step_order": 2,
+      "step_name": "Analyze Technical Scope, Artifacts & Telemetry Context",
+      "activity": "Analyze Technical Scope, Artifacts & Telemetry Context",
+      "step_description": "Analyze Technical Scope, Artifacts & Telemetry Context (Lateral Movement \u2014 TA0008).",
+      "description": "Analyze Technical Scope, Artifacts & Telemetry Context (Lateral Movement \u2014 TA0008).",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "SLAT-01",
+      "expected_successor": "SLAT-03",
+      "predecessors": [
+        "SLAT-01"
+      ],
+      "successors": [
+        "SLAT-03"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Splunk Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "slat_scope_evidence"
+      ],
+      "evidence_required": [
+        "slat_scope_evidence"
+      ],
+      "evidence_produced": [
+        "slat-02_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "slat-02_output"
+      ],
+      "source_anchor": {
+        "url": "https://github.com/splunk/security_content/tree/develop/playbooks",
+        "page": null,
+        "section": "Lateral Movement \u2014 Step 2",
+        "quoted_excerpt": "Analyze Technical Scope, Artifacts & Telemetry Context"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Lateral Movement (TA0008)."
+      ]
+    },
+    {
+      "step_id": "SLAT-03",
+      "step_order": 3,
+      "step_name": "Correlate Downstream Impact & Affected Identities/Hosts",
+      "activity": "Correlate Downstream Impact & Affected Identities/Hosts",
+      "step_description": "Correlate Downstream Impact & Affected Identities/Hosts (Lateral Movement \u2014 TA0008).",
+      "description": "Correlate Downstream Impact & Affected Identities/Hosts (Lateral Movement \u2014 TA0008).",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "SLAT-02",
+      "expected_successor": "SLAT-04",
+      "predecessors": [
+        "SLAT-02"
+      ],
+      "successors": [
+        "SLAT-04"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Splunk Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "slat_correlation_log"
+      ],
+      "evidence_required": [
+        "slat_correlation_log"
+      ],
+      "evidence_produced": [
+        "slat-03_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "slat-03_output"
+      ],
+      "source_anchor": {
+        "url": "https://github.com/splunk/security_content/tree/develop/playbooks",
+        "page": null,
+        "section": "Lateral Movement \u2014 Step 3",
+        "quoted_excerpt": "Correlate Downstream Impact & Affected Identities/Hosts"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Lateral Movement (TA0008)."
+      ]
+    },
+    {
+      "step_id": "SLAT-04",
+      "step_order": 4,
+      "step_name": "Execute Institutional Containment & Remediation Controls",
+      "activity": "Execute Institutional Containment & Remediation Controls",
+      "step_description": "Execute Institutional Containment & Remediation Controls (Lateral Movement \u2014 TA0008).",
+      "description": "Execute Institutional Containment & Remediation Controls (Lateral Movement \u2014 TA0008).",
+      "phase": "containment",
+      "mandatory_status": "conditional",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when investigation confirms active compromise or operational impact.",
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "SLAT-03",
+      "expected_successor": "SLAT-05",
+      "predecessors": [
+        "SLAT-03"
+      ],
+      "successors": [
+        "SLAT-05"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Splunk Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "slat_containment_receipt"
+      ],
+      "evidence_required": [
+        "slat_containment_receipt"
+      ],
+      "evidence_produced": [
+        "slat-04_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "slat-04_output"
+      ],
+      "source_anchor": {
+        "url": "https://github.com/splunk/security_content/tree/develop/playbooks",
+        "page": null,
+        "section": "Lateral Movement \u2014 Step 4",
+        "quoted_excerpt": "Execute Institutional Containment & Remediation Controls"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Lateral Movement (TA0008)."
+      ]
+    },
+    {
+      "step_id": "SLAT-05",
+      "step_order": 5,
+      "step_name": "Document Institutional Disposition & Close Incident",
+      "activity": "Document Institutional Disposition & Close Incident",
+      "step_description": "Document Institutional Disposition & Close Incident (Lateral Movement \u2014 TA0008).",
+      "description": "Document Institutional Disposition & Close Incident (Lateral Movement \u2014 TA0008).",
+      "phase": "post_incident",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "SLAT-03",
+      "expected_successor": null,
+      "predecessors": [
+        "SLAT-03"
+      ],
+      "successors": [],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Splunk Standard Verification"
+      ],
+      "applicable_evidence_requirements": [
+        "slat_closure_report"
+      ],
+      "evidence_required": [
+        "slat_closure_report"
+      ],
+      "evidence_produced": [
+        "slat-05_evidence"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "slat-05_output"
+      ],
+      "source_anchor": {
+        "url": "https://github.com/splunk/security_content/tree/develop/playbooks",
+        "page": null,
+        "section": "Lateral Movement \u2014 Step 5",
+        "quoted_excerpt": "Document Institutional Disposition & Close Incident"
+      },
+      "normalization_notes": [
+        "Aligned to MITRE ATT&CK Lateral Movement (TA0008)."
+      ]
+    }
+  ],
+  "completion_criteria": [
+    "Mandatory verification steps documented with evidence pointers."
+  ],
+  "normalization": {
+    "status": "human_reviewed",
+    "method": "Normalized to Unified Action Schema from Splunk reference guidance",
+    "reviewer": "principal_researcher",
+    "review_date": "2026-11-19",
+    "confidence": 0.9,
+    "notes": [
+      "MITRE ATT&CK Enterprise tactic: Lateral Movement (TA0008)."
+    ]
+  }
+}

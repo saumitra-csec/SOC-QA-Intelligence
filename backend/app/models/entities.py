@@ -310,7 +310,7 @@ RELATIONAL_TABLES_DDL = [
     CREATE TABLE IF NOT EXISTS ground_truth_labels (
         label_id TEXT PRIMARY KEY,
         case_id TEXT NOT NULL UNIQUE,
-        benchmark_stratum TEXT NOT NULL CHECK (benchmark_stratum IN ('phishing', 'password_spraying', 'suspicious_powershell', 'persistence_antiforensics')),
+        benchmark_stratum TEXT NOT NULL,
         conformance_class TEXT NOT NULL CHECK (conformance_class IN ('conformant', 'deviating')),
         deviation_type TEXT NOT NULL CHECK (deviation_type IN (
             'none',

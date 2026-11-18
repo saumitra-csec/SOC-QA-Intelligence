@@ -25,3 +25,10 @@
 - Implemented Standardized Triage Quality Scale (`STQS v1.0`) evaluating every case against all playbooks of its relevant attack type (`GET /api/v1/cases/{case_id}/standardized-triage-scale`, `GET /api/v1/cases/standardized-triage-scale/all`).
 - Redesigned `SOC-QA_Intelligence_Standalone.html` and `frontend/soc_qa_intelligence_workbench.html` with a Black & Orange high-contrast theme, Plus Jakarta Sans + IBM Plex Mono typography, and a Gemini-style collapsible sidebar.
 - Verified 14/14 automated backend test suites (`python -m unittest backend/tests/test_platform.py`).
+
+## 2026-11-19 — Part A Complete: 16 MITRE ATT&CK Tactics, 33 Multi-Source Playbooks, 400-Case Trial & CI
+- Wired native `pm4py` alignment replay into `backend/app/services/process_mining/contracts.py` with automatic fallback (`builtin_petri_net_replay_fallback`) and `GET /api/v1/process-mining/runtime`.
+- Expanded MITRE ATT&CK Enterprise coverage to all 16 attack categories backed by 33 multi-source defense playbooks across Benchmark, Microsoft Security, Scottish Government, AWS, Splunk, UK NCSC, and CISA.
+- Expanded empirical trial suite to 400 controlled cases (`POST /api/v1/benchmark/populate-400`, `POST /api/v1/benchmark/evaluate-400`, `research/evaluation/full_400_case_trial_results.json`) plus Noisy SOC Log Stress-Test (`POST /api/v1/benchmark/stress-test`).
+- Added interactive 16-Tactic MITRE ATT&CK Enterprise Heatmap in Module 11, `.github/workflows/ci.yml`, and `.gitattributes`.
+- Kept AI module disabled by default (`AI_MODULE_ENABLED=false`) and verified 19/19 automated backend tests.

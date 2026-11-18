@@ -1,0 +1,300 @@
+{
+  "playbook_id": "PB-RANSOM-001",
+  "version": "1.0",
+  "title": "MITRE T1486 / T1490 Ransomware & Extortion Triage Playbook",
+  "institution": "SOC-QA Research Benchmark",
+  "playbook_classification": "operational_soc_playbook",
+  "incident_type": "ransomware",
+  "incident_types": [
+    "ransomware"
+  ],
+  "mitre_technique_id": "T1486 / T1490 / T1021",
+  "scope": "Operational workflow for mass file encryption, shadow copy deletion (vssadmin), lateral SMB/RDP spread, and emergency host containment.",
+  "description": "Operational workflow for mass file encryption, shadow copy deletion (vssadmin), lateral SMB/RDP spread, and emergency host containment.",
+  "approval_requirements": "Incident Commander & Tier 2 Lead approval for subnet isolation and domain controller krbtgt rotation.",
+  "closure_requirements": "Requires verified ransomware binary hash, lateral movement scope, immutable backup integrity check, and recovery validation.",
+  "source": {
+    "source_id": "SCOT-RANSOM-2.7",
+    "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+    "document_title": "MITRE T1486 / T1490 Ransomware & Extortion Triage Playbook",
+    "version": "1.0",
+    "publication_date": "2026-11-19",
+    "retrieval_date": "2026-11-19",
+    "page_or_section": "Operational Triage Procedure",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Preserve source attribution"
+  },
+  "prerequisites": [
+    {
+      "requirement": "Normalized case telemetry and SIEM/EDR query access",
+      "required_capability": "SOC SIEM & Case Workbench",
+      "evidence": [
+        "ingested_dataset_manifest"
+      ]
+    }
+  ],
+  "roles": [
+    "Tier 1 SOC Analyst",
+    "Tier 2 SOC Lead",
+    "Incident Responder"
+  ],
+  "steps": [
+    {
+      "step_id": "RANSOM-S1",
+      "step_order": 1,
+      "step_name": "Confirm Encryption Indicators & Shadow Copy Tampering (T1490)",
+      "activity": "Confirm Encryption Indicators & Shadow Copy Tampering (T1490)",
+      "step_description": "Inspect canary file alerts, mass rename telemetry, and vssadmin/wbadmin delete commands.",
+      "description": "Inspect canary file alerts, mass rename telemetry, and vssadmin/wbadmin delete commands.",
+      "phase": "identification",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": null,
+      "expected_successor": "RANSOM-S2",
+      "predecessors": [],
+      "successors": [
+        "RANSOM-S2"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "EDR Ransomware Behavioral Alert"
+      ],
+      "applicable_evidence_requirements": [
+        "ransom_canary_and_vss_log"
+      ],
+      "evidence_required": [
+        "ransom_canary_and_vss_log"
+      ],
+      "evidence_produced": [
+        "ransom-s1_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "ransom-s1_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+        "page": null,
+        "section": "Step 1: Confirm Encryption Indicators & Shadow Copy Tampering (T1490)",
+        "quoted_excerpt": "Inspect canary file alerts, mass rename telemetry, and vssadmin/wbadmin delete commands."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema for full 10-category trial coverage."
+      ]
+    },
+    {
+      "step_id": "RANSOM-S2",
+      "step_order": 2,
+      "step_name": "Execute Emergency Host & Network Segment Isolation",
+      "activity": "Execute Emergency Host & Network Segment Isolation",
+      "step_description": "Quarantine impacted endpoints via EDR and block lateral SMB/WinRM/RDP paths immediately.",
+      "description": "Quarantine impacted endpoints via EDR and block lateral SMB/WinRM/RDP paths immediately.",
+      "phase": "containment",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "RANSOM-S1",
+      "expected_successor": "RANSOM-S3",
+      "predecessors": [
+        "RANSOM-S1"
+      ],
+      "successors": [
+        "RANSOM-S3"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "Switch Port / VLAN Quarantine"
+      ],
+      "applicable_evidence_requirements": [
+        "edr_isolation_receipt"
+      ],
+      "evidence_required": [
+        "edr_isolation_receipt"
+      ],
+      "evidence_produced": [
+        "ransom-s2_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "ransom-s2_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+        "page": null,
+        "section": "Step 2: Execute Emergency Host & Network Segment Isolation",
+        "quoted_excerpt": "Quarantine impacted endpoints via EDR and block lateral SMB/WinRM/RDP paths immediately."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema for full 10-category trial coverage."
+      ]
+    },
+    {
+      "step_id": "RANSOM-S3",
+      "step_order": 3,
+      "step_name": "Trace Initial Access Vector & Lateral Movement Scope (T1021)",
+      "activity": "Trace Initial Access Vector & Lateral Movement Scope (T1021)",
+      "step_description": "Correlate compromised service accounts, Cobalt Strike/RMM tools, and affected hosts.",
+      "description": "Correlate compromised service accounts, Cobalt Strike/RMM tools, and affected hosts.",
+      "phase": "analysis",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "RANSOM-S2",
+      "expected_successor": "RANSOM-S4",
+      "predecessors": [
+        "RANSOM-S2"
+      ],
+      "successors": [
+        "RANSOM-S4"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "SIEM Lateral Auth Correlation"
+      ],
+      "applicable_evidence_requirements": [
+        "lateral_movement_scope_table"
+      ],
+      "evidence_required": [
+        "lateral_movement_scope_table"
+      ],
+      "evidence_produced": [
+        "ransom-s3_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "ransom-s3_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+        "page": null,
+        "section": "Step 3: Trace Initial Access Vector & Lateral Movement Scope (T1021)",
+        "quoted_excerpt": "Correlate compromised service accounts, Cobalt Strike/RMM tools, and affected hosts."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema for full 10-category trial coverage."
+      ]
+    },
+    {
+      "step_id": "RANSOM-S4",
+      "step_order": 4,
+      "step_name": "Escalate to Executive Incident Response & Verify Offline Backups",
+      "activity": "Escalate to Executive Incident Response & Verify Offline Backups",
+      "step_description": "Conditional escalation for extortion demand, domain-wide spread, or backup compromise.",
+      "description": "Conditional escalation for extortion demand, domain-wide spread, or backup compromise.",
+      "phase": "coordination",
+      "mandatory_status": "conditional",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when preliminary investigation indicators confirm active compromise or impact.",
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "RANSOM-S3",
+      "expected_successor": "RANSOM-S5",
+      "predecessors": [
+        "RANSOM-S3"
+      ],
+      "successors": [
+        "RANSOM-S5"
+      ],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [
+        "CISO & Legal Breach Notification"
+      ],
+      "applicable_evidence_requirements": [
+        "backup_integrity_attestation"
+      ],
+      "evidence_required": [
+        "backup_integrity_attestation"
+      ],
+      "evidence_produced": [
+        "ransom-s4_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "ransom-s4_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+        "page": null,
+        "section": "Step 4: Escalate to Executive Incident Response & Verify Offline Backups",
+        "quoted_excerpt": "Conditional escalation for extortion demand, domain-wide spread, or backup compromise."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema for full 10-category trial coverage."
+      ]
+    },
+    {
+      "step_id": "RANSOM-S5",
+      "step_order": 5,
+      "step_name": "Eradicate Persistence, Recover Clean Hosts & Close Incident",
+      "activity": "Eradicate Persistence, Recover Clean Hosts & Close Incident",
+      "step_description": "Document root cause, decryption/restore verification, and post-incident lessons.",
+      "description": "Document root cause, decryption/restore verification, and post-incident lessons.",
+      "phase": "post_incident",
+      "mandatory_status": "mandatory",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "expected_predecessor": "RANSOM-S3",
+      "expected_successor": null,
+      "predecessors": [
+        "RANSOM-S3"
+      ],
+      "successors": [],
+      "decision_outcomes": [],
+      "permitted_alternative_actions": [],
+      "applicable_evidence_requirements": [
+        "ransomware_recovery_closure_report"
+      ],
+      "evidence_required": [
+        "ransomware_recovery_closure_report"
+      ],
+      "evidence_produced": [
+        "ransom-s5_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "ransom-s5_output"
+      ],
+      "source_anchor": {
+        "url": "https://www.gov.scot/publications/cyber-resilience-incident-management/",
+        "page": null,
+        "section": "Step 5: Eradicate Persistence, Recover Clean Hosts & Close Incident",
+        "quoted_excerpt": "Document root cause, decryption/restore verification, and post-incident lessons."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema for full 10-category trial coverage."
+      ]
+    }
+  ],
+  "completion_criteria": [
+    "Requires verified ransomware binary hash, lateral movement scope, immutable backup integrity check, and recovery validation."
+  ],
+  "normalization": {
+    "status": "validated",
+    "method": "Researcher-validated operational benchmark playbook normalized to Action Schema",
+    "reviewer": "principal_researcher",
+    "review_date": "2026-11-19",
+    "confidence": 1.0,
+    "notes": [
+      "Locked and human-validated for full 10-category 250-case trial suite."
+    ]
+  }
+}
