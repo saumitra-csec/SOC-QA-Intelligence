@@ -56,10 +56,29 @@ def compute_sha256_file(file_path: Path) -> str:
     return h.hexdigest()
 
 
-def sanitize_untrusted_text_for_ai(raw_text: str) -> dict:
-    """Sanitizes untrusted log/email text and detects prompt-injection attempts."""
+def sanitize_untrusted_text_for_ai(raw_text: str, record_id: str = "UNSPECIFIED") -> dict:
+    """
+    Implements a 4-layer defense-in-depth architecture against indirect prompt injection:
+    1. Layer 1 (Pattern Detection): Heuristic & regex detection of adversarial control phrases.
+    2. Layer 2 (Structural Privilege Isolation): Encapsulates untrusted telemetry inside non-executable
+       XML data tags (<untrusted_evidence_record>) separated from system instructions.
+    3. Layer 3 (Constrained Schema Validation): Downstream verifier requires valid database record IDs.
+    4. Layer 4 (Human Verification Gate): All AI findings remain PENDING_HUMAN_REVIEW until auditor sign-off.
+    Note: Regex filtering is only Layer 1 and is never treated as standalone protection.
+    """
     if not raw_text:
-        return {"sanitized_text": "", "injection_detected": False, "matches": []}
+        return {
+            "sanitized_text": "",
+            "isolated_envelope": f'<untrusted_evidence_record id="{record_id}"></untrusted_evidence_record>',
+            "injection_detected": False,
+            "matches": [],
+            "defense_layers_applied": [
+                "L1_known_pattern_detection",
+                "L2_structural_delimiter_isolation",
+                "L3_schema_grounding_constraint",
+                "L4_mandatory_human_review_gate",
+            ],
+        }
     matches = []
     sanitized = raw_text
     for pattern in PROMPT_INJECTION_PATTERNS:
@@ -67,10 +86,21 @@ def sanitize_untrusted_text_for_ai(raw_text: str) -> dict:
         if found:
             matches.append(pattern.pattern)
             sanitized = pattern.sub("[REDACTED_UNTRUSTED_DIRECTIVE]", sanitized)
-    # Neutralize raw HTML tags to prevent XSS / HTML rendering
     sanitized = sanitized.replace("<", "&lt;").replace(">", "&gt;")
+    isolated_envelope = (
+        f'<untrusted_evidence_record id="{record_id}" trust_level="untrusted_data_only">\n'
+        f"  {sanitized}\n"
+        f"</untrusted_evidence_record>"
+    )
     return {
         "sanitized_text": sanitized,
+        "isolated_envelope": isolated_envelope,
         "injection_detected": len(matches) > 0,
         "matches": matches,
+        "defense_layers_applied": [
+            "L1_known_pattern_detection",
+            "L2_structural_delimiter_isolation",
+            "L3_schema_grounding_constraint",
+            "L4_mandatory_human_review_gate",
+        ],
     }

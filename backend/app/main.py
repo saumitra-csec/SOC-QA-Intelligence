@@ -36,6 +36,10 @@ from backend.app.services.playbooks.repository import (
 )
 from backend.app.services.validation.quality import evaluate_dataset_quality
 from backend.app.services.process_mining.contracts import pm4py_service
+from backend.app.services.process_mining.benchmark_evaluator import (
+    populate_75_case_benchmark,
+    run_empirical_benchmark_evaluation,
+)
 from backend.app.services.ai.contracts import ai_service
 
 app = FastAPI(
@@ -49,10 +53,10 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=settings.allowed_cors_origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization", "X-Requested-With"],
 )
 
 
@@ -359,3 +363,29 @@ def serve_standalone_ui():
     if ui_path.exists():
         return HTMLResponse(content=ui_path.read_text(encoding="utf-8"))
     return HTMLResponse(content="<h1>SOC-QA Intelligence API Running</h1>")
+
+
+@app.post("/api/v1/process-mining/conformance/{case_id}")
+def check_case_conformance_endpoint(case_id: str, playbook_version_id: Optional[str] = None):
+    try:
+        return pm4py_service.check_conformance_alignments(case_id, playbook_version_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@app.post("/api/v1/ai/assess/{case_id}")
+def run_ai_assessment_endpoint(case_id: str):
+    try:
+        return ai_service.request_structured_assessment(case_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@app.post("/api/v1/benchmark/populate-75")
+def populate_benchmark_endpoint():
+    return populate_75_case_benchmark()
+
+
+@app.post("/api/v1/benchmark/evaluate")
+def evaluate_benchmark_endpoint():
+    return run_empirical_benchmark_evaluation()

@@ -9,6 +9,14 @@ class Settings(BaseModel):
     app_name: str = os.getenv("APP_NAME", "SOC-QA Intelligence")
     app_version: str = os.getenv("APP_VERSION", "1.0.0-research")
     api_prefix: str = os.getenv("API_PREFIX", "/api/v1")
+    allowed_cors_origins: list = [
+        o.strip()
+        for o in os.getenv(
+            "ALLOWED_CORS_ORIGINS",
+            "http://localhost:5173,http://127.0.0.1:5173,http://localhost:8000,http://127.0.0.1:8000",
+        ).split(",")
+        if o.strip()
+    ]
     database_url: str = os.getenv(
         "DATABASE_URL",
         "postgresql://socqa_user:socqa_research_pass@localhost:5432/socqa_intelligence",

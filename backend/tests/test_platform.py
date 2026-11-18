@@ -386,5 +386,66 @@ class TestSOCQAIntelligencePlatform(unittest.TestCase):
         self.assertEqual(r_norm.json()["normalized_count"], 371)
 
 
+    def test_09_75_case_benchmark_and_petri_net_conformance(self):
+        r_pop = self.client.post("/api/v1/benchmark/populate-75")
+        self.assertEqual(r_pop.status_code, 200, r_pop.text)
+        pop_data = r_pop.json()
+        self.assertEqual(pop_data["total_benchmark_cases"], 75)
+        self.assertEqual(pop_data["conformant_cases"], 45)
+        self.assertEqual(pop_data["deviating_cases"], 30)
+
+        # Verify conformant case (CASE-BM-PHISH-001) achieves fitness == 1.0 and 0 deviations
+        r_c1 = self.client.post("/api/v1/process-mining/conformance/CASE-BM-PHISH-001")
+        self.assertEqual(r_c1.status_code, 200, r_c1.text)
+        c1 = r_c1.json()
+        self.assertTrue(c1["is_conformant"])
+        self.assertEqual(c1["fitness"], 1.0)
+        self.assertEqual(c1["deviation_count"], 0)
+
+        # Verify conditional branch case (CASE-BM-PHISH-012) is recognized as conformant (not penalized!)
+        r_c12 = self.client.post("/api/v1/process-mining/conformance/CASE-BM-PHISH-012")
+        self.assertEqual(r_c12.status_code, 200)
+        self.assertTrue(r_c12.json()["is_conformant"])
+
+        # Verify skipped step case (CASE-BM-PHISH-016) detects skipped PHISH-S3
+        r_c16 = self.client.post("/api/v1/process-mining/conformance/CASE-BM-PHISH-016")
+        self.assertEqual(r_c16.status_code, 200)
+        c16 = r_c16.json()
+        self.assertFalse(c16["is_conformant"])
+        self.assertIn("PHISH-S3", c16["skipped_activities"])
+
+        # Verify reordered step case (CASE-BM-SPRAY-021) detects reordered activity
+        r_c21 = self.client.post("/api/v1/process-mining/conformance/CASE-BM-SPRAY-021")
+        self.assertEqual(r_c21.status_code, 200)
+        self.assertFalse(r_c21.json()["is_conformant"])
+        self.assertTrue(len(r_c21.json()["reordered_activities"]) > 0)
+
+        # Verify premature termination case (CASE-BM-PSH-025) detects premature termination
+        r_c25 = self.client.post("/api/v1/process-mining/conformance/CASE-BM-PSH-025")
+        self.assertEqual(r_c25.status_code, 200)
+        self.assertTrue(r_c25.json()["is_premature_termination"])
+
+    def test_10_empirical_hypothesis_evaluation_and_cors_security(self):
+        # Run full 75-case empirical evaluation
+        r_eval = self.client.post("/api/v1/benchmark/evaluate")
+        self.assertEqual(r_eval.status_code, 200, r_eval.text)
+        ev = r_eval.json()
+        self.assertEqual(ev["total_cases_evaluated"], 75)
+        self.assertEqual(ev["confusion_matrix"]["tp"], 30)
+        self.assertEqual(ev["confusion_matrix"]["tn"], 45)
+        self.assertEqual(ev["metrics"]["precision"], 1.0)
+        self.assertEqual(ev["metrics"]["recall"], 1.0)
+        self.assertEqual(ev["metrics"]["f1_score"], 1.0)
+        self.assertGreater(ev["metrics"]["mean_fitness_conformant"], ev["metrics"]["mean_fitness_deviating"])
+        self.assertGreaterEqual(ev["metrics"]["documentation_gap_cases_isolated"], 6)
+
+        # Verify independent AI assessment generates structured findings with PENDING_HUMAN_REVIEW
+        r_ai_case = self.client.post("/api/v1/ai/assess/CASE-BM-PHISH-014")
+        self.assertEqual(r_ai_case.status_code, 200)
+        ai_body = r_ai_case.json()
+        self.assertGreaterEqual(ai_body["findings_count"], 1)
+        self.assertEqual(ai_body["findings"][0]["human_review_status"], "PENDING_HUMAN_REVIEW")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
