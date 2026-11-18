@@ -1,13 +1,13 @@
 {
   "stress_test_name": "Noisy SOC Log Sensitivity Evaluation (Unmapped Free-Text + Timestamp Jitter)",
-  "cases_per_sweep": 400,
+  "cases_per_sweep": 100,
   "seed": 42,
   "sensitivity_curve": [
     {
       "noise_rate": 0.0,
       "confusion_matrix": {
-        "tp": 160,
-        "tn": 240,
+        "tp": 40,
+        "tn": 60,
         "fp": 0,
         "fn": 0
       },
@@ -16,68 +16,68 @@
       "f1_score": 1.0,
       "false_positive_rate": 0.0,
       "mean_fitness_conformant": 1.0,
-      "mean_fitness_deviating": 0.8479
+      "mean_fitness_deviating": 0.8288
     },
     {
       "noise_rate": 0.1,
       "confusion_matrix": {
-        "tp": 160,
-        "tn": 131,
-        "fp": 109,
+        "tp": 40,
+        "tn": 37,
+        "fp": 23,
         "fn": 0
       },
-      "precision": 0.5948,
+      "precision": 0.6349,
       "recall": 1.0,
-      "f1_score": 0.7459,
-      "false_positive_rate": 0.4542,
-      "mean_fitness_conformant": 0.9202,
-      "mean_fitness_deviating": 0.7862
+      "f1_score": 0.7767,
+      "false_positive_rate": 0.3833,
+      "mean_fitness_conformant": 0.9273,
+      "mean_fitness_deviating": 0.76
     },
     {
       "noise_rate": 0.2,
       "confusion_matrix": {
-        "tp": 155,
-        "tn": 57,
-        "fp": 183,
-        "fn": 5
+        "tp": 40,
+        "tn": 14,
+        "fp": 46,
+        "fn": 0
       },
-      "precision": 0.4586,
-      "recall": 0.9688,
-      "f1_score": 0.6225,
-      "false_positive_rate": 0.7625,
-      "mean_fitness_conformant": 0.828,
-      "mean_fitness_deviating": 0.6993
+      "precision": 0.4651,
+      "recall": 1.0,
+      "f1_score": 0.6349,
+      "false_positive_rate": 0.7667,
+      "mean_fitness_conformant": 0.8294,
+      "mean_fitness_deviating": 0.6657
     },
     {
       "noise_rate": 0.35,
       "confusion_matrix": {
-        "tp": 159,
-        "tn": 20,
-        "fp": 220,
-        "fn": 1
+        "tp": 40,
+        "tn": 6,
+        "fp": 54,
+        "fn": 0
       },
-      "precision": 0.4195,
-      "recall": 0.9938,
-      "f1_score": 0.59,
-      "false_positive_rate": 0.9167,
-      "mean_fitness_conformant": 0.7341,
-      "mean_fitness_deviating": 0.6193
+      "precision": 0.4255,
+      "recall": 1.0,
+      "f1_score": 0.597,
+      "false_positive_rate": 0.9,
+      "mean_fitness_conformant": 0.7359,
+      "mean_fitness_deviating": 0.588
     },
     {
       "noise_rate": 0.5,
       "confusion_matrix": {
-        "tp": 160,
-        "tn": 9,
-        "fp": 231,
+        "tp": 40,
+        "tn": 3,
+        "fp": 57,
         "fn": 0
       },
-      "precision": 0.4092,
+      "precision": 0.4124,
       "recall": 1.0,
-      "f1_score": 0.5808,
-      "false_positive_rate": 0.9625,
-      "mean_fitness_conformant": 0.6072,
-      "mean_fitness_deviating": 0.5309
+      "f1_score": 0.584,
+      "false_positive_rate": 0.95,
+      "mean_fitness_conformant": 0.6222,
+      "mean_fitness_deviating": 0.5016
     }
   ],
-  "executed_at": "2026-11-18T22:48:38Z"
+  "executed_at": "2026-11-18T23:18:29Z"
 }
