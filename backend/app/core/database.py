@@ -47,6 +47,48 @@ class DatabaseManager:
                 conn.execute(ddl)
             for idx in INDEX_DDL:
                 conn.execute(idx)
+            alter_statements = [
+                "ALTER TABLE playbooks ADD COLUMN incident_types_json TEXT NOT NULL DEFAULT '[]'",
+                "ALTER TABLE playbooks ADD COLUMN institution TEXT NOT NULL DEFAULT 'SOC-QA Research Benchmark'",
+                "ALTER TABLE playbooks ADD COLUMN playbook_classification TEXT NOT NULL DEFAULT 'operational_soc_playbook'",
+                "ALTER TABLE playbooks ADD COLUMN scope TEXT NOT NULL DEFAULT ''",
+                "ALTER TABLE playbook_versions ADD COLUMN source_metadata_json TEXT NOT NULL DEFAULT '{}'",
+                "ALTER TABLE playbook_versions ADD COLUMN normalization_status TEXT NOT NULL DEFAULT 'validated'",
+                "ALTER TABLE playbook_versions ADD COLUMN normalization_metadata_json TEXT NOT NULL DEFAULT '{}'",
+                "ALTER TABLE playbook_versions ADD COLUMN prerequisites_json TEXT NOT NULL DEFAULT '[]'",
+                "ALTER TABLE playbook_versions ADD COLUMN roles_json TEXT NOT NULL DEFAULT '[]'",
+                "ALTER TABLE playbook_versions ADD COLUMN completion_criteria_json TEXT NOT NULL DEFAULT '[]'",
+                "ALTER TABLE playbook_steps ADD COLUMN phase TEXT NOT NULL DEFAULT 'analysis'",
+                "ALTER TABLE playbook_steps ADD COLUMN is_conditional INTEGER NOT NULL DEFAULT 0",
+                "ALTER TABLE playbook_steps ADD COLUMN condition_expression TEXT",
+                "ALTER TABLE playbook_steps ADD COLUMN actor_role TEXT",
+                "ALTER TABLE playbook_steps ADD COLUMN predecessors_json TEXT NOT NULL DEFAULT '[]'",
+                "ALTER TABLE playbook_steps ADD COLUMN successors_json TEXT NOT NULL DEFAULT '[]'",
+                "ALTER TABLE playbook_steps ADD COLUMN decision_outcomes_json TEXT NOT NULL DEFAULT '[]'",
+                "ALTER TABLE playbook_steps ADD COLUMN evidence_produced_json TEXT NOT NULL DEFAULT '[]'",
+                "ALTER TABLE playbook_steps ADD COLUMN inputs_json TEXT NOT NULL DEFAULT '[]'",
+                "ALTER TABLE playbook_steps ADD COLUMN outputs_json TEXT NOT NULL DEFAULT '[]'",
+                "ALTER TABLE playbook_steps ADD COLUMN source_anchor_json TEXT NOT NULL DEFAULT '{}'",
+                "ALTER TABLE playbook_steps ADD COLUMN normalization_notes_json TEXT NOT NULL DEFAULT '[]'",
+            ]
+            for stmt in alter_statements:
+                try:
+                    conn.execute(stmt)
+                except Exception:
+                    pass
+            cur2 = conn.execute(
+                "SELECT version FROM schema_migrations WHERE version = ?",
+                ("2026_11_18_002_institutional_playbook_action_schema",),
+            )
+            if not cur2.fetchone():
+                conn.execute(
+                    "INSERT INTO schema_migrations (version, applied_at, description) VALUES (?, ?, ?)",
+                    (
+                        "2026_11_18_002_institutional_playbook_action_schema",
+                        utc_now_iso(),
+                        "Extend playbooks schema with Institutional Action Schema, source anchors, and human-review status gate",
+                    ),
+                )
             cur = conn.execute(
                 "SELECT version FROM schema_migrations WHERE version = ?",
                 (SCHEMA_MIGRATION_VERSION,),

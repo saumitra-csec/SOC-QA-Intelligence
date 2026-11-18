@@ -1,0 +1,302 @@
+{
+  "playbook_id": "PB-SPRAY-001",
+  "version": "1.0",
+  "incident_type": "password_spraying",
+  "title": "MITRE T1110.003 Password Spraying Triage Playbook",
+  "mitre_technique_id": "T1110.003",
+  "description": "Researcher-constructed workflow for multi-account low-frequency authentication spraying investigations.",
+  "approval_requirements": "Tier 2 approval for firewall block",
+  "closure_requirements": "Verify multi-account scope and check successful logons",
+  "steps": [
+    {
+      "step_id": "SPRAY-S1",
+      "step_order": 1,
+      "step_name": "Aggregate Failed Logons by Source IP",
+      "step_description": "Verify multiple distinct target accounts (>=5 accounts) targeted from single source IP or coordinated ASN to distinguish T1110.003 from single-account brute force.",
+      "mandatory_status": "mandatory",
+      "expected_predecessor": null,
+      "expected_successor": "SPRAY-S2",
+      "permitted_alternative_actions": [
+        "Query SIEM Authentication Summary"
+      ],
+      "applicable_evidence_requirements": [
+        "auth_aggregation_table"
+      ],
+      "activity": "Aggregate Failed Logons by Source IP",
+      "description": "Verify multiple distinct target accounts (>=5 accounts) targeted from single source IP or coordinated ASN to distinguish T1110.003 from single-account brute force.",
+      "phase": "identification",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "predecessors": [],
+      "successors": [
+        "SPRAY-S2"
+      ],
+      "decision_outcomes": [],
+      "evidence_required": [
+        "auth_aggregation_table"
+      ],
+      "evidence_produced": [
+        "spray-s1_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "spray-s1_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-password-spray",
+        "page": null,
+        "section": "Step 1: Aggregate Failed Logons by Source IP",
+        "quoted_excerpt": "Verify multiple distinct target accounts (>=5 accounts) targeted from single source IP or coordinated ASN to distinguish T1110.003 from single-account brute force."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema while retaining legacy benchmark step fields."
+      ]
+    },
+    {
+      "step_id": "SPRAY-S2",
+      "step_order": 2,
+      "step_name": "Check Subsequent Successful Logons (Event 4624 / Azure AD)",
+      "step_description": "Identify whether any targeted account authenticated successfully from the spraying source IP or User-Agent.",
+      "mandatory_status": "mandatory",
+      "expected_predecessor": "SPRAY-S1",
+      "expected_successor": "SPRAY-S3",
+      "permitted_alternative_actions": [
+        "Correlate Identity Provider Sign-In Logs"
+      ],
+      "applicable_evidence_requirements": [
+        "successful_auth_check_log"
+      ],
+      "activity": "Check Subsequent Successful Logons (Event 4624 / Azure AD)",
+      "description": "Identify whether any targeted account authenticated successfully from the spraying source IP or User-Agent.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "predecessors": [
+        "SPRAY-S1"
+      ],
+      "successors": [
+        "SPRAY-S3"
+      ],
+      "decision_outcomes": [],
+      "evidence_required": [
+        "successful_auth_check_log"
+      ],
+      "evidence_produced": [
+        "spray-s2_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "spray-s2_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-password-spray",
+        "page": null,
+        "section": "Step 2: Check Subsequent Successful Logons (Event 4624 / Azure AD)",
+        "quoted_excerpt": "Identify whether any targeted account authenticated successfully from the spraying source IP or User-Agent."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema while retaining legacy benchmark step fields."
+      ]
+    },
+    {
+      "step_id": "SPRAY-S3",
+      "step_order": 3,
+      "step_name": "Enrich Source IP & User-Agent Context",
+      "step_description": "Evaluate ASN, GeoIP, Tor/VPN indicators, and anomalous client user-agent strings.",
+      "mandatory_status": "mandatory",
+      "expected_predecessor": "SPRAY-S2",
+      "expected_successor": "SPRAY-S4",
+      "permitted_alternative_actions": [
+        "Threat Intel Lookup"
+      ],
+      "applicable_evidence_requirements": [
+        "ti_enrichment_record"
+      ],
+      "activity": "Enrich Source IP & User-Agent Context",
+      "description": "Evaluate ASN, GeoIP, Tor/VPN indicators, and anomalous client user-agent strings.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "predecessors": [
+        "SPRAY-S2"
+      ],
+      "successors": [
+        "SPRAY-S4"
+      ],
+      "decision_outcomes": [],
+      "evidence_required": [
+        "ti_enrichment_record"
+      ],
+      "evidence_produced": [
+        "spray-s3_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "spray-s3_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-password-spray",
+        "page": null,
+        "section": "Step 3: Enrich Source IP & User-Agent Context",
+        "quoted_excerpt": "Evaluate ASN, GeoIP, Tor/VPN indicators, and anomalous client user-agent strings."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema while retaining legacy benchmark step fields."
+      ]
+    },
+    {
+      "step_id": "SPRAY-S4",
+      "step_order": 4,
+      "step_name": "Reset Breached Account & Escalate to Incident Response",
+      "step_description": "Conditional containment when >=1 targeted account exhibits successful logon after spray failures.",
+      "mandatory_status": "conditional",
+      "expected_predecessor": "SPRAY-S3",
+      "expected_successor": "SPRAY-S5",
+      "permitted_alternative_actions": [
+        "Disable AD Account & Revoke Sessions"
+      ],
+      "applicable_evidence_requirements": [
+        "containment_ticket_ref"
+      ],
+      "activity": "Reset Breached Account & Escalate to Incident Response",
+      "description": "Conditional containment when >=1 targeted account exhibits successful logon after spray failures.",
+      "phase": "containment",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when preliminary indicators confirm compromise/escalation threshold.",
+      "actor_role": "SOC Analyst",
+      "predecessors": [
+        "SPRAY-S3"
+      ],
+      "successors": [
+        "SPRAY-S5"
+      ],
+      "decision_outcomes": [],
+      "evidence_required": [
+        "containment_ticket_ref"
+      ],
+      "evidence_produced": [
+        "spray-s4_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "spray-s4_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-password-spray",
+        "page": null,
+        "section": "Step 4: Reset Breached Account & Escalate to Incident Response",
+        "quoted_excerpt": "Conditional containment when >=1 targeted account exhibits successful logon after spray failures."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema while retaining legacy benchmark step fields."
+      ]
+    },
+    {
+      "step_id": "SPRAY-S5",
+      "step_order": 5,
+      "step_name": "Document Triage Outcome & Close Investigation",
+      "step_description": "Record disposition and verify evidence attachments.",
+      "mandatory_status": "mandatory",
+      "expected_predecessor": "SPRAY-S3",
+      "expected_successor": null,
+      "permitted_alternative_actions": [
+        "Record Verified Benign Corporate Scanner Exception"
+      ],
+      "applicable_evidence_requirements": [
+        "closure_audit_note"
+      ],
+      "activity": "Document Triage Outcome & Close Investigation",
+      "description": "Record disposition and verify evidence attachments.",
+      "phase": "post_incident",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "predecessors": [
+        "SPRAY-S3"
+      ],
+      "successors": [],
+      "decision_outcomes": [],
+      "evidence_required": [
+        "closure_audit_note"
+      ],
+      "evidence_produced": [
+        "spray-s5_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "spray-s5_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-password-spray",
+        "page": null,
+        "section": "Step 5: Document Triage Outcome & Close Investigation",
+        "quoted_excerpt": "Record disposition and verify evidence attachments."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema while retaining legacy benchmark step fields."
+      ]
+    }
+  ],
+  "institution": "SOC-QA Research Benchmark",
+  "playbook_classification": "operational_soc_playbook",
+  "incident_types": [
+    "password_spraying"
+  ],
+  "scope": "Researcher-constructed workflow for multi-account low-frequency authentication spraying investigations.",
+  "source": {
+    "source_id": "BENCH-SPRAY-001",
+    "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-password-spray",
+    "document_title": "MITRE T1110.003 Password Spraying Triage Playbook",
+    "version": "1.0",
+    "publication_date": "2026-11-17",
+    "retrieval_date": "2026-11-18",
+    "page_or_section": "Operational Triage Procedure",
+    "content_hash_sha256": null,
+    "license_or_reuse": "MIT / Research Benchmark Attribution"
+  },
+  "prerequisites": [
+    {
+      "requirement": "Normalized case telemetry and SIEM/EDR query access",
+      "required_capability": "SOC SIEM & Case Workbench",
+      "evidence": [
+        "ingested_dataset_manifest"
+      ]
+    }
+  ],
+  "roles": [
+    "Tier 1 SOC Analyst",
+    "Tier 2 SOC Lead",
+    "Incident Responder"
+  ],
+  "completion_criteria": [
+    "Verify multi-account scope and check successful logons"
+  ],
+  "normalization": {
+    "status": "validated",
+    "method": "Researcher-validated operational benchmark playbook normalized to Action Schema",
+    "reviewer": "principal_researcher",
+    "review_date": "2026-11-18",
+    "confidence": 1.0,
+    "notes": [
+      "Locked and human-validated for 75-case and 100-case empirical conformance evaluation."
+    ]
+  }
+}

@@ -1,0 +1,228 @@
+{
+  "playbook_id": "SPLUNK-PSH-EXAMPLE-001",
+  "title": "Suspicious PowerShell & Script Block Investigation Playbook",
+  "institution": "Splunk Security Content / Microsoft Sysmon Guidance",
+  "incident_type": [
+    "suspicious_powershell"
+  ],
+  "scope": "Operational endpoint investigation workflow for suspicious PowerShell execution (T1059.001), Event ID 4104 script blocks, and Sysmon process lineage.",
+  "source": {
+    "source_id": "SPLUNK-SEC-CONTENT",
+    "url": "https://github.com/splunk/security_content/tree/develop/playbooks",
+    "document_title": "Splunk Security Content Playbooks & Microsoft PowerShell Logging Guidance",
+    "version": "1.0",
+    "publication_date": null,
+    "retrieval_date": "2026-11-18",
+    "page_or_section": "Endpoint PowerShell Investigation & Remediation",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Apache-2.0 repository license; retain attribution."
+  },
+  "prerequisites": [
+    {
+      "requirement": "Sysmon Event ID 1 / Windows Event 4688 and PowerShell Operational Event ID 4104 enabled",
+      "required_capability": "Endpoint EDR and SIEM Script Block Logging",
+      "evidence": [
+        "sysmon_event1_record",
+        "event4104_decoded_artifact"
+      ]
+    }
+  ],
+  "roles": [
+    "SOC analyst",
+    "endpoint incident responder"
+  ],
+  "steps": [
+    {
+      "step_id": "SPSK-01",
+      "activity": "Validate process lineage and parent-child execution chain",
+      "description": "Inspect parent process image, command-line switches (-EncodedCommand, -NoProfile, -WindowStyle Hidden), and executing user context.",
+      "phase": "identification",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "sysmon_event1_record"
+      ],
+      "evidence_produced": [
+        "process_lineage_record"
+      ],
+      "inputs": [
+        "endpoint_process_alert"
+      ],
+      "outputs": [
+        "process_lineage_record"
+      ],
+      "predecessors": [],
+      "successors": [
+        "SPSK-02"
+      ],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://github.com/splunk/security_content/tree/develop/playbooks",
+        "page": null,
+        "section": "Process Lineage Verification",
+        "quoted_excerpt": "Inspect parent process, command-line arguments, and user privilege context."
+      },
+      "normalization_notes": []
+    },
+    {
+      "step_id": "SPSK-02",
+      "activity": "Deobfuscate PowerShell ScriptBlockText (Event ID 4104) and AMSI buffers",
+      "description": "Decode Base64/Gzip payloads and inspect script block commands for download cradles, reflective injection, or credential access.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "event4104_decoded_artifact"
+      ],
+      "evidence_produced": [
+        "deobfuscated_payload_report"
+      ],
+      "inputs": [
+        "process_lineage_record"
+      ],
+      "outputs": [
+        "deobfuscated_payload_report"
+      ],
+      "predecessors": [
+        "SPSK-01"
+      ],
+      "successors": [
+        "SPSK-03"
+      ],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging_windows?view=powershell-7.6",
+        "page": null,
+        "section": "Script Block Logging (Event ID 4104)",
+        "quoted_excerpt": "Script block logging records the full content of code blocks as they are executed."
+      },
+      "normalization_notes": []
+    },
+    {
+      "step_id": "SPSK-03",
+      "activity": "Hunt network connections and dropped file artifacts across host telemetry",
+      "description": "Correlate outbound C2 IP/domain connections (Sysmon Event 3) and file creation hashes (Sysmon Event 11).",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "network_file_ioc_log"
+      ],
+      "evidence_produced": [
+        "endpoint_ioc_correlation"
+      ],
+      "inputs": [
+        "deobfuscated_payload_report"
+      ],
+      "outputs": [
+        "endpoint_ioc_correlation"
+      ],
+      "predecessors": [
+        "SPSK-02"
+      ],
+      "successors": [
+        "SPSK-04"
+      ],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://github.com/splunk/security_content/tree/develop/playbooks",
+        "page": null,
+        "section": "Network & File Artifact Correlation",
+        "quoted_excerpt": "Correlate child processes, network connections, and file modifications."
+      },
+      "normalization_notes": []
+    },
+    {
+      "step_id": "SPSK-04",
+      "activity": "Quarantine endpoint and terminate malicious process tree",
+      "description": "Isolate host via EDR when script block analysis confirms malicious payload execution or C2 beacon.",
+      "phase": "containment",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "When script block performs malicious download, credential access, or lateral movement.",
+      "actor_role": "Endpoint incident responder",
+      "evidence_required": [
+        "host_isolation_receipt"
+      ],
+      "evidence_produced": [
+        "edr_quarantine_record"
+      ],
+      "inputs": [
+        "endpoint_ioc_correlation"
+      ],
+      "outputs": [
+        "edr_quarantine_record"
+      ],
+      "predecessors": [
+        "SPSK-03"
+      ],
+      "successors": [
+        "SPSK-05"
+      ],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://github.com/splunk/security_content/tree/develop/playbooks",
+        "page": null,
+        "section": "Containment",
+        "quoted_excerpt": "Isolate the endpoint and terminate suspicious processes if malicious activity is confirmed."
+      },
+      "normalization_notes": []
+    },
+    {
+      "step_id": "SPSK-05",
+      "activity": "Verify administrative change authorization or record incident closure",
+      "description": "Confirm legitimate IT administration ticket or complete incident escalation documentation.",
+      "phase": "post_incident",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "closure_verification_record"
+      ],
+      "evidence_produced": [
+        "final_psh_disposition"
+      ],
+      "inputs": [
+        "endpoint_ioc_correlation"
+      ],
+      "outputs": [
+        "final_psh_disposition"
+      ],
+      "predecessors": [
+        "SPSK-03"
+      ],
+      "successors": [],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://github.com/splunk/security_content/tree/develop/playbooks",
+        "page": null,
+        "section": "Closure & Disposition",
+        "quoted_excerpt": "Document administrative verification or escalate confirmed incident."
+      },
+      "normalization_notes": []
+    }
+  ],
+  "completion_criteria": [
+    "Parent-child process lineage verified",
+    "Event 4104 script block decoded and analyzed",
+    "Network and file IOCs correlated",
+    "Containment or administrative legitimacy documented"
+  ],
+  "normalization": {
+    "status": "human_reviewed",
+    "method": "Structured extraction from Splunk Security Content & Microsoft PowerShell Event 4104 guidance",
+    "reviewer": "principal_researcher",
+    "review_date": "2026-11-18",
+    "confidence": 0.89,
+    "notes": [
+      "Normalized to Action Schema to enable multi-playbook PowerShell conformance comparison alongside PB-PSH-001."
+    ]
+  }
+}

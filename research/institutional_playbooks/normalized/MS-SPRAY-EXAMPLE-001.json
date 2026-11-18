@@ -1,0 +1,232 @@
+{
+  "playbook_id": "MS-SPRAY-EXAMPLE-001",
+  "title": "Password Spray Investigation Playbook",
+  "institution": "Microsoft Security",
+  "incident_type": [
+    "password_spraying"
+  ],
+  "scope": "Microsoft Learn published password spray investigation workflow across Microsoft Entra ID and M365 sign-in telemetry.",
+  "source": {
+    "source_id": "MS-PASSWORD-SPRAY",
+    "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-password-spray",
+    "document_title": "Password Spray Investigation Playbook",
+    "version": "1.0",
+    "publication_date": null,
+    "retrieval_date": "2026-11-18",
+    "page_or_section": "Workflow; Correlate sign-in anomalies; Remediation",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Microsoft Learn terms apply; retain attribution and source link."
+  },
+  "prerequisites": [
+    {
+      "requirement": "Microsoft Entra ID sign-in logs and risk detections enabled",
+      "required_capability": "Entra ID P1/P2 or SIEM sign-in ingestion",
+      "evidence": [
+        "entra_signin_logs",
+        "risk_detections"
+      ]
+    }
+  ],
+  "roles": [
+    "SOC analyst",
+    "identity administrator",
+    "incident responder"
+  ],
+  "steps": [
+    {
+      "step_id": "MSS-01",
+      "activity": "Identify password spray indicators and source infrastructure",
+      "description": "Identify clustered failed authentication attempts across multiple accounts from a common IP, ASN, or legacy protocol.",
+      "phase": "identification",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "auth_aggregation_table",
+        "source_ip_list"
+      ],
+      "evidence_produced": [
+        "spray_scope_record"
+      ],
+      "inputs": [
+        "signin_failure_alerts"
+      ],
+      "outputs": [
+        "spray_scope_record"
+      ],
+      "predecessors": [],
+      "successors": [
+        "MSS-02"
+      ],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-password-spray",
+        "page": null,
+        "section": "Workflow; Identify password spray characteristics",
+        "quoted_excerpt": "Identify spike in failed sign-ins across multiple user accounts."
+      },
+      "normalization_notes": [
+        "Working extraction aligned to Microsoft Learn Password Spray guidance."
+      ]
+    },
+    {
+      "step_id": "MSS-02",
+      "activity": "Evaluate targeted accounts for successful sign-ins and session compromise",
+      "description": "Determine whether any targeted user account experienced a successful authentication or MFA bypass from the suspicious infrastructure.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "successful_auth_check_log"
+      ],
+      "evidence_produced": [
+        "compromised_account_assessment"
+      ],
+      "inputs": [
+        "spray_scope_record"
+      ],
+      "outputs": [
+        "compromised_account_assessment"
+      ],
+      "predecessors": [
+        "MSS-01"
+      ],
+      "successors": [
+        "MSS-03"
+      ],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-password-spray",
+        "page": null,
+        "section": "Workflow; Investigate targeted accounts",
+        "quoted_excerpt": "Check whether any targeted accounts had a successful sign-in."
+      },
+      "normalization_notes": []
+    },
+    {
+      "step_id": "MSS-03",
+      "activity": "Correlate IP reputation, user-agent, and post-authentication activity",
+      "description": "Inspect proxy/VPN/anonymizer usage, client user-agent anomalies, and directory/mailbox changes after login.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "ti_enrichment_record"
+      ],
+      "evidence_produced": [
+        "post_auth_correlation_record"
+      ],
+      "inputs": [
+        "compromised_account_assessment"
+      ],
+      "outputs": [
+        "post_auth_correlation_record"
+      ],
+      "predecessors": [
+        "MSS-02"
+      ],
+      "successors": [
+        "MSS-04"
+      ],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-password-spray",
+        "page": null,
+        "section": "Workflow; Review sign-in telemetry and post-compromise activity",
+        "quoted_excerpt": "Evaluate IP reputation, user agent, and subsequent directory activity."
+      },
+      "normalization_notes": []
+    },
+    {
+      "step_id": "MSS-04",
+      "activity": "Contain compromised identities and enforce credential reset",
+      "description": "Revoke active refresh tokens, reset credentials, and block malicious source IPs when account compromise is confirmed.",
+      "phase": "containment",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "When >=1 targeted account exhibits successful logon or token abuse.",
+      "actor_role": "Identity administrator / incident responder",
+      "evidence_required": [
+        "containment_ticket_ref"
+      ],
+      "evidence_produced": [
+        "identity_containment_record"
+      ],
+      "inputs": [
+        "post_auth_correlation_record"
+      ],
+      "outputs": [
+        "identity_containment_record"
+      ],
+      "predecessors": [
+        "MSS-03"
+      ],
+      "successors": [
+        "MSS-05"
+      ],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-password-spray",
+        "page": null,
+        "section": "Workflow; Containment and remediation",
+        "quoted_excerpt": "Reset passwords, revoke active sessions, and apply Conditional Access blocks."
+      },
+      "normalization_notes": []
+    },
+    {
+      "step_id": "MSS-05",
+      "activity": "Document authentication investigation disposition and close incident",
+      "description": "Record verified spray scope, affected identities, and hardening recommendations.",
+      "phase": "post_incident",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "closure_audit_note"
+      ],
+      "evidence_produced": [
+        "final_spray_closure_record"
+      ],
+      "inputs": [
+        "post_auth_correlation_record"
+      ],
+      "outputs": [
+        "final_spray_closure_record"
+      ],
+      "predecessors": [
+        "MSS-03"
+      ],
+      "successors": [],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-password-spray",
+        "page": null,
+        "section": "Workflow; Post-incident review",
+        "quoted_excerpt": "Document investigation findings and close the incident."
+      },
+      "normalization_notes": []
+    }
+  ],
+  "completion_criteria": [
+    "Targeted account scope and failed sign-in volume documented",
+    "Successful sign-in correlation completed",
+    "Threat intelligence and user-agent enrichment recorded",
+    "Containment or benign closure rationale documented"
+  ],
+  "normalization": {
+    "status": "human_reviewed",
+    "method": "Structured extraction from Microsoft Learn Password Spray Investigation Playbook headings",
+    "reviewer": "principal_researcher",
+    "review_date": "2026-11-18",
+    "confidence": 0.88,
+    "notes": [
+      "Normalized to Action Schema to enable multi-playbook password spraying conformance comparison alongside PB-SPRAY-001."
+    ]
+  }
+}

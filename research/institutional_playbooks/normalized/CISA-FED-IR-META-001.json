@@ -1,0 +1,155 @@
+{
+  "playbook_id": "CISA-FED-IR-META-001",
+  "title": "Federal Government Cybersecurity Incident Response Playbook",
+  "institution": "CISA",
+  "incident_type": [
+    "confirmed malicious cyber activity",
+    "major incident response"
+  ],
+  "scope": "Federal civilian executive branch incident response coordination and operational procedures.",
+  "source": {
+    "source_id": "CISA-FED-IR-2024",
+    "url": "https://www.cisa.gov/sites/default/files/2024-08/Federal_Government_Cybersecurity_Incident_and_Vulnerability_Response_Playbooks_508C.pdf",
+    "document_title": "Federal Government Cybersecurity Incident and Vulnerability Response Playbooks",
+    "version": null,
+    "publication_date": null,
+    "retrieval_date": "2026-11-18",
+    "page_or_section": "Overview and scope",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Check CISA document terms; preserve attribution."
+  },
+  "prerequisites": [],
+  "roles": [
+    "Federal civilian executive branch agency",
+    "CISA",
+    "third-party responders"
+  ],
+  "steps": [
+    {
+      "step_id": "CISA-META-01",
+      "activity": "Identify incident and initiate response",
+      "description": "Response may be initiated by an agency, CISA, or another third party.",
+      "phase": "identification",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "Affected agency / CISA",
+      "evidence_required": [
+        "incident_detection_or_notification"
+      ],
+      "evidence_produced": [
+        "incident_record"
+      ],
+      "inputs": [
+        "security_event"
+      ],
+      "outputs": [
+        "incident_record"
+      ],
+      "predecessors": [],
+      "successors": [
+        "CISA-META-02"
+      ],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://www.cisa.gov/sites/default/files/2024-08/Federal_Government_Cybersecurity_Incident_and_Vulnerability_Response_Playbooks_508C.pdf",
+        "page": 3,
+        "section": "Scope",
+        "quoted_excerpt": "Initiated by an FCEB agency ... or initiated by CISA ... or other third parties."
+      },
+      "normalization_notes": [
+        "Only high-level phases are represented here; obtain and extract the full PDF before using for conformance scoring."
+      ]
+    },
+    {
+      "step_id": "CISA-META-02",
+      "activity": "Coordinate response activities",
+      "description": "Coordinate affected organisations and response stakeholders using standardised processes and communication.",
+      "phase": "coordination",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "Affected agency / CISA",
+      "evidence_required": [
+        "coordination_log",
+        "communications_record"
+      ],
+      "evidence_produced": [
+        "coordinated_response_record"
+      ],
+      "inputs": [
+        "incident_record"
+      ],
+      "outputs": [
+        "coordinated_response_record"
+      ],
+      "predecessors": [
+        "CISA-META-01"
+      ],
+      "successors": [
+        "CISA-META-03"
+      ],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://www.cisa.gov/sites/default/files/2024-08/Federal_Government_Cybersecurity_Incident_and_Vulnerability_Response_Playbooks_508C.pdf",
+        "page": 2,
+        "section": "Overview",
+        "quoted_excerpt": "Identify, coordinate, remediate, recover, and track successful mitigations."
+      },
+      "normalization_notes": []
+    },
+    {
+      "step_id": "CISA-META-03",
+      "activity": "Remediate, recover, and track mitigation",
+      "description": "Remediate incident impact, recover affected systems, and track successful mitigations.",
+      "phase": "recovery",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "Affected agency / response stakeholders",
+      "evidence_required": [
+        "remediation_record",
+        "recovery_validation",
+        "mitigation_tracking"
+      ],
+      "evidence_produced": [
+        "recovery_and_mitigation_record"
+      ],
+      "inputs": [
+        "coordinated_response_record"
+      ],
+      "outputs": [
+        "recovery_and_mitigation_record"
+      ],
+      "predecessors": [
+        "CISA-META-02"
+      ],
+      "successors": [],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://www.cisa.gov/sites/default/files/2024-08/Federal_Government_Cybersecurity_Incident_and_Vulnerability_Response_Playbooks_508C.pdf",
+        "page": 2,
+        "section": "Overview",
+        "quoted_excerpt": "Identify, coordinate, remediate, recover, and track successful mitigations."
+      },
+      "normalization_notes": [
+        "Coarse workflow representation only; not sufficient for step-level conformance testing."
+      ]
+    }
+  ],
+  "completion_criteria": [
+    "Incident is tracked",
+    "Response coordination is documented",
+    "Remediation and recovery are recorded"
+  ],
+  "normalization": {
+    "status": "machine_extracted_unreviewed",
+    "method": "High-level extraction from CISA PDF overview and scope text",
+    "reviewer": null,
+    "review_date": null,
+    "confidence": 0.55,
+    "notes": [
+      "This deliberately avoids inventing detailed CISA steps not extracted from the complete document."
+    ]
+  }
+}

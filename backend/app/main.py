@@ -32,7 +32,12 @@ from backend.app.services.playbooks.repository import (
     get_playbook_version,
     import_playbook_csv,
     import_playbook_json,
+    list_institutional_sources,
     list_playbooks,
+    review_institutional_playbook,
+    seed_institutional_playbook_pack,
+    compare_playbooks_by_phase,
+    validate_institutional_playbook_schema,
 )
 from backend.app.services.validation.quality import evaluate_dataset_quality
 from backend.app.services.process_mining.contracts import pm4py_service
@@ -389,3 +394,74 @@ def populate_benchmark_endpoint():
 @app.post("/api/v1/benchmark/evaluate")
 def evaluate_benchmark_endpoint():
     return run_empirical_benchmark_evaluation()
+
+
+class PlaybookReviewRequest(BaseModel):
+    reviewer: str
+    new_status: str
+    review_notes: str = ""
+
+
+@app.post("/api/v1/playbooks/institutional/seed")
+def seed_institutional_pack_endpoint():
+    return seed_institutional_playbook_pack()
+
+
+@app.get("/api/v1/playbooks/institutional/sources")
+def list_institutional_sources_endpoint():
+    return {"sources": list_institutional_sources()}
+
+
+@app.post("/api/v1/playbooks/institutional/validate")
+def validate_institutional_playbook_endpoint(payload: Dict[str, Any]):
+    try:
+        return validate_institutional_playbook_schema(payload)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.post("/api/v1/playbooks/{playbook_id}/{version}/review")
+def review_playbook_endpoint(playbook_id: str, version: str, req: PlaybookReviewRequest):
+    try:
+        return review_institutional_playbook(
+            playbook_id=playbook_id,
+            version=version,
+            reviewer=req.reviewer,
+            new_status=req.new_status,
+            review_notes=req.review_notes,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.get("/api/v1/playbooks/compare")
+def compare_playbooks_endpoint(
+    left_id: str = "PB-PHISH-001",
+    left_version: str = "1.0",
+    right_id: str = "MS-PHISH-EXAMPLE-001",
+    right_version: str = "1.0",
+    overlapping_only: bool = False,
+):
+    try:
+        return compare_playbooks_by_phase(
+            left_playbook_id=left_id,
+            left_version=left_version,
+            right_playbook_id=right_id,
+            right_version=right_version,
+            overlapping_only=overlapping_only,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@app.get("/api/v1/cases/standardized-triage-scale/all")
+def get_all_cases_stqs_endpoint():
+    return pm4py_service.evaluate_all_cases_standardized_triage_scale()
+
+
+@app.get("/api/v1/cases/{case_id}/standardized-triage-scale")
+def get_case_stqs_endpoint(case_id: str):
+    try:
+        return pm4py_service.evaluate_case_standardized_triage_scale(case_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc

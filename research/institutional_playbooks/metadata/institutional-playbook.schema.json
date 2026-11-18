@@ -1,0 +1,329 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://soc-qa-intelligence.local/schemas/institutional-playbook.schema.json",
+  "title": "SOC-QA Institutional Playbook Action Schema",
+  "type": "object",
+  "required": [
+    "playbook_id",
+    "source",
+    "title",
+    "incident_type",
+    "steps",
+    "normalization"
+  ],
+  "properties": {
+    "playbook_id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "institution": {
+      "type": "string"
+    },
+    "incident_type": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "scope": {
+      "type": "string"
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "source_id",
+        "url"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "document_title": {
+          "type": "string"
+        },
+        "version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "publication_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "retrieval_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "page_or_section": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "content_hash_sha256": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "license_or_reuse": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "prerequisites": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "requirement": {
+            "type": "string"
+          },
+          "required_capability": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/step"
+      }
+    },
+    "completion_criteria": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "normalization": {
+      "type": "object",
+      "required": [
+        "status",
+        "method"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "source_verified_not_extracted",
+            "machine_extracted_unreviewed",
+            "human_reviewed",
+            "validated"
+          ]
+        },
+        "method": {
+          "type": "string"
+        },
+        "reviewer": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "review_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "confidence": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "step": {
+      "type": "object",
+      "required": [
+        "step_id",
+        "activity",
+        "phase",
+        "source_anchor",
+        "mandatory"
+      ],
+      "properties": {
+        "step_id": {
+          "type": "string"
+        },
+        "activity": {
+          "type": "string"
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "phase": {
+          "enum": [
+            "preparation",
+            "detection",
+            "identification",
+            "triage",
+            "analysis",
+            "containment",
+            "eradication",
+            "recovery",
+            "communication",
+            "post_incident",
+            "coordination",
+            "other"
+          ]
+        },
+        "mandatory": {
+          "type": "boolean"
+        },
+        "conditional": {
+          "type": "boolean",
+          "default": false
+        },
+        "condition": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "actor_role": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "evidence_required": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "evidence_produced": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "predecessors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "successors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "decision_outcomes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "condition": {
+                "type": "string"
+              },
+              "next_step_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "source_anchor": {
+          "type": "object",
+          "required": [
+            "url"
+          ],
+          "properties": {
+            "url": {
+              "type": "string",
+              "format": "uri"
+            },
+            "page": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "section": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "quoted_excerpt": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "normalization_notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

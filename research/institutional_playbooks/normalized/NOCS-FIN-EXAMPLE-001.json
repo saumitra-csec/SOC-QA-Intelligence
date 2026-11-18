@@ -1,0 +1,333 @@
+{
+  "playbook_id": "NOCS-FIN-EXAMPLE-001",
+  "title": "Financial Sector Playbook",
+  "institution": "Australian National Office of Cyber Security",
+  "incident_type": [
+    "financial-sector cyber incident",
+    "cross-organisation incident coordination"
+  ],
+  "scope": "National-level coordination and consequence management; not a prescriptive technical SOC response workflow.",
+  "source": {
+    "source_id": "NOCS-FIN-1.1",
+    "url": "https://www.homeaffairs.gov.au/cyber-security-subsite/files/financial-sector-playbook.pdf",
+    "document_title": "Financial Sector Playbook",
+    "version": "1.1",
+    "publication_date": "2025-09-10",
+    "retrieval_date": "2026-11-18",
+    "page_or_section": "Initial response; Assess consequences; Categorise incident; Coordinated response; Post coordinated response",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Check official terms; retain OFFICIAL marking and attribution."
+  },
+  "prerequisites": [
+    {
+      "requirement": "Impacted entity reports incident to ASD before notifying NOCS",
+      "required_capability": "National incident reporting channel",
+      "evidence": [
+        "ASD_report_reference"
+      ]
+    }
+  ],
+  "roles": [
+    "Impacted entity",
+    "ASD",
+    "NOCS",
+    "relevant regulators",
+    "government and industry stakeholders"
+  ],
+  "steps": [
+    {
+      "step_id": "NOCS-FIN-01",
+      "activity": "Report incident to ASD",
+      "description": "Impacted entity reports the cyber incident to ASD before notifying NOCS.",
+      "phase": "communication",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "Impacted entity",
+      "evidence_required": [
+        "incident_report_reference",
+        "notification_timestamp"
+      ],
+      "evidence_produced": [
+        "ASD_notification_record"
+      ],
+      "inputs": [
+        "confirmed_or_suspected_incident"
+      ],
+      "outputs": [
+        "ASD_notification_record"
+      ],
+      "predecessors": [],
+      "successors": [
+        "NOCS-FIN-02"
+      ],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://www.homeaffairs.gov.au/cyber-security-subsite/files/financial-sector-playbook.pdf",
+        "page": 1,
+        "section": "Initial response — Notification of an incident",
+        "quoted_excerpt": "Impacted entities should report cyber incidents to ASD before notifying the NOCS."
+      },
+      "normalization_notes": []
+    },
+    {
+      "step_id": "NOCS-FIN-02",
+      "activity": "Notify NOCS and seek coordination support",
+      "description": "Notify NOCS through an appropriate channel to seek whole-of-government coordination and consequence-management support.",
+      "phase": "coordination",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Where NOCS coordination or consequence-management support is sought or relevant.",
+      "actor_role": "Impacted entity",
+      "evidence_required": [
+        "NOCS_notification_record"
+      ],
+      "evidence_produced": [
+        "NOCS_engagement_record"
+      ],
+      "inputs": [
+        "ASD_notification_record"
+      ],
+      "outputs": [
+        "NOCS_engagement_record"
+      ],
+      "predecessors": [
+        "NOCS-FIN-01"
+      ],
+      "successors": [
+        "NOCS-FIN-03"
+      ],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://www.homeaffairs.gov.au/cyber-security-subsite/files/financial-sector-playbook.pdf",
+        "page": 1,
+        "section": "Initial response — Notification of an incident",
+        "quoted_excerpt": "Directly emailing NOCS.Response@homeaffairs.gov.au is the most effective way to ensure the NOCS is aware of an incident."
+      },
+      "normalization_notes": [
+        "NOCS engagement is described as voluntary; do not score non-engagement as an automatic SOC procedural failure."
+      ]
+    },
+    {
+      "step_id": "NOCS-FIN-03",
+      "activity": "Assess incident consequences",
+      "description": "Assess potential impacts including safety, government, critical infrastructure, sector, financial stability, customer trust, and sensitive information exposure.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "NOCS with impacted entity and stakeholders",
+      "evidence_required": [
+        "impact_assessment",
+        "affected_systems_and_information",
+        "stakeholder_inputs"
+      ],
+      "evidence_produced": [
+        "consequence_assessment"
+      ],
+      "inputs": [
+        "incident_context"
+      ],
+      "outputs": [
+        "consequence_assessment"
+      ],
+      "predecessors": [
+        "NOCS-FIN-02"
+      ],
+      "successors": [
+        "NOCS-FIN-04"
+      ],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://www.homeaffairs.gov.au/cyber-security-subsite/files/financial-sector-playbook.pdf",
+        "page": 2,
+        "section": "Assess consequences",
+        "quoted_excerpt": "The NOCS will assess potential consequences."
+      },
+      "normalization_notes": []
+    },
+    {
+      "step_id": "NOCS-FIN-04",
+      "activity": "Categorise incident and determine coordination level",
+      "description": "Categorise incident severity and complexity using national thresholds and relevant impact considerations.",
+      "phase": "triage",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "NOCS",
+      "evidence_required": [
+        "severity_rationale",
+        "impact_factors",
+        "coordination_decision"
+      ],
+      "evidence_produced": [
+        "incident_category"
+      ],
+      "inputs": [
+        "consequence_assessment"
+      ],
+      "outputs": [
+        "incident_category"
+      ],
+      "predecessors": [
+        "NOCS-FIN-03"
+      ],
+      "successors": [
+        "NOCS-FIN-05"
+      ],
+      "decision_outcomes": [
+        {
+          "condition": "Coordination needed beyond impacted entity",
+          "next_step_ids": [
+            "NOCS-FIN-05"
+          ]
+        },
+        {
+          "condition": "No further coordinated response required",
+          "next_step_ids": [
+            "NOCS-FIN-07"
+          ]
+        }
+      ],
+      "source_anchor": {
+        "url": "https://www.homeaffairs.gov.au/cyber-security-subsite/files/financial-sector-playbook.pdf",
+        "page": 2,
+        "section": "Categorise incident",
+        "quoted_excerpt": "The NOCS will categorise the incident on the following scale."
+      },
+      "normalization_notes": [
+        "Decision thresholds should be extracted from the full document and reviewed by a subject-matter reviewer."
+      ]
+    },
+    {
+      "step_id": "NOCS-FIN-05",
+      "activity": "Coordinate briefings and working groups",
+      "description": "Establish shared situational awareness and, where appropriate, convene relevant working groups for technical, sectoral, identity, data, or communications issues.",
+      "phase": "coordination",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Where the incident requires coordinated consequence management.",
+      "actor_role": "NOCS and relevant stakeholders",
+      "evidence_required": [
+        "briefing_record",
+        "working_group_decision",
+        "participant_list"
+      ],
+      "evidence_produced": [
+        "coordination_record"
+      ],
+      "inputs": [
+        "incident_category"
+      ],
+      "outputs": [
+        "coordination_record"
+      ],
+      "predecessors": [
+        "NOCS-FIN-04"
+      ],
+      "successors": [
+        "NOCS-FIN-06"
+      ],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://www.homeaffairs.gov.au/cyber-security-subsite/files/financial-sector-playbook.pdf",
+        "page": 3,
+        "section": "Coordinated response — Working groups",
+        "quoted_excerpt": "The NOCS may establish working groups based on the specific nature of the incident."
+      },
+      "normalization_notes": [
+        "Working groups are examples and are not all mandatory for every incident."
+      ]
+    },
+    {
+      "step_id": "NOCS-FIN-06",
+      "activity": "Maintain coordinated response and situational updates",
+      "description": "Maintain coordination at a cadence appropriate to the level of response and stakeholder needs.",
+      "phase": "coordination",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "While coordinated consequence management remains necessary.",
+      "actor_role": "NOCS and impacted entity",
+      "evidence_required": [
+        "situation_reports",
+        "meeting_records",
+        "action_tracker"
+      ],
+      "evidence_produced": [
+        "coordination_updates"
+      ],
+      "inputs": [
+        "coordination_record"
+      ],
+      "outputs": [
+        "coordination_updates"
+      ],
+      "predecessors": [
+        "NOCS-FIN-05"
+      ],
+      "successors": [
+        "NOCS-FIN-07"
+      ],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://www.homeaffairs.gov.au/cyber-security-subsite/files/financial-sector-playbook.pdf",
+        "page": 4,
+        "section": "National Coordination Mechanism",
+        "quoted_excerpt": "The meetings will be maintained at a cadence appropriate to the level of coordination and communication required."
+      },
+      "normalization_notes": []
+    },
+    {
+      "step_id": "NOCS-FIN-07",
+      "activity": "Stand down coordinated response and capture lessons learned",
+      "description": "Cease coordination when no longer required and consider a post-incident review and lessons learned.",
+      "phase": "post_incident",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "NOCS with impacted entity and stakeholders",
+      "evidence_required": [
+        "stand_down_decision",
+        "post_incident_review"
+      ],
+      "evidence_produced": [
+        "closure_and_lessons_record"
+      ],
+      "inputs": [
+        "coordination_updates"
+      ],
+      "outputs": [
+        "closure_and_lessons_record"
+      ],
+      "predecessors": [
+        "NOCS-FIN-06"
+      ],
+      "successors": [],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://www.homeaffairs.gov.au/cyber-security-subsite/files/financial-sector-playbook.pdf",
+        "page": 5,
+        "section": "Post coordinated response",
+        "quoted_excerpt": "The NOCS will cease coordination and consequence management activities when a coordinated approach is no longer required."
+      },
+      "normalization_notes": []
+    }
+  ],
+  "completion_criteria": [
+    "Incident reporting and notifications recorded",
+    "Consequence assessment documented",
+    "Coordination decisions and rationale recorded",
+    "Stand-down and lessons-learned decision documented"
+  ],
+  "normalization": {
+    "status": "machine_extracted_unreviewed",
+    "method": "Manual structured extraction from the publicly accessible 5-page official PDF text",
+    "reviewer": null,
+    "review_date": null,
+    "confidence": 0.84,
+    "notes": [
+      "This is a national coordination playbook, not an operational SOC analyst checklist.",
+      "The original PDF is not bundled; use source URL to retrieve and verify exact wording and page references."
+    ]
+  }
+}

@@ -21,6 +21,39 @@
       ],
       "applicable_evidence_requirements": [
         "event4697_service_record"
+      ],
+      "activity": "Inspect New Windows Service Creation (Event ID 4697)",
+      "description": "Verify ServiceName, ServiceFileName path, and binary signature for newly registered services.",
+      "phase": "identification",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "predecessors": [],
+      "successors": [
+        "PERSIST-S2"
+      ],
+      "decision_outcomes": [],
+      "evidence_required": [
+        "event4697_service_record"
+      ],
+      "evidence_produced": [
+        "persist-s1_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "persist-s1_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon",
+        "page": null,
+        "section": "Step 1: Inspect New Windows Service Creation (Event ID 4697)",
+        "quoted_excerpt": "Verify ServiceName, ServiceFileName path, and binary signature for newly registered services."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema while retaining legacy benchmark step fields."
       ]
     },
     {
@@ -36,6 +69,41 @@
       ],
       "applicable_evidence_requirements": [
         "event4720_4732_account_audit"
+      ],
+      "activity": "Audit Account Creation & Privileged Group Escalation (4720 / 4732)",
+      "description": "Correlate newly created local/domain accounts and additions to Administrators group.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "predecessors": [
+        "PERSIST-S1"
+      ],
+      "successors": [
+        "PERSIST-S3"
+      ],
+      "decision_outcomes": [],
+      "evidence_required": [
+        "event4720_4732_account_audit"
+      ],
+      "evidence_produced": [
+        "persist-s2_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "persist-s2_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon",
+        "page": null,
+        "section": "Step 2: Audit Account Creation & Privileged Group Escalation (4720 / 4732)",
+        "quoted_excerpt": "Correlate newly created local/domain accounts and additions to Administrators group."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema while retaining legacy benchmark step fields."
       ]
     },
     {
@@ -51,6 +119,41 @@
       ],
       "applicable_evidence_requirements": [
         "event4719_1102_tamper_evidence"
+      ],
+      "activity": "Assess Audit Policy Tampering & Log Clear (4719 / 1102)",
+      "description": "Verify whether system audit policy was weakened prior to Event ID 1102 Security log clear and recover off-host SIEM telemetry.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "predecessors": [
+        "PERSIST-S2"
+      ],
+      "successors": [
+        "PERSIST-S4"
+      ],
+      "decision_outcomes": [],
+      "evidence_required": [
+        "event4719_1102_tamper_evidence"
+      ],
+      "evidence_produced": [
+        "persist-s3_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "persist-s3_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon",
+        "page": null,
+        "section": "Step 3: Assess Audit Policy Tampering & Log Clear (4719 / 1102)",
+        "quoted_excerpt": "Verify whether system audit policy was weakened prior to Event ID 1102 Security log clear and recover off-host SIEM telemetry."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema while retaining legacy benchmark step fields."
       ]
     },
     {
@@ -66,6 +169,41 @@
       ],
       "applicable_evidence_requirements": [
         "containment_and_remediation_receipt"
+      ],
+      "activity": "Isolate Host, Disable Rogue Account & Remove Malicious Service",
+      "description": "Contain affected host, disable unauthorized account (support_temp), and remove persistence service.",
+      "phase": "containment",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "predecessors": [
+        "PERSIST-S3"
+      ],
+      "successors": [
+        "PERSIST-S5"
+      ],
+      "decision_outcomes": [],
+      "evidence_required": [
+        "containment_and_remediation_receipt"
+      ],
+      "evidence_produced": [
+        "persist-s4_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "persist-s4_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon",
+        "page": null,
+        "section": "Step 4: Isolate Host, Disable Rogue Account & Remove Malicious Service",
+        "quoted_excerpt": "Contain affected host, disable unauthorized account (support_temp), and remove persistence service."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema while retaining legacy benchmark step fields."
       ]
     },
     {
@@ -79,7 +217,84 @@
       "permitted_alternative_actions": [],
       "applicable_evidence_requirements": [
         "final_forensic_closure_report"
+      ],
+      "activity": "Document Timeline Reconstruction & Close Incident",
+      "description": "Record complete attack chain and link preserved off-host evidence references.",
+      "phase": "post_incident",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "predecessors": [
+        "PERSIST-S4"
+      ],
+      "successors": [],
+      "decision_outcomes": [],
+      "evidence_required": [
+        "final_forensic_closure_report"
+      ],
+      "evidence_produced": [
+        "persist-s5_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "persist-s5_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon",
+        "page": null,
+        "section": "Step 5: Document Timeline Reconstruction & Close Incident",
+        "quoted_excerpt": "Record complete attack chain and link preserved off-host evidence references."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema while retaining legacy benchmark step fields."
       ]
     }
-  ]
+  ],
+  "institution": "SOC-QA Research Benchmark",
+  "playbook_classification": "operational_soc_playbook",
+  "incident_types": [
+    "persistence_antiforensics"
+  ],
+  "scope": "Reference workflow for investigating Windows service creation (4697), local account creation (4720), privileged group modification (4732), audit policy tampering (4719), and security event log clearing (1102).",
+  "source": {
+    "source_id": "BENCH-PERSIST-001",
+    "url": "https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon",
+    "document_title": "MITRE T1543.003 / T1136.001 / T1070.001 Persistence & Anti-Forensics Playbook",
+    "version": "1.0",
+    "publication_date": "2026-11-17",
+    "retrieval_date": "2026-11-18",
+    "page_or_section": "Operational Triage Procedure",
+    "content_hash_sha256": null,
+    "license_or_reuse": "MIT / Research Benchmark Attribution"
+  },
+  "prerequisites": [
+    {
+      "requirement": "Normalized case telemetry and SIEM/EDR query access",
+      "required_capability": "SOC SIEM & Case Workbench",
+      "evidence": [
+        "ingested_dataset_manifest"
+      ]
+    }
+  ],
+  "roles": [
+    "Tier 1 SOC Analyst",
+    "Tier 2 SOC Lead",
+    "Incident Responder"
+  ],
+  "completion_criteria": [
+    "Requires service binary hash verification, unauthorized account disablement receipt, and off-host SIEM log backup preservation."
+  ],
+  "normalization": {
+    "status": "validated",
+    "method": "Researcher-validated operational benchmark playbook normalized to Action Schema",
+    "reviewer": "principal_researcher",
+    "review_date": "2026-11-18",
+    "confidence": 1.0,
+    "notes": [
+      "Locked and human-validated for 75-case and 100-case empirical conformance evaluation."
+    ]
+  }
 }

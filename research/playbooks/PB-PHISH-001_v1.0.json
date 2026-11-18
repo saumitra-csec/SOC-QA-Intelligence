@@ -16,8 +16,45 @@
       "mandatory_status": "mandatory",
       "expected_predecessor": null,
       "expected_successor": "PHISH-S2",
-      "permitted_alternative_actions": ["Automated Header Parser Enrichment"],
-      "applicable_evidence_requirements": ["email_header_artifact"]
+      "permitted_alternative_actions": [
+        "Automated Header Parser Enrichment"
+      ],
+      "applicable_evidence_requirements": [
+        "email_header_artifact"
+      ],
+      "activity": "Ingest & Parse Email Headers",
+      "description": "Verify SPF, DKIM, DMARC, and Reply-To mismatch on reported message_id.",
+      "phase": "identification",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "predecessors": [],
+      "successors": [
+        "PHISH-S2"
+      ],
+      "decision_outcomes": [],
+      "evidence_required": [
+        "email_header_artifact"
+      ],
+      "evidence_produced": [
+        "phish-s1_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "phish-s1_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-phishing",
+        "page": null,
+        "section": "Step 1: Ingest & Parse Email Headers",
+        "quoted_excerpt": "Verify SPF, DKIM, DMARC, and Reply-To mismatch on reported message_id."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema while retaining legacy benchmark step fields."
+      ]
     },
     {
       "step_id": "PHISH-S2",
@@ -27,8 +64,47 @@
       "mandatory_status": "mandatory",
       "expected_predecessor": "PHISH-S1",
       "expected_successor": "PHISH-S3",
-      "permitted_alternative_actions": ["Static File Hash Reputation Lookup"],
-      "applicable_evidence_requirements": ["url_or_attachment_hash_evidence"]
+      "permitted_alternative_actions": [
+        "Static File Hash Reputation Lookup"
+      ],
+      "applicable_evidence_requirements": [
+        "url_or_attachment_hash_evidence"
+      ],
+      "activity": "Inspect Embedded URLs & Attachments",
+      "description": "Detonate or hash attachments (SHA-256) and inspect URLs against threat intelligence without rendering raw HTML.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "predecessors": [
+        "PHISH-S1"
+      ],
+      "successors": [
+        "PHISH-S3"
+      ],
+      "decision_outcomes": [],
+      "evidence_required": [
+        "url_or_attachment_hash_evidence"
+      ],
+      "evidence_produced": [
+        "phish-s2_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "phish-s2_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-phishing",
+        "page": null,
+        "section": "Step 2: Inspect Embedded URLs & Attachments",
+        "quoted_excerpt": "Detonate or hash attachments (SHA-256) and inspect URLs against threat intelligence without rendering raw HTML."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema while retaining legacy benchmark step fields."
+      ]
     },
     {
       "step_id": "PHISH-S3",
@@ -38,8 +114,47 @@
       "mandatory_status": "mandatory",
       "expected_predecessor": "PHISH-S2",
       "expected_successor": "PHISH-S4",
-      "permitted_alternative_actions": ["EDR Network Connection Search"],
-      "applicable_evidence_requirements": ["siem_click_query_log"]
+      "permitted_alternative_actions": [
+        "EDR Network Connection Search"
+      ],
+      "applicable_evidence_requirements": [
+        "siem_click_query_log"
+      ],
+      "activity": "Query SIEM for Recipient Click & Post-Delivery Activity",
+      "description": "Search proxy, DNS, and authentication telemetry for recipient interaction with extracted indicators.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "predecessors": [
+        "PHISH-S2"
+      ],
+      "successors": [
+        "PHISH-S4"
+      ],
+      "decision_outcomes": [],
+      "evidence_required": [
+        "siem_click_query_log"
+      ],
+      "evidence_produced": [
+        "phish-s3_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "phish-s3_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-phishing",
+        "page": null,
+        "section": "Step 3: Query SIEM for Recipient Click & Post-Delivery Activity",
+        "quoted_excerpt": "Search proxy, DNS, and authentication telemetry for recipient interaction with extracted indicators."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema while retaining legacy benchmark step fields."
+      ]
     },
     {
       "step_id": "PHISH-S4",
@@ -49,8 +164,47 @@
       "mandatory_status": "conditional",
       "expected_predecessor": "PHISH-S3",
       "expected_successor": "PHISH-S5",
-      "permitted_alternative_actions": ["Revoke Active OAuth Tokens & Force Password Reset"],
-      "applicable_evidence_requirements": ["compromise_confirmation_evidence"]
+      "permitted_alternative_actions": [
+        "Revoke Active OAuth Tokens & Force Password Reset"
+      ],
+      "applicable_evidence_requirements": [
+        "compromise_confirmation_evidence"
+      ],
+      "activity": "Isolate Compromised Account & Escalate to Tier 2",
+      "description": "Conditional step executed when proxy/auth logs confirm credential submission or payload execution.",
+      "phase": "containment",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when preliminary indicators confirm compromise/escalation threshold.",
+      "actor_role": "SOC Analyst",
+      "predecessors": [
+        "PHISH-S3"
+      ],
+      "successors": [
+        "PHISH-S5"
+      ],
+      "decision_outcomes": [],
+      "evidence_required": [
+        "compromise_confirmation_evidence"
+      ],
+      "evidence_produced": [
+        "phish-s4_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "phish-s4_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-phishing",
+        "page": null,
+        "section": "Step 4: Isolate Compromised Account & Escalate to Tier 2",
+        "quoted_excerpt": "Conditional step executed when proxy/auth logs confirm credential submission or payload execution."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema while retaining legacy benchmark step fields."
+      ]
     },
     {
       "step_id": "PHISH-S5",
@@ -61,7 +215,86 @@
       "expected_predecessor": "PHISH-S3",
       "expected_successor": null,
       "permitted_alternative_actions": [],
-      "applicable_evidence_requirements": ["final_triage_summary"]
+      "applicable_evidence_requirements": [
+        "final_triage_summary"
+      ],
+      "activity": "Record Final Disposition & Close Case",
+      "description": "Document classification, link all evidence references, and record closure rationale.",
+      "phase": "post_incident",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC Analyst",
+      "predecessors": [
+        "PHISH-S3"
+      ],
+      "successors": [],
+      "decision_outcomes": [],
+      "evidence_required": [
+        "final_triage_summary"
+      ],
+      "evidence_produced": [
+        "phish-s5_verification_record"
+      ],
+      "inputs": [
+        "normalized_case_telemetry"
+      ],
+      "outputs": [
+        "phish-s5_output"
+      ],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-phishing",
+        "page": null,
+        "section": "Step 5: Record Final Disposition & Close Case",
+        "quoted_excerpt": "Document classification, link all evidence references, and record closure rationale."
+      },
+      "normalization_notes": [
+        "Normalized into unified SOC-QA Institutional Playbook Action Schema while retaining legacy benchmark step fields."
+      ]
     }
-  ]
+  ],
+  "institution": "SOC-QA Research Benchmark",
+  "playbook_classification": "operational_soc_playbook",
+  "incident_types": [
+    "phishing"
+  ],
+  "scope": "Researcher-constructed reference workflow for evaluating SOC analyst triage conformance on reported phishing emails.",
+  "source": {
+    "source_id": "BENCH-PHISH-001",
+    "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-phishing",
+    "document_title": "Standard Phishing Triage & Credential Harvesting Response",
+    "version": "1.0",
+    "publication_date": "2026-11-17",
+    "retrieval_date": "2026-11-18",
+    "page_or_section": "Operational Triage Procedure",
+    "content_hash_sha256": null,
+    "license_or_reuse": "MIT / Research Benchmark Attribution"
+  },
+  "prerequisites": [
+    {
+      "requirement": "Normalized case telemetry and SIEM/EDR query access",
+      "required_capability": "SOC SIEM & Case Workbench",
+      "evidence": [
+        "ingested_dataset_manifest"
+      ]
+    }
+  ],
+  "roles": [
+    "Tier 1 SOC Analyst",
+    "Tier 2 SOC Lead",
+    "Incident Responder"
+  ],
+  "completion_criteria": [
+    "Requires documented header authentication check, URL/attachment reputation artifact, and recipient click search."
+  ],
+  "normalization": {
+    "status": "validated",
+    "method": "Researcher-validated operational benchmark playbook normalized to Action Schema",
+    "reviewer": "principal_researcher",
+    "review_date": "2026-11-18",
+    "confidence": 1.0,
+    "notes": [
+      "Locked and human-validated for 75-case and 100-case empirical conformance evaluation."
+    ]
+  }
 }

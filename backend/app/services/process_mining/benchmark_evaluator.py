@@ -332,7 +332,7 @@ def populate_75_case_benchmark() -> Dict[str, Any]:
                             playbook_version, playbook_step_id, activity_status,
                             outcome, source_system, evidence_reference,
                             timeline_category, original_fields_json, created_at
-                        ) VALUES (?, ?, ?, ?, ?, ?, 'UTC', ?, 'VALID_UTC', ?, ?, 'Tier 1 SOC Analyst', ?, ?, ?, 'completed', 'Recorded in SOAR', 'SOAR-Benchmark', ?, 'analyst_activity', ?, ?)
+                        ) VALUES (?, ?, ?, ?, ?, ?, 'UTC', ?, 'VALID_UTC', ?, ?, 'Tier 1 SOC Analyst', ?, ?, ?, 'completed', ?, 'SOAR-Benchmark', ?, 'analyst_activity', ?, ?)
                         """,
                         (
                             act_id,
@@ -347,6 +347,7 @@ def populate_75_case_benchmark() -> Dict[str, Any]:
                             pb_id,
                             pb_ver,
                             step_id,
+                            ("Verified indicator artifact and recorded structured triage findings" if has_evd else "Unverified stub"),
                             evd_ref,
                             raw_payload,
                             now_iso,

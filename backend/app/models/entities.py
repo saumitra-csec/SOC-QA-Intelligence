@@ -152,7 +152,11 @@ RELATIONAL_TABLES_DDL = [
     """
     CREATE TABLE IF NOT EXISTS playbooks (
         playbook_id TEXT PRIMARY KEY,
-        incident_type TEXT NOT NULL CHECK (incident_type IN ('phishing', 'password_spraying', 'suspicious_powershell', 'persistence_antiforensics')),
+        incident_type TEXT NOT NULL,
+        incident_types_json TEXT NOT NULL DEFAULT '[]',
+        institution TEXT NOT NULL DEFAULT 'SOC-QA Research Benchmark',
+        playbook_classification TEXT NOT NULL DEFAULT 'operational_soc_playbook',
+        scope TEXT NOT NULL DEFAULT '',
         title TEXT NOT NULL,
         description TEXT NOT NULL,
         mitre_technique_id TEXT,
@@ -198,7 +202,7 @@ RELATIONAL_TABLES_DDL = [
     """
     CREATE TABLE IF NOT EXISTS cases (
         case_id TEXT PRIMARY KEY,
-        incident_category TEXT NOT NULL CHECK (incident_category IN ('phishing', 'password_spraying', 'suspicious_powershell', 'persistence_antiforensics')),
+        incident_category TEXT NOT NULL,
         case_status TEXT NOT NULL CHECK (case_status IN ('open', 'in_triage', 'escalated', 'contained', 'closed_true_positive', 'closed_false_positive', 'closed_benign')),
         playbook_id TEXT,
         playbook_version TEXT,
@@ -485,6 +489,30 @@ RELATIONAL_TABLES_DDL = [
         metric_value REAL NOT NULL,
         computed_at TEXT NOT NULL,
         FOREIGN KEY (experiment_id) REFERENCES research_experiments(experiment_id) ON DELETE CASCADE
+    );
+    """,
+    # 28. institutional_playbook_sources (Source register for official government, vendor & framework playbooks)
+    """
+    CREATE TABLE IF NOT EXISTS institutional_playbook_sources (
+        source_id TEXT PRIMARY KEY,
+        institution TEXT NOT NULL,
+        title TEXT NOT NULL,
+        incident_types TEXT NOT NULL,
+        format TEXT NOT NULL,
+        source_type TEXT NOT NULL,
+        playbook_classification TEXT NOT NULL CHECK (playbook_classification IN (
+            'operational_soc_playbook',
+            'sector_coordination_playbook',
+            'reference_framework'
+        )),
+        url TEXT NOT NULL,
+        license_or_reuse TEXT,
+        download_status TEXT NOT NULL,
+        normalization_status TEXT NOT NULL,
+        original_file_path TEXT,
+        content_hash_sha256 TEXT,
+        retrieval_date TEXT,
+        created_at TEXT NOT NULL
     );
     """
 ]

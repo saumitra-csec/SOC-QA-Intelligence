@@ -1,0 +1,265 @@
+{
+  "playbook_id": "MS-PHISH-EXAMPLE-001",
+  "title": "Phishing investigation playbook",
+  "institution": "Microsoft Security",
+  "incident_type": [
+    "phishing"
+  ],
+  "scope": "Microsoft's published phishing investigation workflow; product-specific examples are reference implementations.",
+  "source": {
+    "source_id": "MS-PHISH",
+    "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-phishing",
+    "document_title": "Phishing investigation playbook",
+    "version": null,
+    "publication_date": null,
+    "retrieval_date": "2026-11-18",
+    "page_or_section": "Workflow; What to check; investigation guidance",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Microsoft Learn terms apply; retain attribution and source link."
+  },
+  "prerequisites": [
+    {
+      "requirement": "Identify at least one target-user identifier",
+      "required_capability": "UPN, email address, or username",
+      "evidence": [
+        "target_user_identifier"
+      ]
+    },
+    {
+      "requirement": "Mailbox auditing and message trace available",
+      "required_capability": "Microsoft 365 audit and trace access",
+      "evidence": [
+        "message_trace",
+        "unified_audit_logs"
+      ]
+    },
+    {
+      "requirement": "Entra sign-in and audit logs available",
+      "required_capability": "Identity telemetry",
+      "evidence": [
+        "entra_signin_logs",
+        "entra_audit_logs"
+      ]
+    }
+  ],
+  "roles": [
+    "SOC analyst",
+    "incident responder",
+    "identity administrator",
+    "IT operations"
+  ],
+  "steps": [
+    {
+      "step_id": "MSP-01",
+      "activity": "Identify and confirm the phishing message",
+      "description": "Locate the suspected email and validate its identity using message and header information.",
+      "phase": "identification",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "message_id",
+        "sender",
+        "recipient",
+        "message_headers",
+        "delivery_status"
+      ],
+      "evidence_produced": [
+        "confirmed_message_record"
+      ],
+      "inputs": [
+        "alert_or_user_report"
+      ],
+      "outputs": [
+        "confirmed_message_record"
+      ],
+      "predecessors": [],
+      "successors": [
+        "MSP-02"
+      ],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-phishing",
+        "page": null,
+        "section": "Workflow; What to check",
+        "quoted_excerpt": "Identify and confirm the phishing message."
+      },
+      "normalization_notes": [
+        "Normalised from the published workflow heading; validate substeps against current source."
+      ]
+    },
+    {
+      "step_id": "MSP-02",
+      "activity": "Scope affected users and message distribution",
+      "description": "Determine all recipients and delivery status, and identify the scope of exposure.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "recipient_list",
+        "delivery_status",
+        "message_id"
+      ],
+      "evidence_produced": [
+        "affected_user_scope"
+      ],
+      "inputs": [
+        "confirmed_message_record"
+      ],
+      "outputs": [
+        "affected_user_scope"
+      ],
+      "predecessors": [
+        "MSP-01"
+      ],
+      "successors": [
+        "MSP-03"
+      ],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-phishing",
+        "page": null,
+        "section": "Workflow; What to check",
+        "quoted_excerpt": "Scope the impact and affected users."
+      },
+      "normalization_notes": []
+    },
+    {
+      "step_id": "MSP-03",
+      "activity": "Assess user interaction and credential exposure",
+      "description": "Determine whether users opened the message, clicked links, opened attachments, or submitted credentials.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "mail_interaction_events",
+        "url_click_events",
+        "attachment_events",
+        "credential_submission_indicators"
+      ],
+      "evidence_produced": [
+        "user_interaction_assessment"
+      ],
+      "inputs": [
+        "affected_user_scope"
+      ],
+      "outputs": [
+        "user_interaction_assessment"
+      ],
+      "predecessors": [
+        "MSP-02"
+      ],
+      "successors": [
+        "MSP-04"
+      ],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-phishing",
+        "page": null,
+        "section": "Workflow; Before you start",
+        "quoted_excerpt": "Assess user interaction and credential exposure."
+      },
+      "normalization_notes": []
+    },
+    {
+      "step_id": "MSP-04",
+      "activity": "Identify downstream or follow-on activity",
+      "description": "Correlate identity, endpoint, mailbox, and other telemetry for subsequent malicious activity.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst / incident responder",
+      "evidence_required": [
+        "sign_in_logs",
+        "endpoint_telemetry",
+        "mailbox_audit_events",
+        "oauth_or_token_activity"
+      ],
+      "evidence_produced": [
+        "follow_on_activity_assessment"
+      ],
+      "inputs": [
+        "user_interaction_assessment"
+      ],
+      "outputs": [
+        "follow_on_activity_assessment"
+      ],
+      "predecessors": [
+        "MSP-03"
+      ],
+      "successors": [
+        "MSP-05"
+      ],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-phishing",
+        "page": null,
+        "section": "Workflow; Step 4",
+        "quoted_excerpt": "Identify downstream activity."
+      },
+      "normalization_notes": []
+    },
+    {
+      "step_id": "MSP-05",
+      "activity": "Contain the threat and prevent recurrence",
+      "description": "Apply containment and remediation actions appropriate to confirmed findings.",
+      "phase": "containment",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "Incident responder / identity administrator",
+      "evidence_required": [
+        "containment_decision",
+        "message_removal_record",
+        "account_action_record",
+        "indicator_block_record"
+      ],
+      "evidence_produced": [
+        "containment_record"
+      ],
+      "inputs": [
+        "follow_on_activity_assessment"
+      ],
+      "outputs": [
+        "containment_record"
+      ],
+      "predecessors": [
+        "MSP-04"
+      ],
+      "successors": [],
+      "decision_outcomes": [],
+      "source_anchor": {
+        "url": "https://learn.microsoft.com/en-us/security/zero-trust/security-operations-playbook-phishing",
+        "page": null,
+        "section": "Workflow; What to check",
+        "quoted_excerpt": "Contain the threat and prevent recurrence."
+      },
+      "normalization_notes": [
+        "Specific containment actions are conditional on investigation findings; do not treat every possible action as mandatory."
+      ]
+    }
+  ],
+  "completion_criteria": [
+    "Investigation scope and affected users recorded",
+    "User interaction and credential exposure assessed",
+    "Follow-on activity assessed",
+    "Containment decisions and actions documented"
+  ],
+  "normalization": {
+    "status": "machine_extracted_unreviewed",
+    "method": "Manual normalisation from publicly visible Microsoft Learn workflow headings and checklist text",
+    "reviewer": null,
+    "review_date": null,
+    "confidence": 0.78,
+    "notes": [
+      "This is a structured working extraction, not a Microsoft-issued JSON file.",
+      "Analyst/researcher must review the current full source before treating steps as ground truth."
+    ]
+  }
+}

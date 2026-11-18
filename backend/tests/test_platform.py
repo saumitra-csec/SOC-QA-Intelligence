@@ -447,5 +447,200 @@ class TestSOCQAIntelligencePlatform(unittest.TestCase):
         self.assertEqual(ai_body["findings"][0]["human_review_status"], "PENDING_HUMAN_REVIEW")
 
 
+
+    def test_11_institutional_playbook_schema_validation_and_provenance(self):
+        # 1. Seed the Institutional Playbook Integration Pack (20 manifest sources + 3 working extractions)
+        r_seed = self.client.post("/api/v1/playbooks/institutional/seed")
+        self.assertEqual(r_seed.status_code, 200, r_seed.text)
+        seed_body = r_seed.json()
+        self.assertEqual(seed_body["sources_registered"], 20)
+
+        # Verify all 20 sources are listed with provenance and classification
+        r_srcs = self.client.get("/api/v1/playbooks/institutional/sources")
+        self.assertEqual(r_srcs.status_code, 200)
+        sources = r_srcs.json()["sources"]
+        self.assertEqual(len(sources), 20)
+        by_id = {s["source_id"]: s for s in sources}
+        self.assertEqual(by_id["MS-PHISH"]["playbook_classification"], "operational_soc_playbook")
+        self.assertEqual(by_id["NOCS-FIN-1.1"]["playbook_classification"], "sector_coordination_playbook")
+        self.assertEqual(by_id["NIST-800-61R3"]["playbook_classification"], "reference_framework")
+
+        # 2. Verify MS-PHISH-EXAMPLE-001, NOCS-FIN-EXAMPLE-001, CISA-FED-IR-META-001 preserve machine_extracted_unreviewed
+        all_pbs = {p["playbook_id"]: p for p in self.client.get("/api/v1/playbooks").json()["playbooks"]}
+        self.assertIn("MS-PHISH-EXAMPLE-001", all_pbs)
+        self.assertIn("NOCS-FIN-EXAMPLE-001", all_pbs)
+        self.assertIn("CISA-FED-IR-META-001", all_pbs)
+        self.assertEqual(all_pbs["MS-PHISH-EXAMPLE-001"]["normalization_status"], "machine_extracted_unreviewed")
+        self.assertEqual(all_pbs["NOCS-FIN-EXAMPLE-001"]["playbook_classification"], "sector_coordination_playbook")
+        self.assertEqual(all_pbs["MS-PHISH-EXAMPLE-001"]["steps"][0]["source_anchor"]["quoted_excerpt"], "Identify and confirm the phishing message.")
+
+        # 3. Verify schema validation rejects duplicate step_ids and broken decision_outcomes branches
+        invalid_dup = {
+            "playbook_id": "TEST-DUP-001",
+            "title": "Duplicate Step Test",
+            "institution": "Test Inst",
+            "incident_type": ["phishing"],
+            "source": {"source_id": "S1", "url": "https://example.org/pb"},
+            "normalization": {"status": "machine_extracted_unreviewed", "method": "test"},
+            "steps": [
+                {"step_id": "S-01", "activity": "Step 1", "phase": "identification", "mandatory": True, "source_anchor": {"url": "https://example.org/pb"}},
+                {"step_id": "S-01", "activity": "Step 2 Dup", "phase": "analysis", "mandatory": True, "source_anchor": {"url": "https://example.org/pb"}},
+            ],
+        }
+        r_dup = self.client.post("/api/v1/playbooks/institutional/validate", json=invalid_dup)
+        self.assertEqual(r_dup.status_code, 400)
+        self.assertIn("Duplicate step_id", r_dup.json()["detail"])
+
+        invalid_branch = {
+            "playbook_id": "TEST-BR-001",
+            "title": "Broken Branch Test",
+            "institution": "Test Inst",
+            "incident_type": ["phishing"],
+            "source": {"source_id": "S1", "url": "https://example.org/pb"},
+            "normalization": {"status": "machine_extracted_unreviewed", "method": "test"},
+            "steps": [
+                {
+                    "step_id": "S-01",
+                    "activity": "Step 1",
+                    "phase": "triage",
+                    "mandatory": True,
+                    "decision_outcomes": [{"condition": "Escalate", "next_step_ids": ["NON-EXISTENT-STEP"]}],
+                    "source_anchor": {"url": "https://example.org/pb"},
+                }
+            ],
+        }
+        r_br = self.client.post("/api/v1/playbooks/institutional/validate", json=invalid_branch)
+        self.assertEqual(r_br.status_code, 400)
+        self.assertIn("NON-EXISTENT-STEP", r_br.json()["detail"])
+
+    def test_12_unreviewed_playbook_conformance_gate_and_7_state_semantics(self):
+        # 1. Create a case linked to unreviewed MS-PHISH-EXAMPLE-001@1.0 and verify conformance gate blocks it
+        r_case = self.client.post(
+            "/api/v1/cases",
+            json={
+                "case_id": "CASE-INST-MSP-001",
+                "incident_category": "phishing",
+                "case_status": "in_triage",
+                "playbook_id": "MS-PHISH-EXAMPLE-001",
+                "playbook_version": "1.0",
+                "dataset_source_id": self.phish_dataset_id,
+                "summary": "Test case for institutional Microsoft Phishing playbook gate & 7-state semantics.",
+            },
+        )
+        self.assertEqual(r_case.status_code, 200, r_case.text)
+
+        # Attempting conformance checking while normalization_status == 'machine_extracted_unreviewed' must be blocked
+        r_blocked = self.client.post("/api/v1/process-mining/conformance/CASE-INST-MSP-001")
+        self.assertEqual(r_blocked.status_code, 404)
+        self.assertIn("machine_extracted_unreviewed", r_blocked.json()["detail"])
+
+        # 2. Human reviewer approves MS-PHISH-EXAMPLE-001@1.0 -> 'human_reviewed'
+        r_rev = self.client.post(
+            "/api/v1/playbooks/MS-PHISH-EXAMPLE-001/1.0/review",
+            json={
+                "reviewer": "saumitra_researcher",
+                "new_status": "human_reviewed",
+                "review_notes": "Verified all 5 Microsoft Learn phishing workflow steps, anchors, and evidence requirements.",
+            },
+        )
+        self.assertEqual(r_rev.status_code, 200, r_rev.text)
+        self.assertEqual(r_rev.json()["normalization_status"], "human_reviewed")
+
+        # 3. Verify 7-state evaluation semantics on CASE-BM-PHISH-001 (where conditional PHISH-S4 is not triggered -> condition_not_met)
+        r_c01 = self.client.post("/api/v1/process-mining/conformance/CASE-BM-PHISH-001")
+        self.assertEqual(r_c01.status_code, 200)
+        c01_data = r_c01.json()
+        eval_by_step = {e["step_id"]: e["evaluation_state"] for e in c01_data["step_evaluations"]}
+        self.assertEqual(eval_by_step["PHISH-S1"], "performed")
+        self.assertEqual(eval_by_step["PHISH-S4"], "condition_not_met")
+
+        # Verify skipped step evaluates to not_performed on CASE-BM-PHISH-016
+        r_c16 = self.client.post("/api/v1/process-mining/conformance/CASE-BM-PHISH-016")
+        eval_16 = {e["step_id"]: e["evaluation_state"] for e in r_c16.json()["step_evaluations"]}
+        self.assertEqual(eval_16["PHISH-S3"], "not_performed")
+
+        # Verify reordered step evaluates to out_of_order on CASE-BM-SPRAY-021
+        r_c21 = self.client.post("/api/v1/process-mining/conformance/CASE-BM-SPRAY-021")
+        states_21 = {e["evaluation_state"] for e in r_c21.json()["step_evaluations"]}
+        self.assertIn("out_of_order", states_21)
+
+
+
+    def test_13_multi_institution_phase_comparison_without_merging(self):
+        # Compare PB-PHISH-001@1.0 and MS-PHISH-EXAMPLE-001@1.0 across overlapping phases only
+        r_cmp = self.client.get(
+            "/api/v1/playbooks/compare",
+            params={
+                "left_id": "PB-PHISH-001",
+                "left_version": "1.0",
+                "right_id": "MS-PHISH-EXAMPLE-001",
+                "right_version": "1.0",
+                "overlapping_only": True,
+            },
+        )
+        self.assertEqual(r_cmp.status_code, 200, r_cmp.text)
+        cmp_data = r_cmp.json()
+        self.assertFalse(cmp_data["merged_procedures"])
+        self.assertEqual(cmp_data["overlapping_phases"], ["identification", "analysis", "containment"])
+        self.assertEqual(cmp_data["left_only_phases"], ["post_incident"])
+        self.assertEqual(cmp_data["left_playbook"]["institution"], "SOC-QA Research Benchmark")
+        self.assertEqual(cmp_data["right_playbook"]["institution"], "Microsoft Security")
+
+        phases_returned = [p["phase"] for p in cmp_data["phase_alignments"]]
+        self.assertEqual(phases_returned, ["identification", "analysis", "containment"])
+
+        # Verify containment phase preserves conditional PHISH-S4 vs mandatory MSP-05 without merging
+        cont_phase = next(p for p in cmp_data["phase_alignments"] if p["phase"] == "containment")
+        self.assertEqual(cont_phase["left_steps"][0]["step_id"], "PHISH-S4")
+        self.assertEqual(cont_phase["left_steps"][0]["mandatory_status"], "conditional")
+        self.assertEqual(cont_phase["right_steps"][0]["step_id"], "MSP-05")
+        self.assertEqual(cont_phase["right_steps"][0]["mandatory_status"], "mandatory")
+
+
+
+    def test_14_every_case_compared_with_all_relevant_playbooks_and_stqs_scale(self):
+        # Ensure all institutional playbooks (including MS-SPRAY-EXAMPLE-001 & SPLUNK-PSH-EXAMPLE-001) are seeded
+        self.client.post("/api/v1/playbooks/institutional/seed")
+
+        # 1. Verify CASE-BM-PHISH-001 is compared against all phishing playbooks (PB-PHISH-001@1.0, PB-PHISH-001@1.1, MS-PHISH-EXAMPLE-001@1.0)
+        r_phish = self.client.get("/api/v1/cases/CASE-BM-PHISH-001/standardized-triage-scale")
+        self.assertEqual(r_phish.status_code, 200, r_phish.text)
+        p_stqs = r_phish.json()
+        self.assertGreaterEqual(p_stqs["relevant_playbooks_evaluated_count"], 2)
+        self.assertIn("PB-PHISH-001@1.0", p_stqs["relevant_playbooks_evaluated"])
+        self.assertIn("MS-PHISH-EXAMPLE-001@1.0", p_stqs["relevant_playbooks_evaluated"])
+        self.assertEqual(p_stqs["stqs_band_code"], "STQS-5")
+        self.assertGreaterEqual(p_stqs["standardized_triage_quality_index"], 85.0)
+
+        # 2. Verify CASE-BM-SPRAY-001 is compared against all password_spraying playbooks (PB-SPRAY-001@1.0 & MS-SPRAY-EXAMPLE-001@1.0)
+        r_spray = self.client.get("/api/v1/cases/CASE-BM-SPRAY-001/standardized-triage-scale")
+        self.assertEqual(r_spray.status_code, 200, r_spray.text)
+        s_stqs = r_spray.json()
+        self.assertIn("PB-SPRAY-001@1.0", s_stqs["relevant_playbooks_evaluated"])
+        self.assertIn("MS-SPRAY-EXAMPLE-001@1.0", s_stqs["relevant_playbooks_evaluated"])
+        self.assertEqual(s_stqs["stqs_band_code"], "STQS-5")
+
+        # 3. Verify CASE-BM-PSH-001 is compared against all suspicious_powershell playbooks (PB-PSH-001@1.0 & SPLUNK-PSH-EXAMPLE-001@1.0)
+        r_psh = self.client.get("/api/v1/cases/CASE-BM-PSH-001/standardized-triage-scale")
+        self.assertEqual(r_psh.status_code, 200, r_psh.text)
+        psh_stqs = r_psh.json()
+        self.assertIn("PB-PSH-001@1.0", psh_stqs["relevant_playbooks_evaluated"])
+        self.assertIn("SPLUNK-PSH-EXAMPLE-001@1.0", psh_stqs["relevant_playbooks_evaluated"])
+        self.assertEqual(psh_stqs["stqs_band_code"], "STQS-5")
+
+        # 4. Verify documentation-gap case (CASE-BM-PHISH-014) is classified as STQS-3 (Procedurally Sound but Documentation-Deficient)
+        r_docgap = self.client.get("/api/v1/cases/CASE-BM-PHISH-014/standardized-triage-scale")
+        self.assertEqual(r_docgap.status_code, 200)
+        dg = r_docgap.json()
+        self.assertEqual(dg["stqs_band_code"], "STQS-3")
+        self.assertGreaterEqual(dg["orthogonal_scores"]["process_conformance_score"], 80.0)
+        self.assertLess(dg["orthogonal_scores"]["documentation_quality_score"], 80.0)
+
+        # 5. Verify premature closure case (CASE-BM-PSH-025) is classified as STQS-1 (Critical Triage Failure / Premature Closure)
+        r_prem = self.client.get("/api/v1/cases/CASE-BM-PSH-025/standardized-triage-scale")
+        self.assertEqual(r_prem.status_code, 200)
+        self.assertEqual(r_prem.json()["stqs_band_code"], "STQS-1")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
