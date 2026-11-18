@@ -152,12 +152,7 @@ def build_case_trace_and_ground_truth(
         )
     if 14 <= idx <= 15:
         # Process is conformant, but step 2 lacks an evidence_reference (documentation/observability gap)
-        steps = [
-            (m[0][0], m[0][1], True),
-            (m[1][0], m[1][1], False),
-            (m[2][0], m[2][1], True),
-            (m[3][0], m[3][1], True),
-        ]
+        steps = [(s[0], s[1], i != 1) for i, s in enumerate(m)]
         return (
             steps,
             "conformant",
@@ -254,8 +249,8 @@ def populate_75_case_benchmark() -> Dict[str, Any]:
 
     with db_manager.connection() as conn:
         # Clean previous benchmark cases
-        conn.execute("DELETE FROM datasets WHERE dataset_id = ?", (ds_id,))
         conn.execute("DELETE FROM cases WHERE case_id LIKE 'CASE-BM-%'")
+        conn.execute("DELETE FROM datasets WHERE dataset_id = ?", (ds_id,))
 
         conn.execute(
             """
@@ -573,8 +568,8 @@ def populate_100_case_benchmark() -> Dict[str, Any]:
     pb_ver = spec["playbook_version"]
 
     with db_manager.connection() as conn:
-        conn.execute("DELETE FROM datasets WHERE dataset_id = ?", (ds_id,))
         conn.execute("DELETE FROM cases WHERE case_id LIKE 'CASE-BM-PERSIST-%'")
+        conn.execute("DELETE FROM datasets WHERE dataset_id = ?", (ds_id,))
         conn.execute(
             """
             INSERT INTO datasets (
