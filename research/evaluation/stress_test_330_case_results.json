@@ -1,0 +1,91 @@
+{
+  "dataset_filename": "SOC_QA_Intelligence_Analyst_Activity_Stress_Test_330_Cases.json",
+  "sha256_checksum": "75b5fa172fd52eafdd28faedd8b4419dcd4f5381af72119fb92f3ddf2492f935",
+  "records_ingested": 1454,
+  "records_normalized": 1454,
+  "data_quality_readiness": "Valid",
+  "total_cases_evaluated": 330,
+  "conformant_cases": 226,
+  "deviating_cases": 104,
+  "deviation_rate_pct": 31.52,
+  "mean_fitness_conformant": 1.0,
+  "mean_fitness_deviating": 0.924,
+  "deviation_categories_detected": {
+    "reordered_activity": 34,
+    "skipped_activity": 30,
+    "repeated_activity": 18,
+    "additional_activity": 22
+  },
+  "per_incident_category": {
+    "phishing": {
+      "total": 110,
+      "conformant": 76,
+      "deviating": 34
+    },
+    "password_spraying": {
+      "total": 110,
+      "conformant": 77,
+      "deviating": 33
+    },
+    "suspicious_powershell": {
+      "total": 110,
+      "conformant": 73,
+      "deviating": 37
+    }
+  },
+  "per_analyst_conformance": {
+    "ANL-036": {
+      "total": 38,
+      "conformant": 23,
+      "deviating": 15
+    },
+    "ANL-042": {
+      "total": 33,
+      "conformant": 23,
+      "deviating": 10
+    },
+    "ANL-011": {
+      "total": 32,
+      "conformant": 20,
+      "deviating": 12
+    },
+    "ANL-014": {
+      "total": 38,
+      "conformant": 28,
+      "deviating": 10
+    },
+    "ANL-031": {
+      "total": 32,
+      "conformant": 26,
+      "deviating": 6
+    },
+    "ANL-008": {
+      "total": 32,
+      "conformant": 21,
+      "deviating": 11
+    },
+    "ANL-019": {
+      "total": 30,
+      "conformant": 20,
+      "deviating": 10
+    },
+    "ANL-004": {
+      "total": 28,
+      "conformant": 17,
+      "deviating": 11
+    },
+    "ANL-027": {
+      "total": 33,
+      "conformant": 25,
+      "deviating": 8
+    },
+    "ANL-022": {
+      "total": 34,
+      "conformant": 23,
+      "deviating": 11
+    }
+  },
+  "stqs_band_distribution": {
+    "STQS-3": 330
+  }
+}

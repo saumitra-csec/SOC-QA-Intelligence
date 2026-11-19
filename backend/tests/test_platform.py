@@ -786,5 +786,79 @@ class TestSOCQAIntelligencePlatform(unittest.TestCase):
         self.assertEqual(r_ev400.json()["attack_categories_count"], 16)
 
 
+
+    def test_20_realistic_90_case_seed385_triage_dataset_and_quality_fix(self):
+        from backend.app.core.security import sanitize_untrusted_text_for_ai
+
+        ev_path = Path(__file__).resolve().parents[2] / "research" / "benchmark" / "realistic_triage_test" / "soc_triage_test_events.json"
+        raw_bytes = ev_path.read_bytes()
+        r_up = self.client.post(
+            "/api/v1/ingestion/upload",
+            files={"file": ("soc_triage_test_events.json", io.BytesIO(raw_bytes), "application/json")},
+            data={
+                "category": "analyst_activity_logs",
+                "dataset_name": "Realistic 90-Case Interleaved SOC Triage Test (Seed 385)",
+                "source_organization": "SOC-QA Adversarial Realism Suite",
+            },
+        )
+        self.assertEqual(r_up.status_code, 200, r_up.text)
+        ds_id = r_up.json()["dataset_id"]
+        self.assertEqual(r_up.json()["summary"]["total_records"], 392)
+
+        r_norm = self.client.post(
+            "/api/v1/normalization/run",
+            json={"dataset_id": ds_id, "target_schema_type": "analyst_activity", "field_mapping": {}},
+        )
+        self.assertEqual(r_norm.status_code, 200, r_norm.text)
+        self.assertEqual(r_norm.json()["normalized_count"], 392)
+
+        # Verify quality.py fix: 0 inconsistent classifications across all 16 MITRE incident types
+        r_dq = self.client.post(f"/api/v1/quality/{ds_id}/evaluate")
+        self.assertEqual(r_dq.status_code, 200, r_dq.text)
+        dq_metrics = r_dq.json()["metrics"]
+        self.assertEqual(dq_metrics["inconsistent_incident_classifications"], 0)
+
+        # Verify prompt-injection sanitizer catches planted RISK-08 payloads inside analyst notes
+        parsed_json = json.loads(raw_bytes.decode("utf-8"))
+        events_json = parsed_json if isinstance(parsed_json, list) else (parsed_json.get("events") or parsed_json.get("records") or [])
+        injected_hits = 0
+        for ev in events_json:
+            note_txt = str(ev.get("outcome") or ev.get("notes") or "")
+            if note_txt and sanitize_untrusted_text_for_ai(note_txt)["injection_detected"]:
+                injected_hits += 1
+        self.assertGreaterEqual(injected_hits, 1)
+
+
+
+    def test_21_330_case_interleaved_analyst_activity_stress_test(self):
+        ev_path = Path(__file__).resolve().parents[2] / "research" / "benchmark" / "stress_test_330" / "SOC_QA_Intelligence_Analyst_Activity_Stress_Test_330_Cases.json"
+        raw_bytes = ev_path.read_bytes()
+        r_up = self.client.post(
+            "/api/v1/ingestion/upload",
+            files={"file": (ev_path.name, io.BytesIO(raw_bytes), "application/json")},
+            data={
+                "category": "analyst_activity_logs",
+                "dataset_name": "330-Case Interleaved Analyst Activity Stress Test",
+                "source_organization": "SOC-QA Stress Test Suite",
+            },
+        )
+        self.assertEqual(r_up.status_code, 200, r_up.text)
+        ds_id = r_up.json()["dataset_id"]
+        self.assertEqual(r_up.json()["summary"]["total_records"], 1454)
+
+        r_norm = self.client.post(
+            "/api/v1/normalization/run",
+            json={"dataset_id": ds_id, "target_schema_type": "analyst_activity", "field_mapping": {}},
+        )
+        self.assertEqual(r_norm.status_code, 200, r_norm.text)
+        self.assertEqual(r_norm.json()["normalized_count"], 1454)
+
+        r_dq = self.client.post(f"/api/v1/quality/{ds_id}/evaluate")
+        self.assertEqual(r_dq.status_code, 200, r_dq.text)
+        self.assertEqual(r_dq.json()["metrics"]["inconsistent_incident_classifications"], 0)
+        self.assertEqual(r_dq.json()["metrics"]["invalid_case_identifiers"], 0)
+        self.assertEqual(r_dq.json()["readiness_status"], "Valid")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

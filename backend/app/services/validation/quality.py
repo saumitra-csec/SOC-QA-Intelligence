@@ -4,8 +4,9 @@ import uuid
 from typing import Any, Dict, List
 
 from backend.app.core.database import db_manager, utc_now_iso
+from backend.app.services.playbooks.repository import VALID_INCIDENT_TYPES
 
-CASE_ID_FORMAT_RE = re.compile(r"^CASE-[A-Z0-9_-]{3,20}$")
+CASE_ID_FORMAT_RE = re.compile(r"^(?:CASE|SOC|INC|ALRT|TKT)-[A-Z0-9_-]{3,24}$")
 
 
 def evaluate_dataset_quality(dataset_id: str) -> Dict[str, Any]:
@@ -78,12 +79,7 @@ def evaluate_dataset_quality(dataset_id: str) -> Dict[str, Any]:
             if not act["evidence_reference"]:
                 missing_evidence_refs_count += 1
 
-            if act["incident_type"] and act["incident_type"] not in (
-                "phishing",
-                "password_spraying",
-                "suspicious_powershell",
-                "persistence_antiforensics",
-            ):
+            if act["incident_type"] and act["incident_type"].strip().lower() not in VALID_INCIDENT_TYPES:
                 inconsistent_classifications_count += 1
 
         # DQ-10: Multi-Account Spray Threshold Check (<5 distinct accounts per source_ip on password_spray telemetry)
@@ -182,7 +178,7 @@ def evaluate_dataset_quality(dataset_id: str) -> Dict[str, Any]:
                 "dimension": "Invalid case identifiers",
                 "count": invalid_case_ids_count,
                 "status": "PASS" if invalid_case_ids_count == 0 else "FAIL",
-                "note": "Checks case_id format conformance (CASE-XXX).",
+                "note": "Checks case_id format conformance (CASE-XXX, SOC-XXX, INC-XXX, ALRT-XXX, or TKT-XXX).",
             },
             {
                 "check_id": "DQ-09",

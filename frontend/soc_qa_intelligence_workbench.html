@@ -876,17 +876,10 @@
       const cat = document.getElementById('uploadAttackSelect').value;
       const relPb = getRelevantPlaybooks(cat)[0];
       try {
-        let actions = [];
+        let rawRows = [];
         if (file.name.endsWith('.json')) {
           const parsed = JSON.parse(text);
-          const arr = Array.isArray(parsed) ? parsed : (parsed.events || parsed.actions || [parsed]);
-          actions = arr.slice(0, 20).map((r, i) => ({
-            ts: r.timestamp || r.normalized_utc_timestamp || `2026-11-19 10:${String(i*5).padStart(2,'0')} UTC`,
-            step_id: r.playbook_step_id || r.step_id || (relPb.steps[i]?.step_id || 'UNMAPPED'),
-            activity: r.activity || r.event_type || 'Analyst Action',
-            evidence: r.evidence_reference || r.evidence || '',
-            note: r.note || r.outcome || r.justification_note || ''
-          }));
+          rawRows = Array.isArray(parsed) ? parsed : (parsed.events || parsed.records || parsed.actions || [parsed]);
         } else {
           const lines = text.split(/\r?\n/).filter((l) => l.trim());
           const hdrs = lines[0].split(',').map((h) => h.trim().toLowerCase());
@@ -894,29 +887,46 @@
             const cols = lines[i].split(',').map((v) => v.trim());
             const obj = {};
             hdrs.forEach((h, idx) => { obj[h] = cols[idx] || ''; });
-            actions.push({
-              ts: obj.timestamp || `2026-11-19 10:${String(i*5).padStart(2,'0')} UTC`,
-              step_id: obj.playbook_step_id || obj.step_id || (relPb.steps[i-1]?.step_id || 'UNMAPPED'),
-              activity: obj.activity || 'Analyst Action',
-              evidence: obj.evidence_reference || obj.evidence || '',
-              note: obj.note || obj.outcome || ''
-            });
+            rawRows.push(obj);
           }
         }
-        const newId = 'CASE-UPLOAD-' + (state.cases.length + 101);
-        state.cases.unshift({
-          case_id: newId,
-          incident_category: cat,
-          title: `Imported Triage Log (${file.name})`,
-          analyst: 'Uploaded Audit Case',
-          status: 'Under QA Review',
-          pinned_playbook: relPb.playbook_id,
-          alerts: [{ ts: actions[0]?.ts || '2026-11-19 10:00 UTC', source: 'Imported Log', summary: `Loaded ${actions.length} triage record(s) from ${file.name}` }],
-          actions
+        // Group interleaved events by case_id so multi-case logs (e.g., 90-case or 330-case files) reconstruct cleanly
+        const grouped = {};
+        rawRows.forEach((r, i) => {
+          const cid = r.case_id || ('CASE-UPLOAD-' + (state.cases.length + 101));
+          if (!grouped[cid]) grouped[cid] = [];
+          grouped[cid].push({
+            ts: String(r.timestamp || r.normalized_utc_timestamp || `2026-11-19 10:${String((i%12)*5).padStart(2,'0')} UTC`).replace('T', ' ').replace('Z', ' UTC'),
+            step_id: r.playbook_step_id || r.step_id || 'UNMAPPED',
+            activity: r.activity || r.event_type || 'Analyst Action',
+            evidence: r.evidence_reference || r.evidence || '',
+            note: r.note || r.outcome || r.justification_note || '',
+            incident_type: r.incident_type || cat,
+            analyst: r.analyst_id ? `${r.analyst_id}${r.analyst_role ? ' (' + r.analyst_role + ')' : ''}` : 'Uploaded Analyst',
+            playbook_id: r.playbook_id || relPb.playbook_id,
+            source_system: r.source_system || 'Imported SOAR Log'
+          });
         });
-        state.selectedCaseId = newId;
-        toast(`Loaded ${newId} and evaluated against ${getRelevantPlaybooks(cat).length} defense playbooks.`);
-        switchView('review');
+        const newCaseIds = Object.keys(grouped);
+        newCaseIds.forEach((cid) => {
+          const acts = grouped[cid].sort((a, b) => a.ts.localeCompare(b.ts));
+          const first = acts[0];
+          const caseCat = first.incident_type || cat;
+          state.cases = state.cases.filter((x) => x.case_id !== cid);
+          state.cases.unshift({
+            case_id: cid,
+            incident_category: caseCat,
+            title: `${formatCategory(caseCat)} Triage (${file.name})`,
+            analyst: first.analyst,
+            status: 'Under QA Review',
+            pinned_playbook: first.playbook_id || getRelevantPlaybooks(caseCat)[0].playbook_id,
+            alerts: [{ ts: first.ts, source: first.source_system, summary: `Reconstructed ${acts.length} interleaved analyst action(s) from ${file.name}` }],
+            actions: acts
+          });
+        });
+        state.selectedCaseId = newCaseIds[0];
+        toast(`Loaded ${newCaseIds.length} case(s) (${rawRows.length} events) from ${file.name} and scored against all relevant playbooks.`);
+        switchView(newCaseIds.length > 1 ? 'overview' : 'review');
       } catch (err) {
         toast('Could not parse file: ' + err.message);
       }
