@@ -1,0 +1,124 @@
+{
+  "playbook_id": "AWS-K8S-EXAMPLE-001",
+  "title": "AWS EKS & Container Compromise Incident Response Playbook",
+  "institution": "Amazon Web Services",
+  "incident_type": [
+    "container_escape"
+  ],
+  "mitre_attack": "T1610 / T1611",
+  "scope": "AWS Incident Response Playbook sample for Amazon EKS and container runtime compromise.",
+  "source": {
+    "source_id": "AWS-IR-CONTAINER",
+    "url": "https://github.com/aws-samples/aws-incident-response-playbooks",
+    "document_title": "AWS EKS & Container Compromise Incident Response Playbook",
+    "version": "1.0",
+    "publication_date": null,
+    "retrieval_date": "2026-11-21",
+    "page_or_section": "AWS EKS & Container Compromise Incident Response Playbook",
+    "content_hash_sha256": null,
+    "license_or_reuse": "MIT-0 / AWS Samples; retain attribution."
+  },
+  "prerequisites": [],
+  "roles": [
+    "SOC analyst",
+    "incident responder"
+  ],
+  "steps": [
+    {
+      "step_id": "AK8S-01",
+      "activity": "Validate GuardDuty EKS Runtime or K8s Audit Log alert",
+      "description": "Confirm suspicious kubectl exec, privileged container deployment, or anonymous API access.",
+      "phase": "identification",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "eks_audit_alert"
+      ],
+      "source_anchor": {
+        "section": "AWS EKS & Container Compromise Incident Response Playbook",
+        "quote_or_summary": "Confirm suspicious kubectl exec, privileged container deployment, or anonymous API access.",
+        "url": "https://github.com/aws-samples/aws-incident-response-playbooks"
+      }
+    },
+    {
+      "step_id": "AK8S-02",
+      "activity": "Inspect container image digest, RBAC ClusterRoleBindings, and pod spec",
+      "description": "Verify ECR image provenance and check for hostPID, hostNetwork, or privileged flags.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "eks_pod_rbac_audit"
+      ],
+      "source_anchor": {
+        "section": "AWS EKS & Container Compromise Incident Response Playbook",
+        "quote_or_summary": "Verify ECR image provenance and check for hostPID, hostNetwork, or privileged flags.",
+        "url": "https://github.com/aws-samples/aws-incident-response-playbooks"
+      }
+    },
+    {
+      "step_id": "AK8S-03",
+      "activity": "Check IMDS/IRSA token abuse and worker node CloudTrail calls",
+      "description": "Audit CloudTrail for IAM role sessions originating from the compromised pod or EC2 node.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "imds_cloudtrail_log"
+      ],
+      "source_anchor": {
+        "section": "AWS EKS & Container Compromise Incident Response Playbook",
+        "quote_or_summary": "Audit CloudTrail for IAM role sessions originating from the compromised pod or EC2 node.",
+        "url": "https://github.com/aws-samples/aws-incident-response-playbooks"
+      }
+    },
+    {
+      "step_id": "AK8S-04",
+      "activity": "Apply NetworkPolicy isolation, cordon node, and rotate IRSA/K8s secrets",
+      "description": "Prevent pod egress, drain compromised worker node, and invalidate exposed tokens.",
+      "phase": "containment",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when investigation confirms active compromise or operational impact.",
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "eks_containment_receipt"
+      ],
+      "source_anchor": {
+        "section": "AWS EKS & Container Compromise Incident Response Playbook",
+        "quote_or_summary": "Prevent pod egress, drain compromised worker node, and invalidate exposed tokens.",
+        "url": "https://github.com/aws-samples/aws-incident-response-playbooks"
+      }
+    },
+    {
+      "step_id": "AK8S-05",
+      "activity": "Redeploy verified clean workloads and close container incident",
+      "description": "Document Pod Security Standards enforcement and post-incident review.",
+      "phase": "post_incident",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "eks_closure_report"
+      ],
+      "source_anchor": {
+        "section": "AWS EKS & Container Compromise Incident Response Playbook",
+        "quote_or_summary": "Document Pod Security Standards enforcement and post-incident review.",
+        "url": "https://github.com/aws-samples/aws-incident-response-playbooks"
+      }
+    }
+  ],
+  "normalization": {
+    "status": "human_reviewed",
+    "method": "structured_action_schema_extraction",
+    "reviewed_by": "SOC-QA Research Team",
+    "reviewed_at": "2026-11-21T00:00:00Z"
+  }
+}

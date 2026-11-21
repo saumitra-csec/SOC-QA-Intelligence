@@ -404,6 +404,19 @@ class OperationalProcessMiningEngine(PM4PyServiceContract):
             "MS-CREDDUMP-EXAMPLE-001": {"CRED-S1": ["MCRD-01"], "CRED-S2": ["MCRD-02"], "CRED-S3": ["MCRD-03"], "CRED-S4": ["MCRD-04"], "CRED-S5": ["MCRD-05"]},
             "SPLUNK-LATERAL-EXAMPLE-001": {"LAT-S1": ["SLAT-01"], "LAT-S2": ["SLAT-02"], "LAT-S3": ["SLAT-03"], "LAT-S4": ["SLAT-04"], "LAT-S5": ["SLAT-05"]},
             "NCSC-C2-EXAMPLE-001": {"C2-S1": ["NC2S-01"], "C2-S2": ["NC2S-02"], "C2-S3": ["NC2S-03"], "C2-S4": ["NC2S-04"], "C2-S5": ["NC2S-05"]},
+            "MS-BEC-EXAMPLE-001": {"BEC-S1": ["MBEC-01"], "BEC-S2": ["MBEC-02"], "BEC-S3": ["MBEC-03"], "BEC-S4": ["MBEC-04"], "BEC-S5": ["MBEC-05"]},
+            "NIST-SUPCHAIN-EXAMPLE-001": {"SUP-S1": ["NSUP-01"], "SUP-S2": ["NSUP-02"], "SUP-S3": ["NSUP-03"], "SUP-S4": ["NSUP-04"], "SUP-S5": ["NSUP-05"]},
+            "AWS-CRYPTO-EXAMPLE-001": {"CRYP-S1": ["ACRY-01"], "CRYP-S2": ["ACRY-02"], "CRYP-S3": ["ACRY-03"], "CRYP-S4": ["ACRY-04"], "CRYP-S5": ["ACRY-05"]},
+            "ELASTIC-KERB-EXAMPLE-001": {"KERB-S1": ["EKRB-01"], "KERB-S2": ["EKRB-02"], "KERB-S3": ["EKRB-03"], "KERB-S4": ["EKRB-04"], "KERB-S5": ["EKRB-05"]},
+            "AWS-K8S-EXAMPLE-001": {"K8S-S1": ["AK8S-01"], "K8S-S2": ["AK8S-02"], "K8S-S3": ["AK8S-03"], "K8S-S4": ["AK8S-04"], "K8S-S5": ["AK8S-05"]},
+            "CERT-SG-INSIDER-EXAMPLE-001": {"INS-S1": ["CSGI-01"], "INS-S2": ["CSGI-02"], "INS-S3": ["CSGI-03"], "INS-S4": ["CSGI-04"], "INS-S5": ["CSGI-05"]},
+            "XSOAR-PHISH-EXAMPLE-001": {"PHISH-S1": ["XPH-01"], "PHISH-S2": ["XPH-02"], "PHISH-S3": ["XPH-03"], "PHISH-S4": ["XPH-04"], "PHISH-S5": ["XPH-05"]},
+            "CERT-SG-PHISH-EXAMPLE-001": {"PHISH-S1": ["CSGP-01"], "PHISH-S2": ["CSGP-02"], "PHISH-S3": ["CSGP-03"], "PHISH-S4": ["CSGP-04"], "PHISH-S5": ["CSGP-05"]},
+            "CISA-RANSOM-EXAMPLE-001": {"RANSOM-S1": ["CRAN-01"], "RANSOM-S2": ["CRAN-02"], "RANSOM-S3": ["CRAN-03"], "RANSOM-S4": ["CRAN-04"], "RANSOM-S5": ["CRAN-05"]},
+            "AWS-S3-RANSOM-EXAMPLE-001": {"RANSOM-S1": ["AS3R-01"], "RANSOM-S2": ["AS3R-02"], "RANSOM-S3": ["AS3R-03"], "RANSOM-S4": ["AS3R-04"], "RANSOM-S5": ["AS3R-05"]},
+            "CERT-SG-MALWARE-EXAMPLE-001": {"MAL-S1": ["CSGM-01"], "MAL-S2": ["CSGM-02"], "MAL-S3": ["CSGM-03"], "MAL-S4": ["CSGM-04"], "MAL-S5": ["CSGM-05"]},
+            "ELASTIC-PSH-EXAMPLE-001": {"PSH-S1": ["EPSH-01"], "PSH-S2": ["EPSH-02"], "PSH-S3": ["EPSH-03"], "PSH-S4": ["EPSH-04"], "PSH-S5": ["EPSH-05"]},
+            "NIST-EXFIL-EXAMPLE-001": {"EXFIL-S1": ["NEXF-01"], "EXFIL-S2": ["NEXF-02"], "EXFIL-S3": ["NEXF-03"], "EXFIL-S4": ["NEXF-04"], "EXFIL-S5": ["NEXF-05"]},
         }
         target_pb_id = ver_row["playbook_id"]
         equiv_map = CROSS_PLAYBOOK_STEP_EQUIVALENCE.get(target_pb_id, {})

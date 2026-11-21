@@ -1,0 +1,124 @@
+{
+  "playbook_id": "NIST-SUPCHAIN-EXAMPLE-001",
+  "title": "NIST SP 800-61r3 Supply Chain Incident Response Playbook",
+  "institution": "NIST",
+  "incident_type": [
+    "supply_chain_compromise"
+  ],
+  "mitre_attack": "T1195",
+  "scope": "NIST SP 800-61 Rev. 3 CSF 2.0-aligned operational procedure for software supply chain compromise.",
+  "source": {
+    "source_id": "NIST-SP800-61R3",
+    "url": "https://csrc.nist.gov/pubs/sp/800/61/r3/final",
+    "document_title": "NIST SP 800-61r3 Supply Chain Incident Response Playbook",
+    "version": "1.0",
+    "publication_date": null,
+    "retrieval_date": "2026-11-21",
+    "page_or_section": "NIST SP 800-61r3 Supply Chain Incident Response Playbook",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Public domain (U.S. NIST Special Publication)."
+  },
+  "prerequisites": [],
+  "roles": [
+    "SOC analyst",
+    "incident responder"
+  ],
+  "steps": [
+    {
+      "step_id": "NSUP-01",
+      "activity": "Detect and validate compromised supplier software or update",
+      "description": "Corroborate vendor CVE/advisory, package hashes, and anomalous build telemetry.",
+      "phase": "identification",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "vendor_advisory_and_hash"
+      ],
+      "source_anchor": {
+        "section": "NIST SP 800-61r3 Supply Chain Incident Response Playbook",
+        "quote_or_summary": "Corroborate vendor CVE/advisory, package hashes, and anomalous build telemetry.",
+        "url": "https://csrc.nist.gov/pubs/sp/800/61/r3/final"
+      }
+    },
+    {
+      "step_id": "NSUP-02",
+      "activity": "Assess organizational asset and dependency exposure",
+      "description": "Map affected production hosts, CI/CD runners, and third-party integrations.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "asset_exposure_matrix"
+      ],
+      "source_anchor": {
+        "section": "NIST SP 800-61r3 Supply Chain Incident Response Playbook",
+        "quote_or_summary": "Map affected production hosts, CI/CD runners, and third-party integrations.",
+        "url": "https://csrc.nist.gov/pubs/sp/800/61/r3/final"
+      }
+    },
+    {
+      "step_id": "NSUP-03",
+      "activity": "Analyze post-compromise execution and credential exposure",
+      "description": "Inspect host and network telemetry for follow-on C2 or unauthorized API calls.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "post_compromise_analysis_log"
+      ],
+      "source_anchor": {
+        "section": "NIST SP 800-61r3 Supply Chain Incident Response Playbook",
+        "quote_or_summary": "Inspect host and network telemetry for follow-on C2 or unauthorized API calls.",
+        "url": "https://csrc.nist.gov/pubs/sp/800/61/r3/final"
+      }
+    },
+    {
+      "step_id": "NSUP-04",
+      "activity": "Contain affected systems, replace dependencies, and rotate secrets",
+      "description": "Isolate compromised pipelines, deploy verified clean builds, and revoke exposed credentials.",
+      "phase": "containment",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when investigation confirms active compromise or operational impact.",
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "supply_chain_containment_log"
+      ],
+      "source_anchor": {
+        "section": "NIST SP 800-61r3 Supply Chain Incident Response Playbook",
+        "quote_or_summary": "Isolate compromised pipelines, deploy verified clean builds, and revoke exposed credentials.",
+        "url": "https://csrc.nist.gov/pubs/sp/800/61/r3/final"
+      }
+    },
+    {
+      "step_id": "NSUP-05",
+      "activity": "Complete recovery verification and feed lessons into risk governance",
+      "description": "Document root cause, update supplier risk controls, and close incident.",
+      "phase": "post_incident",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "nist_post_incident_review"
+      ],
+      "source_anchor": {
+        "section": "NIST SP 800-61r3 Supply Chain Incident Response Playbook",
+        "quote_or_summary": "Document root cause, update supplier risk controls, and close incident.",
+        "url": "https://csrc.nist.gov/pubs/sp/800/61/r3/final"
+      }
+    }
+  ],
+  "normalization": {
+    "status": "human_reviewed",
+    "method": "structured_action_schema_extraction",
+    "reviewed_by": "SOC-QA Research Team",
+    "reviewed_at": "2026-11-21T00:00:00Z"
+  }
+}

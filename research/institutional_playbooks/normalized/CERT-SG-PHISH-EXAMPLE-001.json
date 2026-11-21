@@ -1,0 +1,124 @@
+{
+  "playbook_id": "CERT-SG-PHISH-EXAMPLE-001",
+  "title": "CERT Soci\u00e9t\u00e9 G\u00e9n\u00e9rale IRM Phishing & Brand Impersonation Playbook",
+  "institution": "CERT Soci\u00e9t\u00e9 G\u00e9n\u00e9rale",
+  "incident_type": [
+    "phishing"
+  ],
+  "mitre_attack": "T1566",
+  "scope": "CERT Soci\u00e9t\u00e9 G\u00e9n\u00e9rale IRM operational cheat sheet for phishing triage, takedown, and victim scoping.",
+  "source": {
+    "source_id": "CERT-SG-IRM-PHISH",
+    "url": "https://github.com/certsocietegenerale/irm",
+    "document_title": "CERT Soci\u00e9t\u00e9 G\u00e9n\u00e9rale IRM Phishing & Brand Impersonation Playbook",
+    "version": "1.0",
+    "publication_date": null,
+    "retrieval_date": "2026-11-21",
+    "page_or_section": "CERT Soci\u00e9t\u00e9 G\u00e9n\u00e9rale IRM Phishing & Brand Impersonation Playbook",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Creative Commons Attribution 3.0 Unported (CC BY 3.0)."
+  },
+  "prerequisites": [],
+  "roles": [
+    "SOC analyst",
+    "incident responder"
+  ],
+  "steps": [
+    {
+      "step_id": "CSGP-01",
+      "activity": "Collect full suspicious email with headers and validate phishing lure",
+      "description": "Confirm spoofed sender infrastructure and lure mechanics.",
+      "phase": "identification",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "phish_eml_artifact"
+      ],
+      "source_anchor": {
+        "section": "CERT Soci\u00e9t\u00e9 G\u00e9n\u00e9rale IRM Phishing & Brand Impersonation Playbook",
+        "quote_or_summary": "Confirm spoofed sender infrastructure and lure mechanics.",
+        "url": "https://github.com/certsocietegenerale/irm"
+      }
+    },
+    {
+      "step_id": "CSGP-02",
+      "activity": "Analyze phishing landing page, certificates, and payload artifacts",
+      "description": "Capture URL redirect chain, registrar details, and attachment hashes safely.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "landing_page_analysis"
+      ],
+      "source_anchor": {
+        "section": "CERT Soci\u00e9t\u00e9 G\u00e9n\u00e9rale IRM Phishing & Brand Impersonation Playbook",
+        "quote_or_summary": "Capture URL redirect chain, registrar details, and attachment hashes safely.",
+        "url": "https://github.com/certsocietegenerale/irm"
+      }
+    },
+    {
+      "step_id": "CSGP-03",
+      "activity": "Identify exposed employees via proxy, DNS, and authentication logs",
+      "description": "Determine which internal users visited the phishing URL or entered credentials.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "victim_scoping_log"
+      ],
+      "source_anchor": {
+        "section": "CERT Soci\u00e9t\u00e9 G\u00e9n\u00e9rale IRM Phishing & Brand Impersonation Playbook",
+        "quote_or_summary": "Determine which internal users visited the phishing URL or entered credentials.",
+        "url": "https://github.com/certsocietegenerale/irm"
+      }
+    },
+    {
+      "step_id": "CSGP-04",
+      "activity": "Block infrastructure, reset victim credentials, and initiate takedown",
+      "description": "Block domains at proxy/mail gateway, reset impacted accounts, and request registrar takedown.",
+      "phase": "containment",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when investigation confirms active compromise or operational impact.",
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "takedown_and_block_receipt"
+      ],
+      "source_anchor": {
+        "section": "CERT Soci\u00e9t\u00e9 G\u00e9n\u00e9rale IRM Phishing & Brand Impersonation Playbook",
+        "quote_or_summary": "Block domains at proxy/mail gateway, reset impacted accounts, and request registrar takedown.",
+        "url": "https://github.com/certsocietegenerale/irm"
+      }
+    },
+    {
+      "step_id": "CSGP-05",
+      "activity": "Brief stakeholders and close phishing incident record",
+      "description": "Archive IOCs for threat intelligence sharing and close case.",
+      "phase": "post_incident",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "irm_phish_closure_note"
+      ],
+      "source_anchor": {
+        "section": "CERT Soci\u00e9t\u00e9 G\u00e9n\u00e9rale IRM Phishing & Brand Impersonation Playbook",
+        "quote_or_summary": "Archive IOCs for threat intelligence sharing and close case.",
+        "url": "https://github.com/certsocietegenerale/irm"
+      }
+    }
+  ],
+  "normalization": {
+    "status": "human_reviewed",
+    "method": "structured_action_schema_extraction",
+    "reviewed_by": "SOC-QA Research Team",
+    "reviewed_at": "2026-11-21T00:00:00Z"
+  }
+}

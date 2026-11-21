@@ -1,0 +1,124 @@
+{
+  "playbook_id": "ELASTIC-KERB-EXAMPLE-001",
+  "title": "Elastic Security Kerberoasting & Kerberos Abuse Investigation Playbook",
+  "institution": "Elastic Security",
+  "incident_type": [
+    "kerberoasting"
+  ],
+  "mitre_attack": "T1558.003",
+  "scope": "Elastic Detection Rules triage workflow for Kerberoasting (Event 4769 RC4) and forged Kerberos tickets.",
+  "source": {
+    "source_id": "ELASTIC-DETECTION-RULES",
+    "url": "https://github.com/elastic/detection-rules",
+    "document_title": "Elastic Security Kerberoasting & Kerberos Abuse Investigation Playbook",
+    "version": "1.0",
+    "publication_date": null,
+    "retrieval_date": "2026-11-21",
+    "page_or_section": "Elastic Security Kerberoasting & Kerberos Abuse Investigation Playbook",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Elastic License v2; reference attribution retained."
+  },
+  "prerequisites": [],
+  "roles": [
+    "SOC analyst",
+    "incident responder"
+  ],
+  "steps": [
+    {
+      "step_id": "EKRB-01",
+      "activity": "Validate Kerberoasting alert and Event 4769 ticket encryption type",
+      "description": "Confirm anomalous volume of RC4-HMAC TGS requests from a non-privileged principal.",
+      "phase": "identification",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "elastic_4769_alert"
+      ],
+      "source_anchor": {
+        "section": "Elastic Security Kerberoasting & Kerberos Abuse Investigation Playbook",
+        "quote_or_summary": "Confirm anomalous volume of RC4-HMAC TGS requests from a non-privileged principal.",
+        "url": "https://github.com/elastic/detection-rules"
+      }
+    },
+    {
+      "step_id": "EKRB-02",
+      "activity": "Inspect endpoint process telemetry for Rubeus, Impacket, or PowerView",
+      "description": "Correlate Elastic Endpoint / Sysmon process events on the requesting workstation.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "endpoint_tool_correlation"
+      ],
+      "source_anchor": {
+        "section": "Elastic Security Kerberoasting & Kerberos Abuse Investigation Playbook",
+        "quote_or_summary": "Correlate Elastic Endpoint / Sysmon process events on the requesting workstation.",
+        "url": "https://github.com/elastic/detection-rules"
+      }
+    },
+    {
+      "step_id": "EKRB-03",
+      "activity": "Identify targeted SPNs and hunt subsequent service account logons",
+      "description": "Check whether targeted service accounts authenticated from anomalous source hosts.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "spn_followup_hunt_log"
+      ],
+      "source_anchor": {
+        "section": "Elastic Security Kerberoasting & Kerberos Abuse Investigation Playbook",
+        "quote_or_summary": "Check whether targeted service accounts authenticated from anomalous source hosts.",
+        "url": "https://github.com/elastic/detection-rules"
+      }
+    },
+    {
+      "step_id": "EKRB-04",
+      "activity": "Isolate host and rotate compromised service account credentials",
+      "description": "Quarantine workstation via Elastic Defend and rotate weak SPN passwords to gMSA/AES.",
+      "phase": "containment",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when investigation confirms active compromise or operational impact.",
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "kerb_containment_receipt"
+      ],
+      "source_anchor": {
+        "section": "Elastic Security Kerberoasting & Kerberos Abuse Investigation Playbook",
+        "quote_or_summary": "Quarantine workstation via Elastic Defend and rotate weak SPN passwords to gMSA/AES.",
+        "url": "https://github.com/elastic/detection-rules"
+      }
+    },
+    {
+      "step_id": "EKRB-05",
+      "activity": "Document AD ticket hardening and close Kerberos alert",
+      "description": "Record false-positive tuning or confirmed remediation actions.",
+      "phase": "post_incident",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "kerb_closure_note"
+      ],
+      "source_anchor": {
+        "section": "Elastic Security Kerberoasting & Kerberos Abuse Investigation Playbook",
+        "quote_or_summary": "Record false-positive tuning or confirmed remediation actions.",
+        "url": "https://github.com/elastic/detection-rules"
+      }
+    }
+  ],
+  "normalization": {
+    "status": "human_reviewed",
+    "method": "structured_action_schema_extraction",
+    "reviewed_by": "SOC-QA Research Team",
+    "reviewed_at": "2026-11-21T00:00:00Z"
+  }
+}

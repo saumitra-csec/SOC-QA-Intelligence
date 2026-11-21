@@ -1,0 +1,124 @@
+{
+  "playbook_id": "NIST-EXFIL-EXAMPLE-001",
+  "title": "NIST SP 800-61r3 Data Exfiltration & Breach Containment Playbook",
+  "institution": "NIST",
+  "incident_type": [
+    "data_exfiltration"
+  ],
+  "mitre_attack": "T1567 / T1048",
+  "scope": "NIST SP 800-61 Rev. 3 CSF 2.0-aligned operational procedure for suspected data exfiltration and breach response.",
+  "source": {
+    "source_id": "NIST-SP800-61R3-EXFIL",
+    "url": "https://csrc.nist.gov/pubs/sp/800/61/r3/final",
+    "document_title": "NIST SP 800-61r3 Data Exfiltration & Breach Containment Playbook",
+    "version": "1.0",
+    "publication_date": null,
+    "retrieval_date": "2026-11-21",
+    "page_or_section": "NIST SP 800-61r3 Data Exfiltration & Breach Containment Playbook",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Public domain (U.S. NIST Special Publication)."
+  },
+  "prerequisites": [],
+  "roles": [
+    "SOC analyst",
+    "incident responder"
+  ],
+  "steps": [
+    {
+      "step_id": "NEXF-01",
+      "activity": "Detect and validate anomalous outbound data transfer or DLP alert",
+      "description": "Confirm source identity/host, destination service, protocol, and transfer volume.",
+      "phase": "identification",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "egress_dlp_alert_record"
+      ],
+      "source_anchor": {
+        "section": "NIST SP 800-61r3 Data Exfiltration & Breach Containment Playbook",
+        "quote_or_summary": "Confirm source identity/host, destination service, protocol, and transfer volume.",
+        "url": "https://csrc.nist.gov/pubs/sp/800/61/r3/final"
+      }
+    },
+    {
+      "step_id": "NEXF-02",
+      "activity": "Classify exposed information assets and regulatory impact",
+      "description": "Determine whether PII, IP, credentials, or regulated records were exfiltrated.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "data_classification_assessment"
+      ],
+      "source_anchor": {
+        "section": "NIST SP 800-61r3 Data Exfiltration & Breach Containment Playbook",
+        "quote_or_summary": "Determine whether PII, IP, credentials, or regulated records were exfiltrated.",
+        "url": "https://csrc.nist.gov/pubs/sp/800/61/r3/final"
+      }
+    },
+    {
+      "step_id": "NEXF-03",
+      "activity": "Trace data staging, collection queries, and compromised credentials",
+      "description": "Audit database queries, archive creation, and cloud bulk downloads.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "staging_and_access_audit"
+      ],
+      "source_anchor": {
+        "section": "NIST SP 800-61r3 Data Exfiltration & Breach Containment Playbook",
+        "quote_or_summary": "Audit database queries, archive creation, and cloud bulk downloads.",
+        "url": "https://csrc.nist.gov/pubs/sp/800/61/r3/final"
+      }
+    },
+    {
+      "step_id": "NEXF-04",
+      "activity": "Block exfiltration channel, suspend compromised access, and escalate breach",
+      "description": "Sever egress destination, revoke tokens, and trigger legal/privacy notification.",
+      "phase": "containment",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when investigation confirms active compromise or operational impact.",
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "exfil_containment_receipt"
+      ],
+      "source_anchor": {
+        "section": "NIST SP 800-61r3 Data Exfiltration & Breach Containment Playbook",
+        "quote_or_summary": "Sever egress destination, revoke tokens, and trigger legal/privacy notification.",
+        "url": "https://csrc.nist.gov/pubs/sp/800/61/r3/final"
+      }
+    },
+    {
+      "step_id": "NEXF-05",
+      "activity": "Document breach disposition, recovery controls, and lessons learned",
+      "description": "Record verified authorized transfer or complete post-incident regulatory report.",
+      "phase": "post_incident",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "nist_exfil_closure_report"
+      ],
+      "source_anchor": {
+        "section": "NIST SP 800-61r3 Data Exfiltration & Breach Containment Playbook",
+        "quote_or_summary": "Record verified authorized transfer or complete post-incident regulatory report.",
+        "url": "https://csrc.nist.gov/pubs/sp/800/61/r3/final"
+      }
+    }
+  ],
+  "normalization": {
+    "status": "human_reviewed",
+    "method": "structured_action_schema_extraction",
+    "reviewed_by": "SOC-QA Research Team",
+    "reviewed_at": "2026-11-21T00:00:00Z"
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "playbook_id": "CERT-SG-INSIDER-EXAMPLE-001",
+  "title": "CERT Soci\u00e9t\u00e9 G\u00e9n\u00e9rale IRM Insider Threat & Data Abuse Playbook",
+  "institution": "CERT Soci\u00e9t\u00e9 G\u00e9n\u00e9rale",
+  "incident_type": [
+    "insider_threat"
+  ],
+  "mitre_attack": "T1078 / T1530",
+  "scope": "CERT Soci\u00e9t\u00e9 G\u00e9n\u00e9rale Incident Response Methodology (IRM) for malicious or negligent insider data access.",
+  "source": {
+    "source_id": "CERT-SG-IRM",
+    "url": "https://github.com/certsocietegenerale/irm",
+    "document_title": "CERT Soci\u00e9t\u00e9 G\u00e9n\u00e9rale IRM Insider Threat & Data Abuse Playbook",
+    "version": "1.0",
+    "publication_date": null,
+    "retrieval_date": "2026-11-21",
+    "page_or_section": "CERT Soci\u00e9t\u00e9 G\u00e9n\u00e9rale IRM Insider Threat & Data Abuse Playbook",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Creative Commons Attribution 3.0 Unported (CC BY 3.0)."
+  },
+  "prerequisites": [],
+  "roles": [
+    "SOC analyst",
+    "incident responder"
+  ],
+  "steps": [
+    {
+      "step_id": "CSGI-01",
+      "activity": "Qualify insider alert discreetly and preserve volatile/audit evidence",
+      "description": "Collect DLP, proxy, and IAM logs covertly to maintain forensic integrity.",
+      "phase": "identification",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "covert_evidence_archive"
+      ],
+      "source_anchor": {
+        "section": "CERT Soci\u00e9t\u00e9 G\u00e9n\u00e9rale IRM Insider Threat & Data Abuse Playbook",
+        "quote_or_summary": "Collect DLP, proxy, and IAM logs covertly to maintain forensic integrity.",
+        "url": "https://github.com/certsocietegenerale/irm"
+      }
+    },
+    {
+      "step_id": "CSGI-02",
+      "activity": "Verify business justification and privilege scope with asset owners",
+      "description": "Cross-check data access against formal authorization without tipping off suspect.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "privilege_scope_record"
+      ],
+      "source_anchor": {
+        "section": "CERT Soci\u00e9t\u00e9 G\u00e9n\u00e9rale IRM Insider Threat & Data Abuse Playbook",
+        "quote_or_summary": "Cross-check data access against formal authorization without tipping off suspect.",
+        "url": "https://github.com/certsocietegenerale/irm"
+      }
+    },
+    {
+      "step_id": "CSGI-03",
+      "activity": "Reconstruct full data movement timeline across email, cloud, and USB",
+      "description": "Establish exact file counts, classifications, and external destinations.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "insider_timeline_report"
+      ],
+      "source_anchor": {
+        "section": "CERT Soci\u00e9t\u00e9 G\u00e9n\u00e9rale IRM Insider Threat & Data Abuse Playbook",
+        "quote_or_summary": "Establish exact file counts, classifications, and external destinations.",
+        "url": "https://github.com/certsocietegenerale/irm"
+      }
+    },
+    {
+      "step_id": "CSGI-04",
+      "activity": "Execute Legal/HR-approved account suspension and workstation seizure",
+      "description": "Revoke badges, VPN, and directory credentials simultaneously upon authorization.",
+      "phase": "containment",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when investigation confirms active compromise or operational impact.",
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "hr_legal_containment_log"
+      ],
+      "source_anchor": {
+        "section": "CERT Soci\u00e9t\u00e9 G\u00e9n\u00e9rale IRM Insider Threat & Data Abuse Playbook",
+        "quote_or_summary": "Revoke badges, VPN, and directory credentials simultaneously upon authorization.",
+        "url": "https://github.com/certsocietegenerale/irm"
+      }
+    },
+    {
+      "step_id": "CSGI-05",
+      "activity": "Deliver forensic dossier and close insider investigation",
+      "description": "Archive SHA-256 evidence manifest and document lessons learned.",
+      "phase": "post_incident",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "insider_forensic_dossier"
+      ],
+      "source_anchor": {
+        "section": "CERT Soci\u00e9t\u00e9 G\u00e9n\u00e9rale IRM Insider Threat & Data Abuse Playbook",
+        "quote_or_summary": "Archive SHA-256 evidence manifest and document lessons learned.",
+        "url": "https://github.com/certsocietegenerale/irm"
+      }
+    }
+  ],
+  "normalization": {
+    "status": "human_reviewed",
+    "method": "structured_action_schema_extraction",
+    "reviewed_by": "SOC-QA Research Team",
+    "reviewed_at": "2026-11-21T00:00:00Z"
+  }
+}

@@ -32,12 +32,29 @@ VALID_INCIDENT_TYPES = {
     "credential_dumping",
     "lateral_movement",
     "command_and_control",
+    "business_email_compromise",
+    "supply_chain_compromise",
+    "cryptojacking",
+    "kerberoasting",
+    "container_escape",
+    "insider_threat",
     "confirmed_malicious_cyber_activity",
     "major_incident_response",
     "financial_sector_cyber_incident",
     "cross_organisation_incident_coordination",
     "general_incident_response",
 }
+
+
+# Dynamically register incident types from the expanded scenario library pack
+_EXPANDED_PACK_PATH = Path(__file__).resolve().parents[4] / "research" / "playbooks" / "expanded_scenario_pack_v1.0.json"
+if _EXPANDED_PACK_PATH.exists():
+    try:
+        for _epb in json.loads(_EXPANDED_PACK_PATH.read_text(encoding="utf-8")):
+            if _epb.get("incident_type"):
+                VALID_INCIDENT_TYPES.add(str(_epb["incident_type"]).strip().lower())
+    except Exception:
+        pass
 
 VALID_NORMALIZATION_STATUSES = {
     "source_verified_not_extracted",
@@ -770,6 +787,8 @@ def seed_institutional_playbook_pack() -> Dict[str, Any]:
         "PB-EXFIL-001_v1.0.json", "PB-DOS-001_v1.0.json", "PB-CLOUD-IAM-001_v1.0.json",
         "PB-RECON-001_v1.0.json", "PB-EXPLOIT-001_v1.0.json", "PB-PRIVESC-001_v1.0.json",
         "PB-CREDDUMP-001_v1.0.json", "PB-LATERAL-001_v1.0.json", "PB-C2-001_v1.0.json",
+        "PB-BEC-001_v1.0.json", "PB-SUPCHAIN-001_v1.0.json", "PB-CRYPTO-001_v1.0.json",
+        "PB-KERB-001_v1.0.json", "PB-K8S-001_v1.0.json", "PB-INSIDER-001_v1.0.json",
     ]:
         fpath = pb_dir / fname
         if fpath.exists():
@@ -791,8 +810,20 @@ def seed_institutional_playbook_pack() -> Dict[str, Any]:
                 existing_vers.add(ver_id)
                 institutional_imported.append(ver_id)
 
+    expanded_imported = 0
+    expanded_pack = pb_dir / "expanded_scenario_pack_v1.0.json"
+    if expanded_pack.exists():
+        for epb in json.loads(expanded_pack.read_text(encoding="utf-8")):
+            ver = str(epb.get("version") or "1.0")
+            ver_id = f"{epb['playbook_id']}@{ver}"
+            if ver_id not in existing_vers:
+                import_playbook_json(json.dumps(epb))
+                existing_vers.add(ver_id)
+                expanded_imported += 1
+
     return {
         "sources_registered": sources_registered,
+        "expanded_scenario_playbooks_imported": expanded_imported,
         "core_playbooks_imported": core_imported,
         "institutional_playbooks_imported": institutional_imported,
         "total_playbooks_in_repository": len(existing_vers),

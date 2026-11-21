@@ -1,0 +1,124 @@
+{
+  "playbook_id": "CISA-RANSOM-EXAMPLE-001",
+  "title": "CISA #StopRansomware Operational Response Checklist Playbook",
+  "institution": "CISA",
+  "incident_type": [
+    "ransomware"
+  ],
+  "mitre_attack": "T1486 / T1490",
+  "scope": "CISA #StopRansomware Guide Part 2 incident response checklist for detection, containment, eradication, and recovery.",
+  "source": {
+    "source_id": "CISA-STOPRANSOMWARE",
+    "url": "https://www.cisa.gov/resources-tools/resources/stopransomware-guide",
+    "document_title": "CISA #StopRansomware Operational Response Checklist Playbook",
+    "version": "1.0",
+    "publication_date": null,
+    "retrieval_date": "2026-11-21",
+    "page_or_section": "CISA #StopRansomware Operational Response Checklist Playbook",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Public domain (U.S. CISA)."
+  },
+  "prerequisites": [],
+  "roles": [
+    "SOC analyst",
+    "incident responder"
+  ],
+  "steps": [
+    {
+      "step_id": "CRAN-01",
+      "activity": "Determine impacted systems and identify ransomware variant indicators",
+      "description": "Verify encrypted file extensions, ransom note, and shadow copy deletion.",
+      "phase": "identification",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "ransomware_variant_id"
+      ],
+      "source_anchor": {
+        "section": "CISA #StopRansomware Operational Response Checklist Playbook",
+        "quote_or_summary": "Verify encrypted file extensions, ransom note, and shadow copy deletion.",
+        "url": "https://www.cisa.gov/resources-tools/resources/stopransomware-guide"
+      }
+    },
+    {
+      "step_id": "CRAN-02",
+      "activity": "Isolate infected hosts immediately and sever shared network/AD paths",
+      "description": "Disconnect compromised systems from network while preserving volatile memory if feasible.",
+      "phase": "containment",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "network_isolation_log"
+      ],
+      "source_anchor": {
+        "section": "CISA #StopRansomware Operational Response Checklist Playbook",
+        "quote_or_summary": "Disconnect compromised systems from network while preserving volatile memory if feasible.",
+        "url": "https://www.cisa.gov/resources-tools/resources/stopransomware-guide"
+      }
+    },
+    {
+      "step_id": "CRAN-03",
+      "activity": "Triage initial access vector, persistence, and data exfiltration scope",
+      "description": "Audit VPN/RDP logs, privileged accounts, and outbound transfers for double extortion.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "ransomware_scope_audit"
+      ],
+      "source_anchor": {
+        "section": "CISA #StopRansomware Operational Response Checklist Playbook",
+        "quote_or_summary": "Audit VPN/RDP logs, privileged accounts, and outbound transfers for double extortion.",
+        "url": "https://www.cisa.gov/resources-tools/resources/stopransomware-guide"
+      }
+    },
+    {
+      "step_id": "CRAN-04",
+      "activity": "Engage CISA/Law Enforcement and validate immutable offline backups",
+      "description": "Notify CISA/FBI and verify clean golden images and uncorrupted backups before restore.",
+      "phase": "coordination",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when investigation confirms active compromise or operational impact.",
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "cisa_notification_and_backup_check"
+      ],
+      "source_anchor": {
+        "section": "CISA #StopRansomware Operational Response Checklist Playbook",
+        "quote_or_summary": "Notify CISA/FBI and verify clean golden images and uncorrupted backups before restore.",
+        "url": "https://www.cisa.gov/resources-tools/resources/stopransomware-guide"
+      }
+    },
+    {
+      "step_id": "CRAN-05",
+      "activity": "Rebuild clean systems, rotate domain credentials, and close incident",
+      "description": "Restore from verified backups, reset krbtgt/privileged accounts, and complete lessons learned.",
+      "phase": "post_incident",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "stopransomware_closure_report"
+      ],
+      "source_anchor": {
+        "section": "CISA #StopRansomware Operational Response Checklist Playbook",
+        "quote_or_summary": "Restore from verified backups, reset krbtgt/privileged accounts, and complete lessons learned.",
+        "url": "https://www.cisa.gov/resources-tools/resources/stopransomware-guide"
+      }
+    }
+  ],
+  "normalization": {
+    "status": "human_reviewed",
+    "method": "structured_action_schema_extraction",
+    "reviewed_by": "SOC-QA Research Team",
+    "reviewed_at": "2026-11-21T00:00:00Z"
+  }
+}

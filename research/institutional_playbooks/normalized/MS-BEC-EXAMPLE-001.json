@@ -1,0 +1,124 @@
+{
+  "playbook_id": "MS-BEC-EXAMPLE-001",
+  "title": "Microsoft 365 Compromised Email Account & BEC Response Playbook",
+  "institution": "Microsoft Security",
+  "incident_type": [
+    "business_email_compromise"
+  ],
+  "mitre_attack": "T1566 / T1114.003",
+  "scope": "Microsoft Defender for Office 365 playbook for compromised mailbox takeover, inbox forwarding rules, and BEC.",
+  "source": {
+    "source_id": "MS-BEC-M365",
+    "url": "https://learn.microsoft.com/en-us/defender-office-365/responding-to-a-compromised-email-account",
+    "document_title": "Microsoft 365 Compromised Email Account & BEC Response Playbook",
+    "version": "1.0",
+    "publication_date": null,
+    "retrieval_date": "2026-11-21",
+    "page_or_section": "Microsoft 365 Compromised Email Account & BEC Response Playbook",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Microsoft Learn terms apply; retain attribution and source link."
+  },
+  "prerequisites": [],
+  "roles": [
+    "SOC analyst",
+    "incident responder"
+  ],
+  "steps": [
+    {
+      "step_id": "MBEC-01",
+      "activity": "Verify compromised mailbox symptoms and risky Entra ID sign-ins",
+      "description": "Check sign-in logs, unfamiliar locations, and Threat Explorer outbound spam/phish volume.",
+      "phase": "identification",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "entra_signin_logs"
+      ],
+      "source_anchor": {
+        "section": "Microsoft 365 Compromised Email Account & BEC Response Playbook",
+        "quote_or_summary": "Check sign-in logs, unfamiliar locations, and Threat Explorer outbound spam/phish volume.",
+        "url": "https://learn.microsoft.com/en-us/defender-office-365/responding-to-a-compromised-email-account"
+      }
+    },
+    {
+      "step_id": "MBEC-02",
+      "activity": "Inspect malicious inbox manipulation rules and Exchange forwarding",
+      "description": "Audit Inbox Rules, Exchange Transport Rules (ETR), and SMTP forwarding to external addresses.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "inbox_rule_audit_record"
+      ],
+      "source_anchor": {
+        "section": "Microsoft 365 Compromised Email Account & BEC Response Playbook",
+        "quote_or_summary": "Audit Inbox Rules, Exchange Transport Rules (ETR), and SMTP forwarding to external addresses.",
+        "url": "https://learn.microsoft.com/en-us/defender-office-365/responding-to-a-compromised-email-account"
+      }
+    },
+    {
+      "step_id": "MBEC-03",
+      "activity": "Review OAuth consent grants and sent-items fraud activity",
+      "description": "Check newly consented cloud apps and external emails sent during the compromise window.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "oauth_and_sent_items_log"
+      ],
+      "source_anchor": {
+        "section": "Microsoft 365 Compromised Email Account & BEC Response Playbook",
+        "quote_or_summary": "Check newly consented cloud apps and external emails sent during the compromise window.",
+        "url": "https://learn.microsoft.com/en-us/defender-office-365/responding-to-a-compromised-email-account"
+      }
+    },
+    {
+      "step_id": "MBEC-04",
+      "activity": "Reset password, revoke sessions, and remove malicious rules",
+      "description": "Execute Revoke-MgUserSignInSession, block external forwarding, and purge attacker rules.",
+      "phase": "containment",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when investigation confirms active compromise or operational impact.",
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "m365_remediation_receipt"
+      ],
+      "source_anchor": {
+        "section": "Microsoft 365 Compromised Email Account & BEC Response Playbook",
+        "quote_or_summary": "Execute Revoke-MgUserSignInSession, block external forwarding, and purge attacker rules.",
+        "url": "https://learn.microsoft.com/en-us/defender-office-365/responding-to-a-compromised-email-account"
+      }
+    },
+    {
+      "step_id": "MBEC-05",
+      "activity": "Restore clean mail flow and record BEC investigation disposition",
+      "description": "Confirm clean MFA methods, re-enable legitimate mail flow, and document closure.",
+      "phase": "post_incident",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "bec_closure_report"
+      ],
+      "source_anchor": {
+        "section": "Microsoft 365 Compromised Email Account & BEC Response Playbook",
+        "quote_or_summary": "Confirm clean MFA methods, re-enable legitimate mail flow, and document closure.",
+        "url": "https://learn.microsoft.com/en-us/defender-office-365/responding-to-a-compromised-email-account"
+      }
+    }
+  ],
+  "normalization": {
+    "status": "human_reviewed",
+    "method": "structured_action_schema_extraction",
+    "reviewed_by": "SOC-QA Research Team",
+    "reviewed_at": "2026-11-21T00:00:00Z"
+  }
+}

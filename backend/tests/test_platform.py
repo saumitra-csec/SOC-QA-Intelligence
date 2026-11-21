@@ -860,5 +860,49 @@ class TestSOCQAIntelligencePlatform(unittest.TestCase):
         self.assertEqual(r_dq.json()["readiness_status"], "Valid")
 
 
+    def test_22_expanded_52_playbook_22_attack_multi_source_catalog(self):
+        r_seed = self.client.post("/api/v1/playbooks/institutional/seed")
+        self.assertEqual(r_seed.status_code, 200, r_seed.text)
+        r_all = self.client.get("/api/v1/playbooks")
+        self.assertEqual(r_all.status_code, 200)
+        all_pbs = r_all.json()["playbooks"]
+        self.assertGreaterEqual(len(all_pbs), 52)
+        for new_cat in [
+            "business_email_compromise",
+            "supply_chain_compromise",
+            "cryptojacking",
+            "kerberoasting",
+            "container_escape",
+            "insider_threat",
+        ]:
+            matches = [p for p in all_pbs if p["incident_type"] == new_cat]
+            self.assertGreaterEqual(len(matches), 2, f"Category {new_cat} should have >=2 playbooks")
+        # Verify multi-source depth on phishing and ransomware (>=4 playbooks each)
+        phish_pbs = [p for p in all_pbs if p["incident_type"] == "phishing"]
+        ransom_pbs = [p for p in all_pbs if p["incident_type"] == "ransomware"]
+        self.assertGreaterEqual(len(phish_pbs), 4)
+        self.assertGreaterEqual(len(ransom_pbs), 4)
+
+    def test_23_excel_300_scenario_playbook_library_import_and_dedup(self):
+        r_seed = self.client.post("/api/v1/playbooks/institutional/seed")
+        self.assertEqual(r_seed.status_code, 200, r_seed.text)
+        r_all = self.client.get("/api/v1/playbooks")
+        self.assertEqual(r_all.status_code, 200)
+        all_pbs = r_all.json()["playbooks"]
+        self.assertGreaterEqual(len(all_pbs), 347)
+        ids = {p["playbook_id"] for p in all_pbs}
+        # Confirm Excel SOC-PB-* IDs were ignored and replaced with PB-*-001 convention
+        self.assertFalse(any(pid.startswith("SOC-PB-") for pid in ids))
+        # Confirm key newly added scenarios exist
+        inc_types = {p["incident_type"] for p in all_pbs}
+        for expected_inc in [
+            "spear_phishing",
+            "mfa_fatigue",
+            "sql_injection",
+            "dcsync_abuse",
+            "prompt_injection_against_enterprise_agent",
+        ]:
+            self.assertIn(expected_inc, inc_types)
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

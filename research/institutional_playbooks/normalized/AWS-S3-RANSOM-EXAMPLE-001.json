@@ -1,0 +1,124 @@
+{
+  "playbook_id": "AWS-S3-RANSOM-EXAMPLE-001",
+  "title": "AWS Customer Playbook Framework \u2014 S3 Ransomware Response Playbook",
+  "institution": "Amazon Web Services",
+  "incident_type": [
+    "ransomware"
+  ],
+  "mitre_attack": "T1486 / T1530",
+  "scope": "AWS Customer Playbook Framework procedure for cloud-native Amazon S3 object encryption/deletion ransomware.",
+  "source": {
+    "source_id": "AWS-CPF-S3-RANSOM",
+    "url": "https://github.com/aws-samples/aws-customer-playbook-framework/blob/main/docs/Ransom_Response_S3.md",
+    "document_title": "AWS Customer Playbook Framework \u2014 S3 Ransomware Response Playbook",
+    "version": "1.0",
+    "publication_date": null,
+    "retrieval_date": "2026-11-21",
+    "page_or_section": "AWS Customer Playbook Framework \u2014 S3 Ransomware Response Playbook",
+    "content_hash_sha256": null,
+    "license_or_reuse": "MIT-0 / AWS Samples; retain attribution."
+  },
+  "prerequisites": [],
+  "roles": [
+    "SOC analyst",
+    "incident responder"
+  ],
+  "steps": [
+    {
+      "step_id": "AS3R-01",
+      "activity": "Detect anomalous S3 PutObject/DeleteObject bursts and ransom notes",
+      "description": "Verify GuardDuty S3 findings, CloudWatch metrics, and ransom text objects in buckets.",
+      "phase": "identification",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "s3_ransom_alert_log"
+      ],
+      "source_anchor": {
+        "section": "AWS Customer Playbook Framework \u2014 S3 Ransomware Response Playbook",
+        "quote_or_summary": "Verify GuardDuty S3 findings, CloudWatch metrics, and ransom text objects in buckets.",
+        "url": "https://github.com/aws-samples/aws-customer-playbook-framework/blob/main/docs/Ransom_Response_S3.md"
+      }
+    },
+    {
+      "step_id": "AS3R-02",
+      "activity": "Analyze CloudTrail S3 data events for unrecognized IAM principals or KMS keys",
+      "description": "Identify attacker IAM ARN, source IP, and external KMS key IDs used to re-encrypt objects.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "cloudtrail_s3_data_audit"
+      ],
+      "source_anchor": {
+        "section": "AWS Customer Playbook Framework \u2014 S3 Ransomware Response Playbook",
+        "quote_or_summary": "Identify attacker IAM ARN, source IP, and external KMS key IDs used to re-encrypt objects.",
+        "url": "https://github.com/aws-samples/aws-customer-playbook-framework/blob/main/docs/Ransom_Response_S3.md"
+      }
+    },
+    {
+      "step_id": "AS3R-03",
+      "activity": "Assess S3 Versioning, Object Lock, and cross-region replication posture",
+      "description": "Determine whether clean pre-attack object versions exist for recovery.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "s3_versioning_assessment"
+      ],
+      "source_anchor": {
+        "section": "AWS Customer Playbook Framework \u2014 S3 Ransomware Response Playbook",
+        "quote_or_summary": "Determine whether clean pre-attack object versions exist for recovery.",
+        "url": "https://github.com/aws-samples/aws-customer-playbook-framework/blob/main/docs/Ransom_Response_S3.md"
+      }
+    },
+    {
+      "step_id": "AS3R-04",
+      "activity": "Revoke compromised IAM credentials and apply restrictive bucket deny policy",
+      "description": "Block attacker IAM principal and prevent further DeleteObjectVersion calls.",
+      "phase": "containment",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when investigation confirms active compromise or operational impact.",
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "s3_bucket_policy_receipt"
+      ],
+      "source_anchor": {
+        "section": "AWS Customer Playbook Framework \u2014 S3 Ransomware Response Playbook",
+        "quote_or_summary": "Block attacker IAM principal and prevent further DeleteObjectVersion calls.",
+        "url": "https://github.com/aws-samples/aws-customer-playbook-framework/blob/main/docs/Ransom_Response_S3.md"
+      }
+    },
+    {
+      "step_id": "AS3R-05",
+      "activity": "Restore clean S3 object versions and close cloud ransomware incident",
+      "description": "Execute batch version recovery, verify data integrity, and document lessons learned.",
+      "phase": "post_incident",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "s3_recovery_closure_report"
+      ],
+      "source_anchor": {
+        "section": "AWS Customer Playbook Framework \u2014 S3 Ransomware Response Playbook",
+        "quote_or_summary": "Execute batch version recovery, verify data integrity, and document lessons learned.",
+        "url": "https://github.com/aws-samples/aws-customer-playbook-framework/blob/main/docs/Ransom_Response_S3.md"
+      }
+    }
+  ],
+  "normalization": {
+    "status": "human_reviewed",
+    "method": "structured_action_schema_extraction",
+    "reviewed_by": "SOC-QA Research Team",
+    "reviewed_at": "2026-11-21T00:00:00Z"
+  }
+}

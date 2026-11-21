@@ -1,0 +1,124 @@
+{
+  "playbook_id": "ELASTIC-PSH-EXAMPLE-001",
+  "title": "Elastic Security Suspicious PowerShell & LOLBin Investigation Playbook",
+  "institution": "Elastic Security",
+  "incident_type": [
+    "suspicious_powershell"
+  ],
+  "mitre_attack": "T1059.001",
+  "scope": "Elastic Detection Rules investigation guide for encoded PowerShell execution, AMSI bypass, and download cradles.",
+  "source": {
+    "source_id": "ELASTIC-PSH-RULES",
+    "url": "https://github.com/elastic/detection-rules",
+    "document_title": "Elastic Security Suspicious PowerShell & LOLBin Investigation Playbook",
+    "version": "1.0",
+    "publication_date": null,
+    "retrieval_date": "2026-11-21",
+    "page_or_section": "Elastic Security Suspicious PowerShell & LOLBin Investigation Playbook",
+    "content_hash_sha256": null,
+    "license_or_reuse": "Elastic License v2; reference attribution retained."
+  },
+  "prerequisites": [],
+  "roles": [
+    "SOC analyst",
+    "incident responder"
+  ],
+  "steps": [
+    {
+      "step_id": "EPSH-01",
+      "activity": "Inspect Elastic Endpoint process tree and encoded command-line flags",
+      "description": "Verify parent-child ancestry (Office/WMI/cmd -> powershell.exe) and execution policy bypass.",
+      "phase": "identification",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "elastic_process_tree_log"
+      ],
+      "source_anchor": {
+        "section": "Elastic Security Suspicious PowerShell & LOLBin Investigation Playbook",
+        "quote_or_summary": "Verify parent-child ancestry (Office/WMI/cmd -> powershell.exe) and execution policy bypass.",
+        "url": "https://github.com/elastic/detection-rules"
+      }
+    },
+    {
+      "step_id": "EPSH-02",
+      "activity": "Decode PowerShell Event 4104 ScriptBlockText and inspect AMSI alerts",
+      "description": "Deobfuscate Base64/XOR payloads safely and identify download cradles or reflection.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "decoded_scriptblock_artifact"
+      ],
+      "source_anchor": {
+        "section": "Elastic Security Suspicious PowerShell & LOLBin Investigation Playbook",
+        "quote_or_summary": "Deobfuscate Base64/XOR payloads safely and identify download cradles or reflection.",
+        "url": "https://github.com/elastic/detection-rules"
+      }
+    },
+    {
+      "step_id": "EPSH-03",
+      "activity": "Correlate outbound network sockets and file-write events from host",
+      "description": "Check destination IPs, DNS queries, and dropped DLL/EXE hashes.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "host_network_file_log"
+      ],
+      "source_anchor": {
+        "section": "Elastic Security Suspicious PowerShell & LOLBin Investigation Playbook",
+        "quote_or_summary": "Check destination IPs, DNS queries, and dropped DLL/EXE hashes.",
+        "url": "https://github.com/elastic/detection-rules"
+      }
+    },
+    {
+      "step_id": "EPSH-04",
+      "activity": "Isolate endpoint via Elastic Defend and terminate malicious PowerShell",
+      "description": "Quarantine host when active payload execution or credential access is confirmed.",
+      "phase": "containment",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when investigation confirms active compromise or operational impact.",
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "elastic_isolation_receipt"
+      ],
+      "source_anchor": {
+        "section": "Elastic Security Suspicious PowerShell & LOLBin Investigation Playbook",
+        "quote_or_summary": "Quarantine host when active payload execution or credential access is confirmed.",
+        "url": "https://github.com/elastic/detection-rules"
+      }
+    },
+    {
+      "step_id": "EPSH-05",
+      "activity": "Validate authorized admin script or finalize incident closure",
+      "description": "Confirm signed change ticket or document malicious remediation.",
+      "phase": "post_incident",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "elastic_psh_closure_note"
+      ],
+      "source_anchor": {
+        "section": "Elastic Security Suspicious PowerShell & LOLBin Investigation Playbook",
+        "quote_or_summary": "Confirm signed change ticket or document malicious remediation.",
+        "url": "https://github.com/elastic/detection-rules"
+      }
+    }
+  ],
+  "normalization": {
+    "status": "human_reviewed",
+    "method": "structured_action_schema_extraction",
+    "reviewed_by": "SOC-QA Research Team",
+    "reviewed_at": "2026-11-21T00:00:00Z"
+  }
+}

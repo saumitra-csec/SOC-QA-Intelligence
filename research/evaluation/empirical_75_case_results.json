@@ -1,6 +1,6 @@
 {
-  "experiment_id": "EXP-22A24E59",
-  "executed_at": "2026-11-19T22:17:25Z",
+  "experiment_id": "EXP-18B46A0D",
+  "executed_at": "2026-11-21T06:46:23Z",
   "total_cases_evaluated": 75,
   "confusion_matrix": {
     "tp": 30,

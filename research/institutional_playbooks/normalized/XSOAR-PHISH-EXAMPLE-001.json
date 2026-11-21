@@ -1,0 +1,124 @@
+{
+  "playbook_id": "XSOAR-PHISH-EXAMPLE-001",
+  "title": "Palo Alto Cortex XSOAR Phishing Campaign Investigation Playbook",
+  "institution": "Palo Alto Networks",
+  "incident_type": [
+    "phishing"
+  ],
+  "mitre_attack": "T1566.001 / T1566.002",
+  "scope": "Cortex XSOAR Phishing Investigation generic playbook covering header authentication, IOC detonation, and campaign purge.",
+  "source": {
+    "source_id": "XSOAR-CONTENT-PHISH",
+    "url": "https://xsoar.pan.dev/docs/reference/index",
+    "document_title": "Palo Alto Cortex XSOAR Phishing Campaign Investigation Playbook",
+    "version": "1.0",
+    "publication_date": null,
+    "retrieval_date": "2026-11-21",
+    "page_or_section": "Palo Alto Cortex XSOAR Phishing Campaign Investigation Playbook",
+    "content_hash_sha256": null,
+    "license_or_reuse": "MIT License (Cortex XSOAR Content); retain attribution."
+  },
+  "prerequisites": [],
+  "roles": [
+    "SOC analyst",
+    "incident responder"
+  ],
+  "steps": [
+    {
+      "step_id": "XPH-01",
+      "activity": "Extract email headers, SPF/DKIM/DMARC auth, and sender indicators",
+      "description": "Parse raw EML/MSG artifacts and validate authentication alignment and reply-to spoofing.",
+      "phase": "identification",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "xsoar_header_parse_log"
+      ],
+      "source_anchor": {
+        "section": "Palo Alto Cortex XSOAR Phishing Campaign Investigation Playbook",
+        "quote_or_summary": "Parse raw EML/MSG artifacts and validate authentication alignment and reply-to spoofing.",
+        "url": "https://xsoar.pan.dev/docs/reference/index"
+      }
+    },
+    {
+      "step_id": "XPH-02",
+      "activity": "Enrich embedded URLs, domains, and detonate attachments in sandbox",
+      "description": "Query threat intelligence feeds and WildFire/sandbox for payload verdict.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "xsoar_ioc_enrichment_log"
+      ],
+      "source_anchor": {
+        "section": "Palo Alto Cortex XSOAR Phishing Campaign Investigation Playbook",
+        "quote_or_summary": "Query threat intelligence feeds and WildFire/sandbox for payload verdict.",
+        "url": "https://xsoar.pan.dev/docs/reference/index"
+      }
+    },
+    {
+      "step_id": "XPH-03",
+      "activity": "Search enterprise mailboxes and proxy logs for campaign spread",
+      "description": "Identify all recipients who received or clicked the campaign lure.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "campaign_recipient_sweep"
+      ],
+      "source_anchor": {
+        "section": "Palo Alto Cortex XSOAR Phishing Campaign Investigation Playbook",
+        "quote_or_summary": "Identify all recipients who received or clicked the campaign lure.",
+        "url": "https://xsoar.pan.dev/docs/reference/index"
+      }
+    },
+    {
+      "step_id": "XPH-04",
+      "activity": "Purge malicious emails, block IOCs, and reset clicked user accounts",
+      "description": "Remove campaign messages from all mailboxes and block malicious domains/hashes.",
+      "phase": "containment",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when investigation confirms active compromise or operational impact.",
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "xsoar_purge_receipt"
+      ],
+      "source_anchor": {
+        "section": "Palo Alto Cortex XSOAR Phishing Campaign Investigation Playbook",
+        "quote_or_summary": "Remove campaign messages from all mailboxes and block malicious domains/hashes.",
+        "url": "https://xsoar.pan.dev/docs/reference/index"
+      }
+    },
+    {
+      "step_id": "XPH-05",
+      "activity": "Notify reporter, update phishing metrics, and close incident",
+      "description": "Send disposition feedback to reporting user and finalize XSOAR closure notes.",
+      "phase": "post_incident",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "xsoar_closure_summary"
+      ],
+      "source_anchor": {
+        "section": "Palo Alto Cortex XSOAR Phishing Campaign Investigation Playbook",
+        "quote_or_summary": "Send disposition feedback to reporting user and finalize XSOAR closure notes.",
+        "url": "https://xsoar.pan.dev/docs/reference/index"
+      }
+    }
+  ],
+  "normalization": {
+    "status": "human_reviewed",
+    "method": "structured_action_schema_extraction",
+    "reviewed_by": "SOC-QA Research Team",
+    "reviewed_at": "2026-11-21T00:00:00Z"
+  }
+}

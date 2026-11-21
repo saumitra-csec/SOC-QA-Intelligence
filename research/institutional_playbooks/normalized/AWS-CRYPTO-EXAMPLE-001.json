@@ -1,0 +1,124 @@
+{
+  "playbook_id": "AWS-CRYPTO-EXAMPLE-001",
+  "title": "AWS Cryptomining & Unauthorized Compute Response Playbook",
+  "institution": "Amazon Web Services",
+  "incident_type": [
+    "cryptojacking"
+  ],
+  "mitre_attack": "T1496.001",
+  "scope": "AWS Incident Response Playbook sample for GuardDuty CryptoCurrency findings and unauthorized EC2/ECS compute.",
+  "source": {
+    "source_id": "AWS-IR-CRYPTO",
+    "url": "https://github.com/aws-samples/aws-incident-response-playbooks",
+    "document_title": "AWS Cryptomining & Unauthorized Compute Response Playbook",
+    "version": "1.0",
+    "publication_date": null,
+    "retrieval_date": "2026-11-21",
+    "page_or_section": "AWS Cryptomining & Unauthorized Compute Response Playbook",
+    "content_hash_sha256": null,
+    "license_or_reuse": "MIT-0 / AWS Samples; retain attribution."
+  },
+  "prerequisites": [],
+  "roles": [
+    "SOC analyst",
+    "incident responder"
+  ],
+  "steps": [
+    {
+      "step_id": "ACRY-01",
+      "activity": "Validate GuardDuty CryptoCurrency finding and VPC Flow Logs",
+      "description": "Confirm mining pool DNS queries (Route 53) and outbound connections to known pools.",
+      "phase": "identification",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "guardduty_crypto_finding"
+      ],
+      "source_anchor": {
+        "section": "AWS Cryptomining & Unauthorized Compute Response Playbook",
+        "quote_or_summary": "Confirm mining pool DNS queries (Route 53) and outbound connections to known pools.",
+        "url": "https://github.com/aws-samples/aws-incident-response-playbooks"
+      }
+    },
+    {
+      "step_id": "ACRY-02",
+      "activity": "Audit CloudTrail RunInstances and IAM principal lineage",
+      "description": "Identify which IAM user, role, or leaked access key launched the unauthorized compute.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "cloudtrail_launch_audit"
+      ],
+      "source_anchor": {
+        "section": "AWS Cryptomining & Unauthorized Compute Response Playbook",
+        "quote_or_summary": "Identify which IAM user, role, or leaked access key launched the unauthorized compute.",
+        "url": "https://github.com/aws-samples/aws-incident-response-playbooks"
+      }
+    },
+    {
+      "step_id": "ACRY-03",
+      "activity": "Check multi-region compute, Lambda, and EKS workloads for persistence",
+      "description": "Sweep all AWS regions for additional rogue instances, AMIs, or modified user-data.",
+      "phase": "analysis",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "multi_region_sweep_log"
+      ],
+      "source_anchor": {
+        "section": "AWS Cryptomining & Unauthorized Compute Response Playbook",
+        "quote_or_summary": "Sweep all AWS regions for additional rogue instances, AMIs, or modified user-data.",
+        "url": "https://github.com/aws-samples/aws-incident-response-playbooks"
+      }
+    },
+    {
+      "step_id": "ACRY-04",
+      "activity": "Revoke compromised IAM credentials and terminate rogue instances",
+      "description": "Apply deny-all IAM policy, snapshot forensics if required, and terminate mining workloads.",
+      "phase": "containment",
+      "mandatory": false,
+      "conditional": true,
+      "condition": "Triggered when investigation confirms active compromise or operational impact.",
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "aws_termination_receipt"
+      ],
+      "source_anchor": {
+        "section": "AWS Cryptomining & Unauthorized Compute Response Playbook",
+        "quote_or_summary": "Apply deny-all IAM policy, snapshot forensics if required, and terminate mining workloads.",
+        "url": "https://github.com/aws-samples/aws-incident-response-playbooks"
+      }
+    },
+    {
+      "step_id": "ACRY-05",
+      "activity": "Verify billing normalization and close cloud resource-hijacking case",
+      "description": "Document service control policy (SCP) hardening and final incident summary.",
+      "phase": "post_incident",
+      "mandatory": true,
+      "conditional": false,
+      "condition": null,
+      "actor_role": "SOC analyst",
+      "evidence_required": [
+        "aws_crypto_closure_report"
+      ],
+      "source_anchor": {
+        "section": "AWS Cryptomining & Unauthorized Compute Response Playbook",
+        "quote_or_summary": "Document service control policy (SCP) hardening and final incident summary.",
+        "url": "https://github.com/aws-samples/aws-incident-response-playbooks"
+      }
+    }
+  ],
+  "normalization": {
+    "status": "human_reviewed",
+    "method": "structured_action_schema_extraction",
+    "reviewed_by": "SOC-QA Research Team",
+    "reviewed_at": "2026-11-21T00:00:00Z"
+  }
+}
